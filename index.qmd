@@ -1,11 +1,30 @@
 ---
-title: "DSPPHandbook"
+title: "Data Skills Portfolio Program"
 ---
 
-This is a Quarto website.
+# Welcome to the Data Skills Portfolio Program! {.unnumbered}
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+## DRAFT WEBSITE ## testing
 
-```{r}
-1 + 1
-```
+<img src="./data_skills_logo_2.png" align="right" width="150"/>
+
+The Data Skills Portfolio (DSP) Program is based at Aarhus University's Department of Biology.
+
+The DSP Program is designed to help you develop robust and useful quantitative skills for biological research and many fields beyond.
+
+Here you will find a description of the program along with DSP handbook materials.
+
+Explore and enjoy!
+
+And remember: [your feedback is welcome!](feedback.qmd)
+
+## Quick links
+
+to the Data Skills Portfolio Program Handbook for
+
+- [Data Collection & Curation](handbookDCIntro.qmd)
+
+- [Data Management](handbookDAIntro.qmd)
+
+- [Statistical Modelling](handbookSMIntro.qmd)
+
