@@ -7,15 +7,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
 
-```{r include=FALSE}
-
-install.packages("png")
-install.packages("grid")
-install.packages("formatR")
-
-```
-
-
 
 ```{r echo=FALSE}
 library(png)
@@ -172,15 +163,6 @@ Is your predictor continuous?  Then you need to think a bit more about the relat
 <!--- include figure of nonlinear vs. linear--->
 
 *Plot your data*: Plotting your response vs. your predictor is another good exercise to get you thinking about what shape assumption will be appropriate.  The GGally package has some good options for quickly plotting your data: 
-
-
-```{r include=FALSE}
-
-install.packages("palmerpenguins")
-install.packages("GGally")
-install.packages("dplyr")
-
-```
 
 
 ```{r}
@@ -410,13 +392,6 @@ summary(startMod.1)$coefficients
 
 The t-statistic is used to test the null hypothesis that an estimate (a coefficient in this case) is not different than 0.  The probability gives us the probability that you would get a t-statistic at least as large as you did even though the null hypothesis is in fact true.  If the probability is very low, it is more likely our estimate is different than 0.
 
-```{r include=FALSE}
-
-install.packages("visreg")
-install.packages("ggplot2")
-
-
-```
 
 
 ```{r, echo=FALSE, results = 'hide'}

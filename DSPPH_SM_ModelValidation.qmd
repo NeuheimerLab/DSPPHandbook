@@ -7,16 +7,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 ```
 
 
-```{r include=FALSE}
-
-install.packages("png")
-install.packages("grid")
-install.packages("formatR")
-install.packages("ggplot2")
-
-```
-
-
 ```{r echo=FALSE}
 library(png)
 library(grid)
@@ -174,13 +164,6 @@ summary(startMod) # a look into our model object
 
 Let us start by estimating the residuals from this starting model using the scaled residual method mentioned above.  
 
-
-```{r include=FALSE}
-
-install.packages("DHARMa")
-
-```
-
 ```{r}
 
 library(DHARMa) # load package
@@ -216,13 +199,6 @@ This is an extreme case (where your predictors are 100% correlated with one anot
   You may have a hunch that you will have a problem with predictor collinearity before you even fit a model.  You can identify potential problems by looking at correlations of your predictors with one another.   
 
 Here is a helpful bit of code for your investigations, applied to our example model:
-  
-
-```{r include=FALSE}
-
-install.packages("GGally")
-
-```
 
 ```{r}
 library(GGally) # loading GGally package
@@ -284,13 +260,6 @@ startMod.noInt <- glm(formula = Resp ~ Cat + Cont1 + Cont2 + 1, # hypothesis
                       family = Gamma(link = "log")) # error distribution assumption
 
 startMod.noInt
-
-```
-
-
-```{r include=FALSE}
-
-# install.packages("car")
 
 ```
 

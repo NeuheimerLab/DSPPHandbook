@@ -11,9 +11,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ```{r}
 #| echo: false
-
-install.packages("png")
-install.packages("formatR")
 library(png)
 library(grid)
 library(formatR)
@@ -71,15 +68,6 @@ Finally, note that I am not going through all the steps that got us to these exa
 :::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
 
 #### Example 1: Resp1 ~ Cat1 + 1
-
-```{r include=FALSE}
-
-install.packages("dplyr")
-install.packages("MuMIn")
-install.packages("DHARMa")
-
-
-```
 
 
 ```{r echo = FALSE}
@@ -869,12 +857,6 @@ Below are visualizations for each of our examples.
 
 **Visualizing with the visreg package** 
 
-```{r include=FALSE}
-
-install.packages("visreg")
-
-```
-
 
 ```{r}
 
@@ -1433,12 +1415,6 @@ ggplot() + # start your ggplot
 **EXTRA**: As you can see, these plots represent the 3rd dimension by using colour.  You can also make actual 3 dimensional plots in R with the [plotly package](https://plotly.com/r/getting-started/).  These plots are interactive which makes them more useful than static 3d plots.  **Click on the plot and move your mouse to rotate the plot!**
 
 
-```{r include=FALSE}
-
-install.packages("plotly")
-
-```
-
 ```{r}
 
 library(plotly) # load the plotly package
@@ -1587,12 +1563,6 @@ The modelled response when Cat1 = Sp2 is (`r round(forText["Cat1Sp2","Estimate"]
 The modelled `Resp1` when Cat1 = Sp3 is `r round(forText["Cat1Sp3","Estimate"],1)` units **lower** than the reference level =  `r round(forText["(Intercept)","Estimate"],1)` + `r round(forText["Cat1Sp2","Estimate"],1)` = `r round(forText["Cat1Sp2","Estimate"],1) + round(forText["Cat1Sp3","Estimate"],1)` units.^[note that the p-values reported in the coefficient table are the result of a test of whether the coefficient associated with `Sp2` is different than that of `Sp1` (p = `r round(forText["Cat1Sp2","Pr(>|t|)"],3)`), and if the effect of `Sp3` is different than that of `Sp1` (p = `r round(forText["Cat1Sp3","Pr(>|t|)"],3)`)), but a comparison of effects of `Sp2` vs. `Sp3` is missing.  We will discuss this more further along in these notes.] 
 
 So all the information we need is in this `summary()` output, but not easy to see immediately.  An easier way is to use the emmeans^[emmeans stands for "estimated marginal means"] package which helps you by reporting the coefficients directly.  In our case, you use the emmeans package to get the mean value of the response at each level of the predictor.  For categorical predictors, you do this with the `emmeans()` function: 
-
-```{r include=FALSE}
-
-install.packages("emmeans")
-
-```
 
 
 ```{r}
@@ -2015,13 +1985,6 @@ Here I have made new examples where the error distribution assumption is poisson
 :::{.callout-tip collapse="true" title="Example 1: Resp1.p ~ Cat1 + 1"} 
 
 ###### Example 1: Resp1.p ~ Cat1 + 1
-
-
-```{r include=FALSE}
-
-install.packages("forcats")
-
-```
 
 ```{r echo = FALSE}
 

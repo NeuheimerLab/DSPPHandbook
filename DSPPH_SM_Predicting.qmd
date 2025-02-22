@@ -51,15 +51,6 @@ Let's bring in our Example 1 from the last chapter on Reporting to illustrate th
 
 `Resp1 ~ Cat1`
 
-```{r include=FALSE}
-
-install.packages("dplyr")
-install.packages("DHARMa")
-install.packages("MuMIn")
-#install.packages("MASS")
-
-```
-
 
 ```{r echo = FALSE}
 

@@ -6,15 +6,6 @@ title: "Statistical Modelling: Hypothesis Testing"
 knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
 ```
 
-
-```{r include=FALSE}
-
-install.packages("png")
-install.packages("grid")
-install.packages("formatR")
-
-```
-
 ::: {.callout-note collapse="false"} 
 ## In this section you will learn:
 
@@ -258,12 +249,6 @@ This said, there are times when you might choose a more complicated explanation 
 You can fit and rank your models quickly using a function called `dredge()` in the MuMIn package^[note the spelling and capitalization of this package name!].  The `dredge()` function fits and ranks models representing all possible predictor combinations based on your starting model - i.e. your default candidate model set.  The output is a table ranking the models in your candidate model set.  
 
 Let's explore this now.
-
-```{r include=FALSE}
-
-install.packages("MuMIn")
-
-```
 
 
 ```{r}

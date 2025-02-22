@@ -189,9 +189,6 @@ This step involves describing how you built the statistical model to test your h
 
 Code supporting your tasks in this section will help you support your choices of your model assumptions, e.g.:
 
-```{r include=FALSE}
-install.packages("ggplot2")
-```
 
 ```{r}
 # Choosing your error distribution assumption:
@@ -275,15 +272,6 @@ and report your results.
 
 Code supporting your tasks in this section will help you assess your model for violations that may make it invalid for testing your hypothesis, e.g.:
 
-
-```{r include=FALSE}
-
-# install.packages("car")
-install.packages("DHARMa")
-
-
-```
-
 ```{r}
 # Consider predictor collinearity 
 ## Fit a model without interactions
@@ -294,8 +282,8 @@ startMod.noInt <- glm(formula = MassChange ~ DDLat + WTemp + Sex, # hypothesis
 startMod.noInt
 
 ## Calculate Variance Inflation Factors (VIFs)
-# library(car) # load the car package
-# vif(startMod.noInt) # estimate VIFs
+library(car) # load the car package
+vif(startMod.noInt) # estimate VIFs
 
 ## there are VIF values higher than the threshold value (in this case VIFs > 3).  Let's remove WTemp and recalculate the VIFs:
 
@@ -402,13 +390,6 @@ Here, you will use your model to test your hypothesis.  For the purposes of this
 #### The code:
 
 Code supporting your tasks in this section will help you test and rank your models, e.g.:
-
-```{r include=FALSE}
-
-install.packages("gt")
-install.packages("MuMIn")
-
-```
 
 ```{r}
 library(MuMIn) # load package
@@ -566,12 +547,6 @@ ggsave(filename = "myPlot.png", # filename
 - the modelled response on the response scale for each level in your categorical predictor
 
 - the evidence that the modelled response is different across levels of your categorical predictor
-
-```{r include=FALSE}
-
-install.packages("emmeans")
-
-```
 
 ```{r}
 

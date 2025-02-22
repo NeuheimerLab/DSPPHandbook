@@ -171,9 +171,6 @@ Notice that the two methods lead to similar results (both methods show evidence 
 
 An example: monthly weight change is explained by species (Sp1, Sp2 and Sp3) or `WtChange ~ Sp`
 
-```{r include=FALSE}
-install.packages("dplyr")
-```
 
 ```{r echo = FALSE}
 rm(list=ls())
@@ -469,10 +466,6 @@ Using a classical model, we can fit a paired two-sample model.  We first need to
 ```{r}
 
 head(myDat)
-```
-
-```{r include=FALSE}
-install.packages("reshape2")
 ```
 
 to wide:

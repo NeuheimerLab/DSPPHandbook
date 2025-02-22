@@ -88,13 +88,6 @@ For a hypothesis of:
 
 you are hypothesizing that there is an effect of both `Cont` and `Cat` on `Resp` but the effect of `Cont` depends on the value of `Cat`.  This can be illustrated as:
 
-
-```{r include=FALSE}
-
-install.packages("ggplot2")
-
-```
-
 ```{r echo=FALSE}
 #| out.width: 60%
 
