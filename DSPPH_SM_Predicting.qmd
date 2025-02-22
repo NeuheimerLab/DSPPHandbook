@@ -942,13 +942,13 @@ As you can see, this is a bit tedious.  Another method of inverse predicting can
 
 summary(bestMod3.b) # from this summary, you can see that the needed intercept is the first coefficient, and the slope is the second coefficient
 
-#library(MASS) # load MASS package
+library(MASS) # load MASS package
 
-#myInvPred <- dose.p(obj = bestMod3.b, # your model
-                    # cf = c(1,2), # the position in your coefficient list of the appropriate intercept and slope
-                    # p = 0.75) # the probability of Resp = 1 for your prediction
+myInvPred <- dose.p(obj = bestMod3.b, # your model
+                    cf = c(1,2), # the position in your coefficient list of the appropriate intercept and slope
+                    p = 0.75) # the probability of Resp = 1 for your prediction
 
-#myInvPred
+myInvPred
 
 
 ```

@@ -438,18 +438,22 @@ Residual Deviance: 4.197    AIC: 993.5</code></pre>
 </div>
 <p>And then estimate VIFs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(car) # load the car package</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># vif(startMod.noInt) # estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># load the car package</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(startMod.noInt) <span class="co"># estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Cat    Cont1    Cont2 
+1.007510 3.341182 3.354825 </code></pre>
+</div>
 </div>
 <p>Note that there are two VIF values higher than the threshold value (in this case VIFs &gt; 3). This means that the presence of both <code>Cont1</code> and <code>Cont2</code> in the model is resulting in variance inflation.</p>
 <p>Let us remove one of the predictors (<code>Cont2</code>)<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> and recalculate the VIFs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> myDat, <span class="co"># data</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> myDat, <span class="co"># data</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:  glm(formula = Resp ~ Cat + Cont1 + 1, family = Gamma(link = "log"), 
@@ -463,18 +467,18 @@ Degrees of Freedom: 189 Total (i.e. Null);  187 Residual
 Null Deviance:      24.11 
 Residual Deviance: 4.197    AIC: 991.5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculating the VIFs</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># vif(startMod.noInt.noCont2) # estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculating the VIFs</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># vif(startMod.noInt.noCont2) # estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>There are no longer major problems with predictor collinearity, as all VIFs &lt; 3. Let us refit this as our starting model, and recalculate the residuals (as we will need them soon):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Refitting your starting model with the interactions back in:</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>startMod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> Cat<span class="sc">:</span>Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod) <span class="co"># a look at the model object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Refitting your starting model with the interactions back in:</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>startMod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> Cat<span class="sc">:</span>Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod) <span class="co"># a look at the model object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -498,10 +502,10 @@ AIC: 986.69
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculate the residuals</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>simOut <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> startMod, <span class="at">n =</span> <span class="dv">250</span>) <span class="co"># simulate data from our model n times and calculate residuals</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Resid <span class="ot">&lt;-</span> simOut<span class="sc">$</span>scaledResiduals <span class="co"># add residuals to data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculate the residuals</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>simOut <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> startMod, <span class="at">n =</span> <span class="dv">250</span>) <span class="co"># simulate data from our model n times and calculate residuals</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Resid <span class="ot">&lt;-</span> simOut<span class="sc">$</span>scaledResiduals <span class="co"># add residuals to data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our starting model has now past the first hurdle to being considered wellspecified: no (significant) predictor collinearity.</p>
 </section>
@@ -537,31 +541,31 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <p>You can find out if observation dependence is influencing your model by inspecting the residuals of your starting model. Here, you plot your residuals vs.&nbsp;variables not in your model that may be causing dependence in the observations. If you have a problem with observation dependence, there will be a pattern in your residuals when plotted against the offending variable.</p>
 <p>Here is an example of how to do this with our generic example started above. You can see how the residuals differ across levels of the <code>Other</code> variable also in our data set using violin plots:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span> <span class="co"># start ggplot</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">data =</span> myDat,</span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Other, <span class="at">y =</span> Resid))<span class="sc">+</span> <span class="co"># add observations as a violin</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> myDat,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Other, <span class="at">y =</span> Resid))<span class="sc">+</span> <span class="co"># add observations as points</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Other variable"</span>)<span class="sc">+</span> <span class="co"># y-axis label</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled residual"</span>)<span class="sc">+</span> <span class="co"># x-axis label</span></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 3: A comparison of model residuals vs. other variable"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># change theme of plot</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>)) <span class="co"># move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span> <span class="co"># start ggplot</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">data =</span> myDat,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Other, <span class="at">y =</span> Resid))<span class="sc">+</span> <span class="co"># add observations as a violin</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> myDat,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Other, <span class="at">y =</span> Resid))<span class="sc">+</span> <span class="co"># add observations as points</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Other variable"</span>)<span class="sc">+</span> <span class="co"># y-axis label</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled residual"</span>)<span class="sc">+</span> <span class="co"># x-axis label</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 3: A comparison of model residuals vs. other variable"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># change theme of plot</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>)) <span class="co"># move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>or with a points plot, by colouring the residuals based on the level in <code>Other</code><a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span> <span class="co"># start ggplot</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> myDat, <span class="co"># the data frame</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Cont1, <span class="at">y =</span> Resid, <span class="at">col =</span> Other), <span class="co"># add observations as points</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span> <span class="co"># change the size of the points</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Cont1"</span>)<span class="sc">+</span> <span class="co"># y-axis label</span></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled residual"</span>)<span class="sc">+</span> <span class="co"># x-axis label</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 3: A comparison of model residuals vs. other variable"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># change theme of plot</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>)) <span class="co"># move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span> <span class="co"># start ggplot</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> myDat, <span class="co"># the data frame</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Cont1, <span class="at">y =</span> Resid, <span class="at">col =</span> Other), <span class="co"># add observations as points</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span> <span class="co"># change the size of the points</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Cont1"</span>)<span class="sc">+</span> <span class="co"># y-axis label</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled residual"</span>)<span class="sc">+</span> <span class="co"># x-axis label</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 3: A comparison of model residuals vs. other variable"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># change theme of plot</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>)) <span class="co"># move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -569,10 +573,10 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <p>Note that the spread of the residuals in each level (category) of <code>Other</code> is fairly equal in the violin plots and the colours are spread across the points plot. This indicates that <code>Other</code> is not causing much structure in the residuals, and likely is not causing the model to violate the assumption of independence.</p>
 <p>Finally, if you quantitative evidence that your observations are dependent on your grouping variable, you can test to see if residuals among the different groups have similar variances. This can be done with a Levene test for the homogeneity of variances through functions in the DHARMa package, e.g.&nbsp;</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa) <span class="co"># load package</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">testCategorical</span>(simOut, <span class="co"># the residuals </span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">catPred =</span> myDat<span class="sc">$</span>Other)<span class="sc">$</span>homogeneity <span class="co"># the grouping variable of concern</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa) <span class="co"># load package</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">testCategorical</span>(simOut, <span class="co"># the residuals </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">catPred =</span> myDat<span class="sc">$</span>Other)<span class="sc">$</span>homogeneity <span class="co"># the grouping variable of concern</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -582,9 +586,9 @@ Number of Fisher Scoring iterations: 4</code></pre>
 group   4  0.1112 0.9785
       185               </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(<span class="at">simulationOutput =</span> simOut, <span class="co"># compare simulated data to </span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Other, <span class="co"># our observations</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">asFactor =</span> <span class="cn">TRUE</span>) <span class="co"># whether the variable plotted is a factor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(<span class="at">simulationOutput =</span> simOut, <span class="co"># compare simulated data to </span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Other, <span class="co"># our observations</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">asFactor =</span> <span class="cn">TRUE</span>) <span class="co"># whether the variable plotted is a factor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When your P-value is large (as it is here: P = 0.978), you would say that there is no evidence that the residual variance depends on the levels in Other (i.e.&nbsp;no concern for observations being dependent on Other).</p>
 </section>
@@ -618,9 +622,9 @@ group   4  0.1112 0.9785
 <p>So mixed modelling offers a way to address dependence in your observations that does not change your research hypothesis (as you are not adding fixed effects) and is cheaper (requiring less coefficient estimates as the random effects influence the modelled variance, not the mean).</p>
 <p>You can fit mixed models in the lme4 package using the <code>glmer()</code> function (which stands for Generalized Linear Mixed Effects Models, or GLMM), with syntax that is very similar to what we have been using for GLMs, e.g.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>startMod <span class="ot">&lt;-</span> <span class="fu">glmer</span>(<span class="at">formula =</span> Height <span class="sc">~</span> Fertilizer <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Plot) <span class="sc">+</span> (Fertilizer<span class="sc">|</span>Plot) <span class="sc">+</span> <span class="dv">1</span>,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> myDat,</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"inverse"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>startMod <span class="ot">&lt;-</span> <span class="fu">glmer</span>(<span class="at">formula =</span> Height <span class="sc">~</span> Fertilizer <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>Plot) <span class="sc">+</span> (Fertilizer<span class="sc">|</span>Plot) <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> myDat,</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"inverse"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We won’t explore this further here.</p>
 <p>One final thing to note is that random effects will always be categorical. If you have a continuous variable that is causing dependence in your observations, this variable can not be included as a random effect and must be included as a fixed effect.</p>
@@ -699,12 +703,12 @@ group   4  0.1112 0.9785
 <p>You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot. A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a>. When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line). You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).</p>
 <p>The scaled residuals method introduced above will allow you to consider the behaviour of your residuals in a similar way regardless of the structure of your model. You can get a Q-Q plot of your residuals with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider your error distribution assumption by inspecting observed vs. expected residuals:</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQQunif</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">testUniformity =</span> <span class="cn">TRUE</span>, <span class="co"># testing the distribution of the residuals </span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">testOutliers =</span> <span class="cn">TRUE</span>, <span class="co"># testing the presence of outliers</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">testDispersion =</span> <span class="cn">TRUE</span>) <span class="co"># testing the dispersion of the distribution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider your error distribution assumption by inspecting observed vs. expected residuals:</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plotQQunif</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">testUniformity =</span> <span class="cn">TRUE</span>, <span class="co"># testing the distribution of the residuals </span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">testOutliers =</span> <span class="cn">TRUE</span>, <span class="co"># testing the presence of outliers</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">testDispersion =</span> <span class="cn">TRUE</span>) <span class="co"># testing the dispersion of the distribution</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -738,8 +742,8 @@ group   4  0.1112 0.9785
 <p>For this assumption, you need to look at how your residuals are scattered around your model fit. If your model is a useful one (“wellspecified”), the scatter of those residuals will be even and uniform around the fit (“a uniform cloud”). You can inspect your residuals in this way by plotting the residuals vs.&nbsp;the fitted values.</p>
 <p>Here is code for this using the DHARMa package:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> <span class="cn">NULL</span>) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> <span class="cn">NULL</span>) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
@@ -748,16 +752,16 @@ group   4  0.1112 0.9785
 <p>Again, you are looking for a uniform cloud of points. To help you assess the uniformity of the cloud, R adds quantile regression results: The three solid lines (called splines) are fit through the 0.25, 0.5 and 0.75 quantiles of the residual distribution. Quantile regression compares the empirical 0.25, 0.5 and 0.75 quantiles of the residuals (solid lines) with the theoretical 0.25, 0.5 and 0.75 quantiles (dashed line), These lines are then compared with a quantile test that tests the null hypothesis that these splines are not different than the dashed horizontal lines. If the null hypothesis of this is rejected, the curves will appear red in the figure, and you can determine your shape assumption was not valid.</p>
 <p>You should always inspect a plot of residuals vs.&nbsp;fitted values to explore your shape assumption. If you have multiple predictors in your model, you should also plot the residuals vs.&nbsp;each predictor to make sure the shape you chose for each relationship is useful. Here are the residuals of our example model vs.&nbsp;the <code>Cont1</code> predictor:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cont1) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cont1) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>and vs.&nbsp;the <code>Cat</code> predictor:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cat) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cat) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
