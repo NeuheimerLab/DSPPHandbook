@@ -12,7 +12,7 @@ Good data curation helps maintain data quality, and allows you and others to dis
 
 Depending on your research question, hypothesis and methods available, you may collect data (observations) from an experimental (e.g. in a lab) or observational study (e.g. in the field).  
 
-Both strategies have advantages and disadvantages.  For example, experimental studies allow you to control many of the factors that may influence your study outside your research hypothesis.  Experimental studies also allow you to more easily test every combination of predictors allowing you to better disentangle effects of multiple predictors on your response.  In contrast, experimental studies are limited in their ability to represent the "real world" while field studies allow you to explore your hypothesis *in situ*.
+Both strategies have advantages and disadvantages.  For example, experimental studies allow you to control many of the factors that may influence your study outside your research hypothesis.  Experimental studies also allow you to more easily test every combination of predictors allowing you to better disentangle effects of multiple predictors on your response^[we discuss this issue in our [statistical modelling](DSPPH_SM_ModelValidation.qmd) section].  In contrast, experimental studies are limited in their ability to represent the "real world" while field studies allow you to explore your hypothesis *in situ*.
 
 
 ## Data collection
