@@ -706,13 +706,17 @@ AIC: 203.07
 
 Number of Fisher Scoring iterations: 6</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">#library(MASS) # load MASS package</span></span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS) <span class="co"># load MASS package</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co">#myInvPred &lt;- dose.p(obj = bestMod3.b, # your model</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># cf = c(1,2), # the position in your coefficient list of the appropriate intercept and slope</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># p = 0.75) # the probability of Resp = 1 for your prediction</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>myInvPred <span class="ot">&lt;-</span> <span class="fu">dose.p</span>(<span class="at">obj =</span> bestMod3.b, <span class="co"># your model</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">cf =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="co"># the position in your coefficient list of the appropriate intercept and slope</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">p =</span> <span class="fl">0.75</span>) <span class="co"># the probability of Resp = 1 for your prediction</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co">#myInvPred</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>myInvPred</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Dose       SE
+p = 0.75: 85.18394 1.973764</code></pre>
+</div>
 </div>
 <p>REMOVED AFTER MASS ERROR The result is that we will have a 50% probability of <code>Resp3.b</code> being 1 if your <code>Cont4</code> is r round(unname(myInvPred)[1],1) ± r as.numeric(round(attr(unname(myInvPred), “SE”),1)) units.</p>
 <div class="cell">
