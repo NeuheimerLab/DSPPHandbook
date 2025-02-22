@@ -7,7 +7,7 @@ title: "Data Management Handbook"
 
 ## A note on tools:
 
-**In general** we will be encouraging you to do all data management skills using a scripted programming language like R.  See [more here](handbookIntro.qmd#DSP Program Tools) here for more discussion about this, but in short, a scripted program language will allow you to:  
+**In general** we will be encouraging you to do all data management skills using a scripted programming language like R.  See [more here](handbookIntro.qmd#dsp-program-tools) here for more discussion about this, but in short, a scripted program language will allow you to:  
 
 * keep your management separate from the data (and thereby safeguard the data),
 
