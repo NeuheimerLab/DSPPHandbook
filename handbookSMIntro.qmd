@@ -145,7 +145,7 @@ Here we've gathered [TBA_examples](examples.qmd) following our statistical model
 
 [Here](DSPPH_SM_Communicating.qmd) you can see how you can use the steps in the Statistical Modelling Framework to outline your communication of your hypothesis testing in reports and paper.
 
-## Where to from here?
+<!--## Where to from here?
 TBA:
 - boosted regression trees
 - Bayesian
@@ -173,7 +173,7 @@ mixed models
 ### Acknowledgements
 
 TBA
-
+-->
 
 
 
