@@ -166,19 +166,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#what-does-your-best-specified-models-say-about-your-hypothesis" id="toc-what-does-your-best-specified-models-say-about-your-hypothesis" class="nav-link" data-scroll-target="#what-does-your-best-specified-models-say-about-your-hypothesis">What does your best-specified model(s) say about your hypothesis?</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#up-next" id="toc-up-next" class="nav-link" data-scroll-target="#up-next">Up next</a>
-  <ul class="collapse">
-  <li><a href="#hypothesis-testing-using-p-values-1" id="toc-hypothesis-testing-using-p-values-1" class="nav-link" data-scroll-target="#hypothesis-testing-using-p-values-1">Hypothesis testing using p-values</a>
-  <ul class="collapse">
-  <li><a href="#limitations-of-p-values-1" id="toc-limitations-of-p-values-1" class="nav-link" data-scroll-target="#limitations-of-p-values-1">Limitations of p-values</a></li>
-  </ul></li>
-  <li><a href="#hypothesis-testing-using-model-selection-1" id="toc-hypothesis-testing-using-model-selection-1" class="nav-link" data-scroll-target="#hypothesis-testing-using-model-selection-1">Hypothesis testing using model selection</a>
-  <ul class="collapse">
-  <li><a href="#the-candidate-model-set" id="toc-the-candidate-model-set" class="nav-link" data-scroll-target="#the-candidate-model-set">The candidate model set</a></li>
-  <li><a href="#information-criterion" id="toc-information-criterion" class="nav-link" data-scroll-target="#information-criterion">Information criterion</a></li>
-  <li><a href="#choosing-you-best-specified-model" id="toc-choosing-you-best-specified-model" class="nav-link" data-scroll-target="#choosing-you-best-specified-model">Choosing you best-specified model</a></li>
-  </ul></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -400,7 +387,7 @@ The Principle of Parsimony
 </div>
 </div>
 </div>
-<p>You can fit and rank your models quickly using a function called <code>dredge()</code> in the MuMIn package<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>. The <code>dredge()</code> function fits and ranks models representing all possible predictor combinations based on your starting model - i.e.&nbsp;your default candidate model set. The output is a table ranking the models in your candidate model set.</p>
+<p>You can fit and rank your models quickly using a function called <code>dredge()</code> in the MuMIn package<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>. The <code>dredge()</code> function fits and ranks models representing all possible predictor combinations based on your starting model - i.e.&nbsp;your default candidate model set<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>. The output is a table ranking the models in your candidate model set.</p>
 <p>Let’s explore this now.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MuMIn) <span class="co"># load MuMIn package</span></span>
@@ -432,8 +419,8 @@ Models ranked by AICc(x) </code></pre>
 <li>a Model selection table</li>
 </ul>
 <p>The Model selection table contains one row for each model in our candidate model set. Let’s explore this now:</p>
-<p><em>Find the column called “(Intrc)”</em>. This column tells us when the intercept is included in the model. If there is a number in that column, the associated model in your candidate model set (row) contains an intercept. Note that by default all models will contain an intercept<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>.</p>
-<p><em>Find the column called “Prey”</em>. This column tells us when the <code>Prey</code> predictor is in the model. Notice the first row contains a number in the Prey column, while the second row is blank. This means that <code>Prey</code> is a predictor in the model reported in the first row but is missing from the model in the second. Note also that a number is recorded in the Prey column, row 1 (0.0799). This is the coefficient associated with the <code>Prey</code> predictor. Since we have a normal error distribution assumption, this coefficient can be considered the slope of a line<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>. If the predictor was a categorical predictor (vs.&nbsp;continuous predictor), a “+” would appear in the Model selection table when the categorical predictor was in the model.</p>
+<p><em>Find the column called “(Intrc)”</em>. This column tells us when the intercept is included in the model. If there is a number in that column, the associated model in your candidate model set (row) contains an intercept. Note that by default all models will contain an intercept<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a>.</p>
+<p><em>Find the column called “Prey”</em>. This column tells us when the <code>Prey</code> predictor is in the model. Notice the first row contains a number in the Prey column, while the second row is blank. This means that <code>Prey</code> is a predictor in the model reported in the first row but is missing from the model in the second. Note also that a number is recorded in the Prey column, row 1 (0.0799). This is the coefficient associated with the <code>Prey</code> predictor. Since we have a normal error distribution assumption, this coefficient can be considered the slope of a line<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>. If the predictor was a categorical predictor (vs.&nbsp;continuous predictor), a “+” would appear in the Model selection table when the categorical predictor was in the model.</p>
 <p>So, in our example above, the model in the first row contains an intercept and the <code>Prey</code> - i.e.&nbsp;the first row is the model <code>WtChange ~ Prey + 1</code>. The model in the second row contains only an intercept - i.e.&nbsp;the second row is the model <code>WtChange ~ 1</code>.</p>
 <p>The rest of the columns in the Model selection table contain information that help us rank the models.</p>
 <ul>
@@ -478,7 +465,7 @@ w_i = \frac{exp(-\frac{1}{2} \cdot \Delta AIC_i)}{\sum_{r=1}^{R}exp(-\frac{1}{2}
 <section id="choose-your-best-specified-models" class="level3">
 <h3 class="anchored" data-anchor-id="choose-your-best-specified-models">Choose your best-specified model(s)</h3>
 <p>Using the model selection table, you can choose your best-specified model(s) and find out what it tells you about your hypothesis.</p>
-<p>In general, your best-specified model will be the model with the lowest information criterion (e.g.&nbsp;AIC)<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>. This will be the model at the top of the model selection table.</p>
+<p>In general, your best-specified model will be the model with the lowest information criterion (e.g.&nbsp;AIC)<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a>. This will be the model at the top of the model selection table.</p>
 <p>That said, notice I write “best-specified model(s)” - possibly plural. This is because you might have models where the AIC estimates are very close to one another. A good rule of thumb is to report all models where the AIC is within 2 of the lowest AIC model (i.e.&nbsp;delta &lt; 2). Following <span class="citation" data-cites="BurnhamAnderson2002">@BurnhamAnderson2002</span>,</p>
 <table class="table">
 <thead>
@@ -552,104 +539,6 @@ More examples
 </div>
 </div>
 <p>In the next section (on Reporting), we will discuss further how to communicate what your hypothesis testing results say about your hypothesis.</p>
-</section>
-</section>
-</section>
-<section id="up-next" class="level1">
-<h1>Up next</h1>
-<p>In our next class (after the Easter break), we will learn how to report (including visualize) what your hypothesis testing results are saying about your hypothesis.</p>
-<pre><code>- Other methods - Test your hypothesis by the model selection method to choose your best-specified model    - </code></pre>
-<!---
-
-P-value is the probability of observing the outcome when the null hypothesis is true.
-
-experimental vs. observational studies can handle different model selection procedures
-experimental can use null-hypothesis testing and p-values
-observational can use model selection
-
-
-Burnham_Anderson_Chapter2_InformationCriterionLikelihoodTheory
-
-P-values are continuous measures of statistical evidence Muff et al. 2021
-
-
-refinements of your hypothesis after you collect the data will result in a hypothesis that reflects the sample, not the population
-
-
---->
-<p>Form your candidate model set (how to do this smartly) - nested and non-nested models Fit and grade each model Rank and choose your best-specified model(s)</p>
-<p>Once you have confidence in your starting model, you can finally arrive at the reason for your statistical journey: testing your model to see what evidence there is for your research hypothesis.</p>
-<p>Recall that fitting your starting model meant that you estimated the coefficients for each parameter associated with your covariates. Let’s take an example where we want to explain variability in change in weight (WtChange, g) and believe it is due to prey density (Prey, <span class="math inline">\(num \cdot m^{-3}\)</span>). We will test the hypothesis <code>WtChange ~ Prey</code> by first fitting a model with a normal error distribution assumption and a linear shape assumption.</p>
-<p>If our research hypothesis is</p>
-<p><em>WtChange</em> <span class="math inline">\(\sim Prey + 1\)</span></p>
-<p>our starting model will fit:</p>
-<p><em>WtChange</em> <span class="math inline">\(\sim \beta_1\cdot Prey + \beta_0 + error\)</span></p>
-<p>where the coefficients are the slope (<span class="math inline">\(\beta_1\)</span>) and intercept (<span class="math inline">\(\beta_0\)</span>), and the error comes from a normal error distribution.</p>
-<p>When you test your hypothesis, you are focusing on the model coefficients and whether or not they are significantly different than zero. For example, if <span class="math inline">\(\beta_1 \approx 0\)</span>, the Prey covariate would fall out of the model, and you would conclude there is little evidence Prey explains variability in WtChange.</p>
-<p>So, to test your research hypothesis, you need to determine if each of the coefficients are significantly different than zero. This can be done using (at least) two methods: The first method estimates the probability (p-value) your coefficient would be estimated at the value it is even though the “real” slope is 0. The second method involves comparing models with different covariate combinations (model selection). In this class, we will test our research hypothesis through model selection but let’s first discuss why we aren’t using the p-value method.</p>
-<section id="hypothesis-testing-using-p-values-1" class="level2">
-<h2 class="anchored" data-anchor-id="hypothesis-testing-using-p-values-1">Hypothesis testing using p-values</h2>
-<p>You’ll remember from last week that you can use <code>summary()</code> on your starting model object to see the coefficients that were fit, along with their uncertainty (standard error) in the coefficients and a p-value. Let’s take another look with an example:</p>
-<p><img src="./summaryMod.png" width="400px"></p>
-<p>In the example, we are trying to explain variability in WtChange (g) with Prey <span class="math inline">\(num \cdot m^{-3}\)</span> by fitting a model to the hypothesis <code>WtChange ~ Prey + 1</code><a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a> with a normal error distribution assumption and linear shape assumption. The coefficients table shows us that the Intercept was estimated as -10.2 +/- 3.6 g and the slope associated with Prey is 0.12 +/- 0.04 <span class="math inline">\(g \cdot m^{3}\cdot num{-1}\)</span>.</p>
-<p>For each coefficient, you can see t-statistic (called <code>t value</code> in the table) and p-value (called <code>Pr(&gt;|t\)</code> in the table). The t-statistic allows you to test the hypothesis that the coefficient is not different than zero. The t-statistic is the value of the coefficient divided by the standard error (e.g.&nbsp;for the intercept in the example, -10.2/3.6 = -2.8). The t-statistic is compared to a Student t Distribution to get the probability that we get the estimated coefficient value even though the coefficient is zero. This probability is the p-value. When p-values are very small (P &lt;&lt; 0.05), we are confident that the coefficients we are estimating are likely different than zero, and that the covariate associated with the coefficient can be included in our model (i.e.&nbsp;the covariate is explaining a significant amount of our response variability).</p>
-<section id="limitations-of-p-values-1" class="level3">
-<h3 class="anchored" data-anchor-id="limitations-of-p-values-1">Limitations of p-values</h3>
-<p>A problem with this method of testing your research hypothesis comes when you have more than one covariate in your hypothesis. As with Assumption #1 above, any correlation among your covariates will mean that you can not trust your coefficient estimates. This means that you can’t use the p-values as a way to determine which coefficients are significant when you have correlated covariates. Said another way, your assessment of whether a covariate is useful in your model will change if you have correlated covariates. And correlated covariates are very common.</p>
-</section>
-</section>
-<section id="hypothesis-testing-using-model-selection-1" class="level2">
-<h2 class="anchored" data-anchor-id="hypothesis-testing-using-model-selection-1">Hypothesis testing using model selection</h2>
-<p>As mentioned above, an alternative method of testing your hypothesis is through model selection. Compare the following two models:</p>
-<ol type="1">
-<li><p><em>WtChange</em> <span class="math inline">\(\sim \beta_1\cdot Prey + \beta_0 + error\)</span></p></li>
-<li><p><em>WtChange</em> <span class="math inline">\(\sim \beta_0 + error\)</span></p></li>
-</ol>
-<p>Note that model 2 is obtained by making <span class="math inline">\(\beta_1 = 0\)</span>. If you determined which of these two models better fits our data, you will know if <span class="math inline">\(\beta_1\)</span> is likely to be 0 and, thus, whether or not Prey can explain variation in your response.</p>
-<section id="the-candidate-model-set" class="level3">
-<h3 class="anchored" data-anchor-id="the-candidate-model-set">The candidate model set</h3>
-<p>We expand this idea from two models to all models in your “candidate model set”. This set are the models representing all possible covariate combinations. So if your hypothesis is</p>
-<p><span class="math inline">\(Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1\)</span></p>
-<p>your candidate model set is</p>
-<p><span class="math inline">\(Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1\)</span></p>
-<p><span class="math inline">\(Resp \sim Pred1 + Pred2 + 1\)</span></p>
-<p><span class="math inline">\(Resp \sim Pred1 + 1\)</span></p>
-<p><span class="math inline">\(Resp \sim Pred2 + 1\)</span></p>
-<p><span class="math inline">\(Resp \sim 1\)</span></p>
-<p>Model selection for hypothesis testing therefore involves:</p>
-<ul>
-<li><p>First, each model in your candidate model set is fit to your data.</p></li>
-<li><p>Then, each model is “graded” based on how well it is fit to the data and how complicated it is (more below).</p></li>
-<li><p>Finally, the models are ranked and you can choose the best-specified model.</p></li>
-</ul>
-</section>
-<section id="information-criterion" class="level3">
-<h3 class="anchored" data-anchor-id="information-criterion">Information criterion</h3>
-<p>Each model in the candidate model set is graded based on an estimate of the model’s “cost” vs.&nbsp;“benefit”. The model’s cost is how many parameters the model has where you have preference for a simpler model (less parameters) <a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a>, and the benefit is how well the model fits your data. The benefit estimate relates to the likelihood measure that was used to fit your model and estimate your coefficients.</p>
-<p>The cost-benefit information is combined to give each model a grade through a metric called “Information Criterion”. For example, Akaike Information Criterion<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a> is estimated as:</p>
-<p><span class="math inline">\(AIC = 2\cdot k - 2 \cdot ln(L)\)</span></p>
-<p>where <span class="math inline">\(k\)</span> is the cost of the model (number of parameters), and <span class="math inline">\(L\)</span> is the maximum likelihood estimate made when the model was fit.<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a></p>
-<p>In all cases, the model with the lowest AIC is our “best-specified” model, though we will discuss what should be done if you have two or more models that are equally “good” (i.e.&nbsp;within 2 AIC of the lowest AIC). Note that lower is always better with information criterion, though the magnitude of the AIC value will change from case to case.</p>
-</section>
-<section id="choosing-you-best-specified-model" class="level3">
-<h3 class="anchored" data-anchor-id="choosing-you-best-specified-model">Choosing you best-specified model</h3>
-<!--- vs. backward selection, etc --->
-<p>For example, if your starting model is</p>
-<p><span class="math inline">\(Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1\)</span></p>
-<p>your candidate model set is:</p>
-<p>1: <span class="math inline">\(Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1\)</span></p>
-<p>2: <span class="math inline">\(Resp \sim Pred1 + Pred2 + 1\)</span></p>
-<p>3: <span class="math inline">\(Resp \sim Pred1 + 1\)</span></p>
-<p>4: <span class="math inline">\(Resp \sim Pred2 + 1\)</span></p>
-<p>5: <span class="math inline">\(Resp \sim 1\)</span>.</p>
-<p>You will fit each of these models and estimate their AIC, for example:</p>
-<p>1: <span class="math inline">\(Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1\)</span> (AIC = 60)</p>
-<p>2: <span class="math inline">\(Resp \sim Pred1 + Pred2 + 1\)</span> (AIC = 78)</p>
-<p>3: <span class="math inline">\(Resp \sim Pred1 + 1\)</span> (AIC = 20)</p>
-<p>4: <span class="math inline">\(Resp \sim Pred2 + 1\)</span> (AIC = 140)</p>
-<p>5: <span class="math inline">\(Resp \sim 1\)</span> (AIC = 234).</p>
-<p>You then use this information to pick your best-specified model as the model with the lowest AIC<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a>. Your best-specified model tells you how to interpret the evidence for your hypothesis. With the example above, you would conclude that the 3rd model (<span class="math inline">\(Resp \sim Pred1 + 1\)</span>) is your best-specified model (it has by far the lowest AIC), indicating that <span class="math inline">\(Pred1\)</span> explains variablity in <span class="math inline">\(Resp\)</span>, but that there is no evidence that <span class="math inline">\(Pred2\)</span> explains variability in <span class="math inline">\(Resp\)</span> (as <span class="math inline">\(Pred2\)</span> doesn’t appear in your best-specified model).</p>
-<p>Model selection like this can be easily done using the <code>dredge()</code> function in the MuMIn package. We’ll practice this in class.</p>
 
 
 </section>
@@ -677,14 +566,10 @@ refinements of your hypothesis after you collect the data will result in a hypot
 <li id="fn15"><p>see “The Principle of Parsimony” below<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn16"><p>see the section on Starting Model<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn17"><p>note the spelling and capitalization of this package name!<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18"><p>indeed, your null model <em>only</em> contains an intercept<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19"><p>and it is the same number given in the <code>summary()</code> output above. More on this coming up in the Reporting section!<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20"><p>Note that lower is always better with information criterion, though the magnitude of the AIC value will change from case to case.<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21"><p>recall that the <code>+ 1</code> is to indicate that there is an intercept in our model. The <code>+1</code> can be left out of the model formula and R will still estimate an intercept, but I will write it here for clarity<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn22"><p>see section 9.3 and the “Principle of Parsimony”<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn23"><p>Section 9.17<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn24"><p>There are other types of information criteria such as Bayesian Information Criteria (BIC, where the cost is penalized harsher, favouring a simpler model), and the corrected Akaike Information Criterion (AICc, where the metric is optimized for small sample sizes).<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn25"><p>models within 2 of the lowest AIC are all chosen as the best-specified model<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>other methods include forwards or backwards model selection. In these, you add (or subtract) one predictor term from your starting model to determine the effect on your model’s ability to explain the variability in your response. These methods can be biased by collinearity among your predictors in your model, so we will proceed with looking at all possible predictor combinations as described here<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>indeed, your null model <em>only</em> contains an intercept<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>and it is the same number given in the <code>summary()</code> output above. More on this coming up in the Reporting section!<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>Note that lower is always better with information criterion, though the magnitude of the AIC value will change from case to case.<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
