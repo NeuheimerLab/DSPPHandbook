@@ -208,7 +208,8 @@ In this chapter you will learn:
 </div>
 <section id="predicting" class="level1">
 <h1>Predicting</h1>
-<p>Now that you have your best-specified model, you may want to use it to make a response prediction<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, e.g.&nbsp;“what would I expect the value of my response to be at a different value of my predictor?”</p>
+<p>One of the motivations we discussed <a href="./handbookSMIntro.html">motivations for statistical modelling</a> was that models help us to make quantitative predictions about the system which we are studying.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Now that you have your best-specified model, you may want to use it to make a response prediction<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>, e.g.&nbsp;“what would I expect the value of my response to be at a different value of my predictor?”</p>
 <div class="alert alert-warning">
 <p>The predicting process outlined here is similar regardless of your model structure (e.g.&nbsp;error distribution assumption). You can use the same process for models of any structure.</p>
 </div>
@@ -246,7 +247,7 @@ In this chapter you will learn:
 </section>
 <section id="step-two-make-your-response-prediction" class="level3 unnumbered">
 <h3 class="unnumbered anchored" data-anchor-id="step-two-make-your-response-prediction">Step Two: Make your response prediction</h3>
-<p>You can use the <code>predict()</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> function to predict the value of your response.</p>
+<p>You can use the <code>predict()</code><a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> function to predict the value of your response.</p>
 </section>
 </section>
 <section id="examples" class="level2">
@@ -651,9 +652,9 @@ In this chapter you will learn:
 </section>
 <section id="inverse-predicting-for-models-with-a-binomial-error-distribution-assumption" class="level2">
 <h2 class="anchored" data-anchor-id="inverse-predicting-for-models-with-a-binomial-error-distribution-assumption">Inverse predicting for models with a binomial error distribution assumption</h2>
-<p>While the process (and code) above is <em>identical</em> regardless of your error distribution assumption, there is a second type of predicting one often uses when one has a model with a binomial error distribution assumption<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>While the process (and code) above is <em>identical</em> regardless of your error distribution assumption, there is a second type of predicting one often uses when one has a model with a binomial error distribution assumption<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
 <p>Here, you are “inverse predicting” to predict the value of your <em>predictor</em> that will lead to a certain probability of your response being 1.</p>
-<p>For example, you might want to know the amount of a toxin (your predictor) that leads to a 25% probability of dying<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>, or the age (your predictor) at which a fish has a 50% probability of being mature<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
+<p>For example, you might want to know the amount of a toxin (your predictor) that leads to a 25% probability of dying<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>, or the age (your predictor) at which a fish has a 50% probability of being mature<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
 <p>One method to do this would be to predict your response at values of your predictor in high enought resolution so that you can pick out the appropriate predictor value. Here is an example where you want to know the value of <code>Cont4</code> that will give a 75% probability of <code>Resp3.b</code> being 1, given your bestmod3.b of <code>Resp3.b ~ Cont4 + 1</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>forCont4<span class="ot">&lt;-</span><span class="fu">seq</span>(<span class="at">from =</span> <span class="fu">min</span>(myDat3.b<span class="sc">$</span>Cont4), <span class="at">to =</span> <span class="fu">max</span>(myDat3.b<span class="sc">$</span>Cont4), <span class="at">by =</span> <span class="fl">0.01</span>)<span class="co"># a sequence of numbers in your continuous predictor range, notice that you are using a very high resolution series of your predictor here.</span></span>
@@ -730,8 +731,6 @@ p = 0.75: 85.18394 1.973764</code></pre>
 <h2 class="anchored" data-anchor-id="up-next">Up next</h2>
 <p>You did it! You made it through all the steps of our Statistical Modelling Framework. Nice work!</p>
 <p>Up next we will practice applying the framework to new examples, and learn how to communicate the whole process in reports and papers.</p>
-<pre><code>- Use your model to make predictions (while considering prediction limits)</code></pre>
-<p>“all data are wrong, but models can make data useful” Pershing</p>
 
 
 </section>
@@ -741,11 +740,12 @@ p = 0.75: 85.18394 1.973764</code></pre>
 <div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>I realize that the term “prediction” and “predictor” can be confusing. Remember that another word for your model predictor is “covariate”.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>note that when you hand a GLM object to <code>predict()</code>, R actually uses a function called <code>predict.glm()</code>. This does not affect what you need to do; it is just good to know in case you need help with the function<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>recall that this is also called “logistic regression”<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>sometimes called <span class="math inline">\(LD_{25}\)</span> where LD is lethal dose<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>sometimes called the <span class="math inline">\(A_{50}\)</span><a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>In a previous section, we had the quote “All models are wrong but some are useful” to emphasize that models are approximation of the real world. Well, we can also say that ““all data are wrong, but models can make data useful” (a quote by Andy Pershing) to emphasize that models are also needed to make generalizations and predictions about the systems that we are studying.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>I realize that the term “prediction” and “predictor” can be confusing. Remember that another word for your model predictor is “covariate”.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>note that when you hand a GLM object to <code>predict()</code>, R actually uses a function called <code>predict.glm()</code>. This does not affect what you need to do; it is just good to know in case you need help with the function<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>recall that this is also called “logistic regression”<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>sometimes called <span class="math inline">\(LD_{25}\)</span> where LD is lethal dose<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>sometimes called the <span class="math inline">\(A_{50}\)</span><a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
