@@ -4122,8 +4122,6 @@ Only if all the slopes^[i.e. effects associated with the continuous predictor] w
 :::
 
 
-
-
 # Up next {.unnumbered}
 
 In the next chapter, we will discuss how you can use your model to make predictions. 
