@@ -132,6 +132,10 @@ To choose your starting model, start by choosing the stochastic part of your mod
 
 This describes how the data should be assumed to be distributed around your model fit (e.g. how to model the scatter of the data around the line in the figure above).   Note I use the word "assumption" here - we are picking an existing mathematical form (data distribution^[A good time to review your notes on data distributions from earlier]) that can approximate the behaviour of our observations.  This is an assumption that we will test in the Validate section to come.
 
+**Common data distributions**
+
+Take a look [here for some common data distributions](DSPPH_SM_DataDistributions.qmd].
+
 
 **How do you choose?**\
 
