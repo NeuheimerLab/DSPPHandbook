@@ -137,14 +137,14 @@
     "href": "DSPPH_SM_Hypothesis.html",
     "title": "Statistical Modelling: Hypothesis",
     "section": "",
-    "text": "In this section you will:\n\n\n\n\n\n\nidentify your model terms (main effects and interactions)\npresent your research hypothesis in words and formula"
+    "text": "In this section you will:\n\n\n\n\n\n\npresent your research hypothesis in words\ndescribe your model terms (main effects and interactions)\npresent your research hypothesis as a formula"
   },
   {
     "objectID": "DSPPH_SM_Hypothesis.html#hypotheses-with-more-than-one-predictor---including-interactions",
     "href": "DSPPH_SM_Hypothesis.html#hypotheses-with-more-than-one-predictor---including-interactions",
     "title": "Statistical Modelling: Hypothesis",
     "section": "Hypotheses with more than one predictor - including interactions",
-    "text": "Hypotheses with more than one predictor - including interactions\nWhen you are considering more than one predictor, you need to consider the possibility of both main effects and interactions.\nA main effect represents the direct independent effect of the predictor on the response.\nAn interaction represents that the effect of one predictor on the response depends on the value of the other predictor.\nIf your research hypothesis states that\n\nVariability in the response (Resp) is explained by independent effects of two predictors (Pred1 and Pred2)1\n\nyour hypothesis in R syntax would be:\n\nResp ~ Pred1 + Pred2 + 1\n\nIf your research hypothesis states that\n\nVariability in the response (Resp) is explained by effects of two predictors (Pred1 and Pred2 with the effect of Pred1 depending on the value of Pred2)\n\nyour hypothesis in R syntax would be:\n\nResp ~ Pred1 + Pred2 + Pred1:Pred2 + 1\n\nNote that : is used to denote an interaction. In this case, it is a two-way interaction between Pred1 and Pred2.2\n\n\n\n\n\n\nTip\n\n\n\n\n\nR has a number of shortcuts for representing formulas in shortform. For example:\nResp ~ Pred1 + Pred2 + Pred1:Pred2 + 1\ncan be written as\nResp ~ Pred1*Pred2\ni.e. * means to include all main effects and all possible interactions.\nAnother example:\nResp ~ Pred1 + Pred2 + Pred3 + Pred1:Pred2 + Pred2:Pred3 + Pred1:Pred3 + 1\ncan be written as\nResp ~ (Pred1 + Pred2 + Pred3)^2\nwhich tells R to include all main effects and all possible two-way interactions between the three predictors."
+    "text": "Hypotheses with more than one predictor - including interactions\nWhen you are considering more than one predictor, you need to consider the possibility of both main effects and interactions.\nA main effect represents the direct independent effect of the predictor on the response.\nAn interaction represents that the effect of one predictor on the response depends on the value of the other predictor.\nIf your research hypothesis states that\n\nVariability in the response (Resp) is explained by independent effects of two predictors (Pred1 and Pred2)1\n\nyour hypothesis in R syntax would be:\n\nResp ~ Pred1 + Pred2 + 1\n\nIf your research hypothesis states that\n\nVariability in the response (Resp) is explained by effects of two predictors (Pred1 and Pred2) with the effect of Pred1 depending on the value of Pred2)\n\nyour hypothesis in R syntax would be:\n\nResp ~ Pred1 + Pred2 + Pred1:Pred2 + 1\n\nNote that : is used to denote an interaction. In this case, it is a two-way interaction between Pred1 and Pred2.2\n\n\n\n\n\n\nTip\n\n\n\n\n\nR has a number of shortcuts for representing formulas in shortform. For example:\nResp ~ Pred1 + Pred2 + Pred1:Pred2 + 1\ncan be written as\nResp ~ Pred1*Pred2\ni.e. * means to include all main effects and all possible interactions.\nAnother example:\nResp ~ Pred1 + Pred2 + Pred3 + Pred1:Pred2 + Pred2:Pred3 + Pred1:Pred3 + 1\ncan be written as\nResp ~ (Pred1 + Pred2 + Pred3)^2\nwhich tells R to include all main effects and all possible two-way interactions between the three predictors."
   },
   {
     "objectID": "DSPPH_SM_Hypothesis.html#footnotes",
@@ -186,14 +186,7 @@
     "href": "index.html",
     "title": "Data Skills Portfolio Program",
     "section": "",
-    "text": "The Data Skills Portfolio (DSP) Program is based at Aarhus University’s Department of Biology.\nThe DSP Program is designed to help you develop robust and useful quantitative skills for biological research and many fields beyond.\nHere you will find a description of the program along with DSP handbook materials.\nExplore and enjoy!\nAnd remember: your feedback is welcome!\n\n\n\nto the Data Skills Portfolio Program Handbook for\n\nData Collection & Curation\nData Management\nStatistical Modelling"
-  },
-  {
-    "objectID": "index.html#draft-website",
-    "href": "index.html#draft-website",
-    "title": "Data Skills Portfolio Program",
-    "section": "",
-    "text": "The Data Skills Portfolio (DSP) Program is based at Aarhus University’s Department of Biology.\nThe DSP Program is designed to help you develop robust and useful quantitative skills for biological research and many fields beyond.\nHere you will find a description of the program along with DSP handbook materials.\nExplore and enjoy!\nAnd remember: your feedback is welcome!"
+    "text": "The Data Skills Portfolio (DSP) Program is based at Aarhus University’s Department of Biology.\nThe DSP Program is designed to help you develop robust and useful quantitative skills for biological research and many fields beyond.\nHere you will find a description of the program along with DSP handbook materials.\nExplore and enjoy!\nAnd remember: your feedback is welcome!\n\n\nto the Data Skills Portfolio Program Handbook for\n\nData Collection & Curation\nData Management\nStatistical Modelling"
   },
   {
     "objectID": "index.html#quick-links",
@@ -347,7 +340,7 @@
     "href": "DSPPH_SM_DataDistributions.html#what-is-a-data-distribution",
     "title": "Data Distributions",
     "section": "What is a data distribution?",
-    "text": "What is a data distribution?\n\nA data distribution is a math function that specifies all possible values a variable can take and the relative frequency of those values1. Data distributions can be continuous (any real value) or discrete (only integer values) values over a defined range."
+    "text": "What is a data distribution?\nA data distribution is a math function that specifies all possible values a variable can take and the relative frequency of those values1. Data distributions can be continuous (any real value) or discrete (only integer values) values over a defined range."
   },
   {
     "objectID": "DSPPH_SM_DataDistributions.html#why-are-data-distributions-useful",
@@ -739,14 +732,14 @@
     "href": "DSPPH_SM_Responses.html",
     "title": "Statistical modelling: Responses",
     "section": "",
-    "text": "In this section you will:\n\n\n\n\n\n\nDefine your research question and response variable (what variability are you trying to explain?)\nPresent the motivation for your research question (why is it worth explaining?)\nThe first step of the statistical modelling framework is to identify your response variable1.\nYour response variable is the observed variability you are trying to explain. As mentioned earlier, all science is explaining variability - why something you observe is changing. Your response variable is the “thing” you are trying to explain. It is sometimes called by other names such as “dependent variable” or “y variable”.\nBefore you can proceed with your hypothesis making and testing, you need to be clear about the variation you are trying to explain and how it was observed. What is making you curious?\nThese questions are called “research questions” and they identify your response variable (contrast this with your research hypothesis in an upcoming section).\nThough it is not necessary to be able to proceed with statistical modelling, it is useful at this point to stop and think about why you want to explain the variation in your response. Why is it important to explain different tree heights? Or fish abundance? Or hormone level? Being clear about what variation you are trying to explain (your response variable) and why it is important to explain that variation will make up a good portion of your introduction section to a report or paper - and help shape your discussion section as well."
+    "text": "In this section you will:\n\n\n\n\n\n\nDefine your research question and response variable (what variability are you trying to explain?)\nPresent the motivation for your research question (why is it worth explaining?)\nThe first step of the statistical modelling framework is to identify your response variable1.\nYour response variable is the observed variability you are trying to explain. As mentioned earlier, all science is explaining variability - why something you observe is changing. Your response variable is the “thing” you are trying to explain. It is sometimes called by other names such as “dependent variable” or “y variable”.\nBefore you can proceed with your hypothesis making and testing, you need to be clear about the variation you are trying to explain and how it was observed. What is making you curious?\nThese questions are called “research questions” and they identify your response variable (contrast this with your research hypothesis in an upcoming section).\nThough it is not necessary to be able to proceed with statistical modelling, it is useful at this point to stop and think about why you want to explain the variation in your response.2 Why is it important to explain different tree heights? Or fish abundance? Or hormone level? Being clear about what variation you are trying to explain (your response variable) and why it is important to explain that variation will make up a good portion of your introduction section to a report or paper - and help shape your discussion section as well."
   },
   {
     "objectID": "DSPPH_SM_Responses.html#footnotes",
     "href": "DSPPH_SM_Responses.html#footnotes",
     "title": "Statistical modelling: Responses",
     "section": "Footnotes",
-    "text": "Footnotes\n\n\nNotice I write “Response(s)” in the title of this section - plural. It is possible to have multiple response variables and we will discuss this elsewhere in the handbook when we discuss multivariate data. For the focus of this handbook though, we will begin by working with one response variable↩︎"
+    "text": "Footnotes\n\n\nNotice I write “Response(s)” in the title of this section - plural. It is possible to have multiple response variables and we will discuss this elsewhere in the handbook when we discuss multivariate data. For the focus of this handbook though, we will begin by working with one response variable↩︎\nTo expand on this idea, research questions should follow the FINER criteria: your research question should be Feasible, Interesting, Novel, Ethical, and Relevant @HulleyEtAl2007↩︎"
   },
   {
     "objectID": "DSPPH_SM_MixedModels.html",
