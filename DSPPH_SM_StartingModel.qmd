@@ -134,7 +134,7 @@ This describes how the data should be assumed to be distributed around your mode
 
 **Common data distributions**
 
-Take a look [here for some common data distributions](DSPPH_SM_DataDistributions.qmd].
+Take a look [here for some common data distributions](DSPPH_SM_DataDistributions.qmd).
 
 
 **How do you choose?**\
