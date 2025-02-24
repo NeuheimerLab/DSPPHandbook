@@ -26,7 +26,7 @@ Before you can proceed with your hypothesis making and testing, you need to be c
 
 These questions are called "research questions" and they identify your response variable (contrast this with your research hypothesis in an upcoming section). 
 
-Though it is not necessary to be able to proceed with statistical modelling, it is useful at this point to stop and think about **why** you want to explain the variation in your response. Why is it important to explain different tree heights? Or fish abundance? Or hormone level? Being clear about what variation you are trying to explain (your response variable) and why it is important to explain that variation will make up a good portion of your introduction section to a report or paper - and help shape your discussion section as well.
+Though it is not necessary to be able to proceed with statistical modelling, it is useful at this point to stop and think about **why** you want to explain the variation in your response.^[To expand on this idea, research questions should follow the FINER criteria: your research question should be Feasible, Interesting, Novel, Ethical, and Relevant @HulleyEtAl2007] Why is it important to explain different tree heights? Or fish abundance? Or hormone level? Being clear about what variation you are trying to explain (your response variable) and why it is important to explain that variation will make up a good portion of your introduction section to a report or paper - and help shape your discussion section as well.
 
 
 ::: footnotes

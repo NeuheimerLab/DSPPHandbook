@@ -20,11 +20,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ## What is a data distribution?
 
-<!-- random variable
-
-Aside: Even something simple like identifying an outlier requires us to choose an underlying statistical model.  Before we can say that an observation is an outlier, we need to choose a data distribution that can represent our observations (more on data distributions below). Traditionally, outliers are defined with an assumption that the observations are normally distributed.  We can only say "this is an outlier" after we've made a model of how our data are distributed (e.g. "the data come from a normal distribution").
---->
-
 A data distribution is a math function that specifies all possible values a variable can take and the relative frequency of those values^[i.e. the rate at which a value occurs].  Data distributions can be continuous (any real value) or discrete (only integer values) values over a defined range.  
 
 ## Why are data distributions useful?
