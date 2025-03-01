@@ -331,7 +331,7 @@ More on statistical model form
 </p></li>
 <li><p>Can your response only be one of two values? Start with a binomial error distribution assumption.</p></li>
 </ul>
-<p><img src="./describeResponseWithFamilies.png" align="right" width="350"></p>
+<p><img src="./describeResponseWithFamilies.png" align="left" width="650"></p>
 <p><em>Plot your data:</em> Plotting your response variable can also help you determine the data distribution that would be the best starting point for your error distribution assumption.</p>
 <section id="sec-chooseLink" class="level5">
 <h5 class="anchored" data-anchor-id="sec-chooseLink">Choosing a link function:</h5>
@@ -358,7 +358,7 @@ Visualizing the link functions
 <p>with the nature of the <code>Resp</code> changing with each example. In each example, the data are given on the response scale on the lefthand side, and the linked scale (mathematical world) on the right hand side.</p>
 <p>Notice how the shape of the relationship on the response scale changes depending on how the response is distributed (error distribution assumption), but the relationship on the linked scale is linear in each case.</p>
 <p>Also notice that the figures on the response vs.&nbsp;link scale look the same for a normal error distribution assumption. This is because the GLM math was originally developed for a normal error distribution assumption and then <em>generalized</em> for other error distribution assumption. The link function “identity” that is the canonical link function when you have a normal error distribution assumption tells R that no link is needed.</p>
-<p><img src="./FiguresResponseVsLink.001.png" class="img-fluid" style="width:50.0%"></p>
+<p><img src="./FiguresResponseVsLink.001.png" class="img-fluid" style="width:100.0%"></p>
 </div>
 </div>
 </div>
@@ -395,7 +395,7 @@ Transformations vs.&nbsp;GLMs
 <p>Your choices are linear (where a unit change in the predictor always leads to the same change in the response<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>) or non-linear (where the effect of the predictor on the response depends on the value of the predictor). Note that you need to make a shape assumption choice for each of your predictors in your research hypothesis.</p>
 <p><strong>How do you choose?</strong></p>
 <p><em>Think about theory</em>: The first thing to consider is the nature of your predictor variable. Is it categorical? If yes, choose a linear shape assumption, as a non-linear shape assumption does not make sense for a categorical predictor (e.g.&nbsp;species).</p>
-<p><img src="./describePredictors.png" align="right" width="350"></p>
+<p><img src="./describePredictors.png" align="left" width="450"></p>
 <p>Is your predictor continuous? Then you need to think a bit more about the relationship between your predictor and response. Do you expect the predictor to always affect your response in the same way (i.e.&nbsp;a unit change in your response for a unit change in your predictor is expected to be the same over the range in your predictor)? Or do you expect that relationship to change as your predictor changes?</p>
 <p>Revist the <a href="#sec-chooseLink">“Choose a link function” section</a>. GLMs can handle situations that appear non-linear in a simple way.</p>
 <!--- include figure of nonlinear vs. linear--->

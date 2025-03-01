@@ -145,7 +145,7 @@ Here are some [common data distributions](DSPPH_SM_DataDistributions.qmd) that c
 
 - Can your response only be one of two values? Start with a binomial error distribution assumption.
 
-<img src="./describeResponseWithFamilies.png" align="right" width="350"/>
+<img src="./describeResponseWithFamilies.png" align="left" width="650"/>
 
 *Plot your data:* Plotting your response variable can also help you determine the data distribution that would be the best starting point for your error distribution assumption. 
 
@@ -176,7 +176,7 @@ Notice how the shape of the relationship on the response scale changes depending
 
 Also notice that the figures on the response vs. link scale look the same for a normal error distribution assumption.  This is because the GLM math was originally developed for a normal error distribution assumption and then *generalized* for other error distribution assumption.  The link function "identity" that is the canonical link function when you have a normal error distribution assumption tells R that no link is needed.
 
-![](./FiguresResponseVsLink.001.png){width=50%}
+![](./FiguresResponseVsLink.001.png){width=100%}
 
 
 
@@ -216,7 +216,7 @@ Your choices are linear (where a unit change in the predictor always leads to th
 
 *Think about theory*: The first thing to consider is the nature of your predictor variable.  Is it categorical?  If yes, choose a linear shape assumption, as a non-linear shape assumption does not make sense for a categorical predictor (e.g. species).
 
-<img src="./describePredictors.png" align="right" width="350"/>
+<img src="./describePredictors.png" align="left" width="450"/>
 
 
 Is your predictor continuous?  Then you need to think a bit more about the relationship between your predictor and response.  Do you expect the predictor to always affect your response in the same way (i.e. a unit change in your response for a unit change in your predictor is expected to be the same over the range in your predictor)?  Or do you expect that relationship to change as your predictor changes?  
