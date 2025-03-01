@@ -19,9 +19,9 @@ library(formatR)
 
 - learn why you need a starting model to test your hypothesis
 
-- learn what model fitting means
+- learn what it means to fit a model
 
-- choose and fit a starting model to start testing your hypothesis
+- choose and fit a starting model to begin testing your hypothesis
 
 - take a first look at your fitted starting model
 
@@ -29,7 +29,7 @@ library(formatR)
 
 # Your Starting Model
 
-To test your hypothesis, you first need to build an appropriate model of your hypothesis in mathematical form.  The model gives you a structure to which you can fit your data so that you can assess what the evidence (data) is saying about your hypothesis.  This is called a statistical model as the model is fit by estimating parameters from the data (your observations).  
+To test your hypothesis, you first need to build an appropriate model of your hypothesis in mathematical form.  The model gives you a structure to which you can fit your data so that you can assess what the evidence (data) is saying about your hypothesis.  This is called a statistical model as the model is fit by estimating parameters from the data (your observations).   
 
 
 ::: {.callout-tip collapse="false" title="Some useful terms"} 
@@ -69,16 +69,16 @@ When we say that a predictor has "an effect" on a response, we are saying that a
 
 This change in the response that comes from a unit change in the predictor is estimated as a coefficient.
 
-The coefficient of a **continuous predictor** is the slope.  The slope describes the change in response that you get from a unit change in the predictor.  For example, if your hypothesis is `Growth ~ Temperature + 1`, (and `Temperature` is continuous), the slope (coefficient) for `Temperature` will tell you the change in `Growth` you expect for a 1˚C change in `Temperature`.
+The coefficient of a **continuous predictor** is a slope.  The slope describes the change in response that you get from a unit change in the predictor.  For example, if your hypothesis is `Growth ~ Temperature + 1`, (and `Temperature` is continuous and in units of ˚C), the slope (coefficient) for `Temperature` will tell you the change in `Growth` you expect for a 1˚C change in `Temperature`.
 
-The coefficient of a **categorical predictor** tells you how much the response will change when the categorical predictor changes from one category (level) to another.  For example, if your hypothesis is `Growth ~ Species + 1`, (and `Species` is categorical with "Species A" and "Species B"), the coefficient for `Species` will tell you the change in Growth you expect when you change from one `Species` to another (e.g. "Species A" to "Species B").
+The coefficient of a **categorical predictor** tells you how much the response will change when the categorical predictor changes from one category (level) to another.  For example, if your hypothesis is `Growth ~ Species + 1`, (and `Species` is categorical with "Species A" and "Species B"), the coefficient for `Species` will tell you the change in Growth you expect when you change from one `Species` to another (e.g. from "Species A" to "Species B").
 
 :::
 
 
 Your starting model will let you estimate this effect (coefficient) of your predictor on your response.  Your starting model will also let you estimate the error (uncertainty) around this effect (coefficient). 
 
-Once you have these estimates, you can test your hypothesis to see if the effect of the predictor on your response is meaningful (i.e. is the coefficient significantly different than zero?^[More on this to come!]).  
+Once you have these estimates, you [can test your hypothesis](DSPPH_SM_HypothesisTesting.qmd) to see if the effect of the predictor on your response is meaningful (i.e. is the coefficient significantly different than zero?).  
 
 
 
@@ -92,7 +92,7 @@ A statistical model is a model that include both a *deterministic* part and a *s
 
 * The deterministic part represents your research hypothesis in math form - this describes how the predictors and response are related.  
 
-* The stochastic part represents the error in your model.  This includes error due to all the other possible factors or predictors that you have not been included in your hypothesis (called "process error") as well as any error made when you made your observations (called "measurement error").
+* The stochastic part represents the error in your model.  This includes error due to all the other possible factors or predictors that have not been included in your hypothesis (called "process error") as well as any error made when you made your observations (called "measurement error").
 
 ::: {.callout-tip collapse="true" title="More on statistical model form"} 
 We can represent a general statistical model as
@@ -116,25 +116,21 @@ So to choose (and eventually) fit your starting model, you need to choose both d
 
 ## Choosing your starting model
 
-It is important to note that **there is more than one model** you could use to test your hypothesis.  This is because each model is a simplification and approximation of the real world, and there are a number of mathematical ways one can simplify and approximate the processes involved in your research hypothesis.  
-In this Handbook, you will learn about some very useful models, and how to choose among them.  We will also discuss alternatives - this will give you other options, but will also help you communicate to other researchers that may choose different methods for their hypothesis testing.
+It is important to note that **there is more than one model** you could use to test your hypothesis.  This is because each model is a simplification and approximation of the real world, and there are a number of mathematical ways one can simplify and approximate the processes involved in your research hypothesis.  In this Handbook, you will learn about some very useful models, and how to choose among them.  We will also discuss alternatives - this will give you other options, but will also help you communicate to other researchers that may choose different methods for their hypothesis testing.
 
 Despite the fact that there is more than one valid starting model, not all models are **useful** starting models.  Here we will focus on finding a useful starting model. 
 
-A useful starting model is one that reflects the mechanistic^[I will keep mentioning mechanisms.  In our statistical model building, we keep our focus on biologically meaningful or mechanistic explanations of variability in our response.  This is because i) explaining the world through mechanisms is necessary for true understanding and to be able to show this understanding through prediction (e.g. the difference between correlation and causation).  And ii) this is where the joy of being a biologist lies!] understanding underlying your research hypothesis and one that reflects the nature of your data (observations). 
+A useful starting model is one that reflects the mechanistic^[I will keep mentioning mechanisms.  In our statistical model building, we keep our focus on biologically meaningful or mechanistic explanations of variability in our response.  This is because i) explaining the world through mechanisms is necessary for true understanding and to be able to show this understanding through prediction (e.g. the difference between correlation and causation).  And ii) this is where the joy of being a biologist lies!] understanding underlying your research hypothesis and one that reflects the nature of your data (observations). Thus, the goal is to build a model that can reproduce your data and is consistent with the theoretical background of your hypothesis.  
 
-Note: you will first be able to assess if your starting model is a useful one AFTER you have fit the model to the data^[more on this to come].  At this stage you just need to pick an intelligent starting point - but what does that mean?  And how do you do it?
-
+Note: you will first be able to [assess if your starting model is a useful one](DSPPH_SM_ModelValidation.qmd) AFTER you have fit the model to the data.  At this stage you just need to pick an intelligent starting point - but what does that mean?  And how do you do it?
 
 ### 1. Choosing your error distribution assumption:
 
 To choose your starting model, start by choosing the stochastic part of your model by choosing an **error distribution assumption**.  
 
-This describes how the data should be assumed to be distributed around your model fit (e.g. how to model the scatter of the data around the line in the figure above).   Note I use the word "assumption" here - we are picking an existing mathematical form (data distribution^[A good time to review your notes on data distributions from earlier]) that can approximate the behaviour of our observations.  This is an assumption that we will test in the Validate section to come.
+This describes how the data should be assumed to be distributed around your model fit (e.g. how to model the scatter of the data around the line in the figure above).   Note I use the word "assumption" here - we are picking an existing mathematical form ([data distribution](DSPPH_SM_DataDistributions.qmd)) that can approximate the behaviour of your observations.  This is an assumption that you will test in the [model validation section](DSPPH_SM_ModelValidation.qmd) to come.
 
-**Common data distributions**
-
-Take a look [here for some common data distributions](DSPPH_SM_DataDistributions.qmd).
+Here are some [common data distributions](DSPPH_SM_DataDistributions.qmd) that can be used to build your models.
 
 
 **How do you choose?**\
@@ -145,28 +141,94 @@ Take a look [here for some common data distributions](DSPPH_SM_DataDistributions
 
 - Can your response be a decimal (continuous) but only positive?  Start by using a Gamma error distribution assumption.\
 
-- Can your response only be a positive integer?  Try a poisson error distribution assumption.\
+- Can your response only be a positive integer (discrete)?  Try a poisson error distribution assumption.\
 
 - Can your response only be one of two values? Start with a binomial error distribution assumption.
 
+<img src="./describeResponseWithFamilies.png" align="right" width="350"/>
+
 *Plot your data:* Plotting your response variable can also help you determine the data distribution that would be the best starting point for your error distribution assumption. 
+
+
+##### Choosing a link function:  {#sec-chooseLink}
+
+Once you have chosen your error distribution assumption, you will choose a link function that will allow R to mathematically "link" your error distribution assumption to the function underlying the GLM.  
+
+There are many link functions you can use, but there is one specific link function identified for each different error distribution assumption that is called the default or canonical link function.  This is the link function that is your best first choice as this link function will align the math underlying your model fit to the specific error distribution assumption.  
+
+You can find the canonical link functions in R with `?family` which will open up the help window to show: 
+
+![](./canLinkFunctions.png){width=50%}
+
+So in general, start with the canonical link function that matches the error distribution assumption you chose for your starting model.  You will assess this choice when you [validate your model](DSPPH_SM_ModelValidation.qmd).  
+
+One exception: the coefficients for models with a Gamma error distribution are easier to understand when you use a log link instead of the default inverse link.  
+
+::: {.callout-tip collapse="true" title="Visualizing the link functions"} 
+
+Let's take a look at the effect of the link functions for a number of common error distribution assumptions.  Here we will consider a simple hypothesis of 
+
+`Resp ~ Cont + 1`
+
+with the nature of the `Resp` changing with each example.  In each example, the data are given on the response scale on the lefthand side, and the linked scale (mathematical world) on the right hand side.  
+
+Notice how the shape of the relationship on the response scale changes depending on how the response is distributed (error distribution assumption), but the relationship on the linked scale is linear in each case.
+
+Also notice that the figures on the response vs. link scale look the same for a normal error distribution assumption.  This is because the GLM math was originally developed for a normal error distribution assumption and then *generalized* for other error distribution assumption.  The link function "identity" that is the canonical link function when you have a normal error distribution assumption tells R that no link is needed.
+
+![](./FiguresResponseVsLink.001.png){width=50%}
+
+
+
+:::
+
+
+
+::: {.callout-tip collapse="true" title="Transformations vs. GLMs"} 
+
+You may be familiar with the idea of transforming your response variable to be normally distributed for use in linear model^[if this is not familiar to you, don't worry.  You will be using a more robust method for modelling your hypotheses].  This idea stems from a time when methods were limited to those requiring a normal error distribution assumption. GLMs mean transformations are often no longer necessary as you can now choose an error distribution that reflects the nature of your data instead.  
+
+While the idea of transformations is similar to the GLM's link function, they are not the same.  Transformations transform the response variable itself in order to try to constrain the variability to that of a normal error distribution assumption.  In contrast, link functions "transform" the expected (fitted) value of the model while also indicating an error distribution that matches the original data.
+
+When possible, using a GLM with a link function is preferable to transforming your response variable.  This is because transformations:
+
+* change the response variable itself making interpretation of modelled effects more difficult
+
+* can introduce bias in the coefficients and predictions^[e.g. due to [Jensen's Inequality](https://en.wikipedia.org/wiki/Jensen%27s_inequality)],
+
+* can result in models that make predictions that are impossible, and
+
+* can be tricky to find an appropriate transformation 
+
+That said, there may be times when you want to use a transformation of your response - e.g. to follow a method that is already established in your field.  For these cases, you can still fit the model with the GLM strategy we describe here.
+
+:::
+
 
 
 ### 2. Choosing your shape assumption:
 
 The next step in choosing your starting model is to choose your **shape assumption**.  Your shape assumption specifies how your predictor(s) and your response are related to one another.  This represents the deterministic part of your model and answers the question "what shape do I expect the relationship between my response and predictor to be?".  
 
-Your choices are linear (where a unit change in the predictor always leads to the same change in the response) or non-linear (where the effect of the predictor on the response depends on the value of the predictor).  Note that you need to make a shape assumption choice for each of your predictors in your research hypothesis.
+Your choices are linear (where a unit change in the predictor always leads to the same change in the response^[also called "monotonic"]) or non-linear (where the effect of the predictor on the response depends on the value of the predictor).  Note that you need to make a shape assumption choice for each of your predictors in your research hypothesis.
 
 **How do you choose?**
 
 *Think about theory*: The first thing to consider is the nature of your predictor variable.  Is it categorical?  If yes, choose a linear shape assumption, as a non-linear shape assumption does not make sense for a categorical predictor (e.g. species).
 
+<img src="./describePredictors.png" align="right" width="350"/>
+
+
 Is your predictor continuous?  Then you need to think a bit more about the relationship between your predictor and response.  Do you expect the predictor to always affect your response in the same way (i.e. a unit change in your response for a unit change in your predictor is expected to be the same over the range in your predictor)?  Or do you expect that relationship to change as your predictor changes?  
+
+Revist the ["Choose a link function" section](#sec-chooseLink). GLMs can handle situations that appear non-linear in a simple way.  
 
 <!--- include figure of nonlinear vs. linear--->
 
-*Plot your data*: Plotting your response vs. your predictor is another good exercise to get you thinking about what shape assumption will be appropriate.  The GGally package has some good options for quickly plotting your data: 
+<!--- also binomial linBinom.png, nonlinBinom.png --->
+
+
+*Plot your data*: Plotting your response vs. your predictor is another good exercise to get you thinking about what shape assumption will be appropriate. When you make this plot, remember to keep in mind your error distribution assumption choice (choice #1 above).  This will help you understand when you need a linear vs. non-linear model. [We'll look at an example of this when we choose our link function.](#sec-chooseLink).   The GGally package has some good options for quickly plotting your data: 
 
 
 ```{r}
@@ -182,7 +244,9 @@ ggpairs(data=myDat, # your data
         )
 ```
 
-**In this course,** we will primarily focus on statistical models assuming a linear shape assumption.  You will see how flexible these can be, but we will also discuss what you should do if you want to assume non-linear^[which might be non-linear of known shape, or non-linear of unknown shape] relationships between your response and predictors. 
+**In PSB,** we will primarily focus on statistical models assuming a linear shape assumption.  You will see how flexible these can be, but we will also discuss what you should do if you want to assume non-linear^[which might be non-linear of known shape, or non-linear of unknown shape] relationships between your response and predictors. 
+
+
 
 ### Communicating your starting model
 To communicate your starting model, report your research hypothesis, your response and predictors (main effects and interactions) along with descriptions of your error distribution and shape assumptions.  
@@ -194,6 +258,18 @@ Once you have chosen your starting model, you will fit the model to your data so
 
 <img src="./coefParam.png" align="right" width="350"/>
 As mentioned [above](#sec-WhatMeanFitModel), fitting your model means that you are going to use your data to estimate the value of the coefficients in your model (e.g. slope, intercept). 
+
+
+::: {.callout-tip collapse="true" title="What are model coefficients"} 
+
+
+Your model coefficients capture your modelled effects; the effect of the predictor on your response.  
+
+When you have a *numeric* predictor, the coefficient is the modelled change in your response for a unit change in your predictor.
+
+When you have a *categorical* predictor, the coefficient is the modelled change in your response when you change from one level of your predictor to another.
+
+:::
 
 
 
@@ -224,44 +300,11 @@ Generalized Linear Models or GLMs are statistical models that have a linear shap
 
 ![](./RelationshipAmongModels.png){width=70%}
 
-So we can use a GLM as our starting model when we have a shape assumption that is linear, and one of a variety of error distribution assumptions - see a little further along to find out which error distribution assumptions are supported by GLMs.  
+So we can use a GLM as our starting model when we have a shape assumption that is linear, and one of a variety of error distribution assumptions - see a little further along to find out which error distribution assumptions are supported by GLMs^[Note that **generalized** linear models are different than **general** linear model. General linear models include simple linear regression, ANOVA and a few others. Generalized linear models include these but more - they allow us to build models to test many, many different biological hypotheses.  More on this below!] 
 
 
 #### How to fit a GLM to data in R
-##### Choosing a link function:  
 
-To fit a GLM, you need to let R know what error distribution assumption you are using so that the math governing the stochastic part of your model can be "linked" to the original math developed for a normal error distribution assumption.
-
-So, we need to choose a "link function" to use when we fit our model to data.  This is not hard: There are canonical (default) link functions associated with each of the error distribution assumptions for your GLM.  You can find them in R with `?family` which will open up the help window to show: 
-
-![](./canLinkFunctions.png){width=50%}
-
-In general, start with the default link function that matches the error distribution assumption you chose for your starting model.
-
-<!--- plot data AFTER error distribution assumption link --->
-
-
-::: {.callout-tip collapse="true" title="Transformations vs. GLMs"} 
-
-You may be familiar with the idea of transforming your response variable to be normally distributed for use in linear model.  This idea stems from a time when methods were limited to those requiring a normal error distribution assumption. GLMs mean transformations are often no longer necessary as you can now choose an error distribution that reflects the nature of your data instead.  
-
-While the idea of transformations is similar to the GLM's link function, they are not the same.  Transformations transform the response variable itself in order to try to constrain it to a normal error distribution assumption.  In contrast, link functions "transform" the expected (fitted) value of the model while also indicating an error distribution that matches the original data.
-
-When possible, using a GLM with a link function is preferable to transforming your response variable.  This is because transformations:
-
-* change the response variable itself making interpretation of modelled effects more difficult
-
-* can introduce bias in the coefficients,
-
-* can result in models that make predictions that are impossible, and
-
-* can be tricky to find an appropriate transformation.
-
-That said, there may be times when you want to use a transformation of your response - e.g. to follow a method that is already established in your field.  For these cases, you can still fit the model with the GLM strategy we describe here.
-
-:::
-
-##### Fitting your GLM to your data:
 
 The function for fitting a GLM in R is (helpfully) `glm()` and it is already installed in base R (no need to load another package).  
 
