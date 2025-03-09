@@ -54,7 +54,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -154,13 +173,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#why-do-you-need-to-validate-your-starting-model" id="toc-why-do-you-need-to-validate-your-starting-model" class="nav-link" data-scroll-target="#why-do-you-need-to-validate-your-starting-model">Why do you need to validate your starting model?</a></li>
   </ul></li>
+  <li><a href="#a-statistical-modelling-example" id="toc-a-statistical-modelling-example" class="nav-link" data-scroll-target="#a-statistical-modelling-example">A statistical modelling example</a></li>
+  <li><a href="#sec-predCol" id="toc-sec-predCol" class="nav-link" data-scroll-target="#sec-predCol">Considering predictor collinearity</a></li>
   <li><a href="#the-role-of-residuals-in-validating-your-model" id="toc-the-role-of-residuals-in-validating-your-model" class="nav-link" data-scroll-target="#the-role-of-residuals-in-validating-your-model">The role of residuals in validating your model</a>
   <ul class="collapse">
-  <li><a href="#a-useful-residual---the-scaled-residual" id="toc-a-useful-residual---the-scaled-residual" class="nav-link" data-scroll-target="#a-useful-residual---the-scaled-residual">A useful residual - the scaled residual</a></li>
+  <li><a href="#sec_scaledResiduals" id="toc-sec_scaledResiduals" class="nav-link" data-scroll-target="#sec_scaledResiduals">A useful residual - the scaled residual</a></li>
   </ul></li>
-  <li><a href="#a-statistical-modelling-example" id="toc-a-statistical-modelling-example" class="nav-link" data-scroll-target="#a-statistical-modelling-example">A statistical modelling example</a></li>
-  <li><a href="#considering-predictor-collinearity" id="toc-considering-predictor-collinearity" class="nav-link" data-scroll-target="#considering-predictor-collinearity">Considering predictor collinearity</a></li>
-  <li><a href="#considering-observation-independence" id="toc-considering-observation-independence" class="nav-link" data-scroll-target="#considering-observation-independence">Considering observation independence</a>
+  <li><a href="#sec-depend" id="toc-sec-depend" class="nav-link" data-scroll-target="#sec-depend">Considering observation independence</a>
   <ul class="collapse">
   <li><a href="#types-of-observation-dependence-and-what-you-can-do-about-them" id="toc-types-of-observation-dependence-and-what-you-can-do-about-them" class="nav-link" data-scroll-target="#types-of-observation-dependence-and-what-you-can-do-about-them">Types of observation dependence and what you can do about them</a>
   <ul class="collapse">
@@ -169,8 +188,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#a-final-point-about-observation-independence" id="toc-a-final-point-about-observation-independence" class="nav-link" data-scroll-target="#a-final-point-about-observation-independence">A final point about observation independence</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#considering-your-error-distribution-assumption" id="toc-considering-your-error-distribution-assumption" class="nav-link" data-scroll-target="#considering-your-error-distribution-assumption">Considering your error distribution assumption</a></li>
-  <li><a href="#considering-your-shape-assumption" id="toc-considering-your-shape-assumption" class="nav-link" data-scroll-target="#considering-your-shape-assumption">Considering your shape assumption</a></li>
+  <li><a href="#sec_errorDist" id="toc-sec_errorDist" class="nav-link" data-scroll-target="#sec_errorDist">Considering your error distribution assumption</a></li>
+  <li><a href="#sec_shape" id="toc-sec_shape" class="nav-link" data-scroll-target="#sec_shape">Considering your shape assumption</a></li>
   <li><a href="#a-final-thought" id="toc-a-final-thought" class="nav-link" data-scroll-target="#a-final-thought">A final thought</a></li>
   <li><a href="#up-next" id="toc-up-next" class="nav-link" data-scroll-target="#up-next">Up next</a></li>
   </ul>
@@ -211,7 +230,7 @@ In this section you will learn:
 <ul>
 <li><p>why model validation is necessary</p></li>
 <li><p>how to determine if your starting model can be used to test your hypothesis</p></li>
-<li><p>what to do if your model is misspecified</p></li>
+<li><p>what to do if your model is mis-specified</p></li>
 </ul>
 </div>
 </div>
@@ -221,18 +240,18 @@ In this section you will learn:
 <section id="why-do-you-need-to-validate-your-starting-model" class="level2">
 <h2 class="anchored" data-anchor-id="why-do-you-need-to-validate-your-starting-model">Why do you need to validate your starting model?</h2>
 <p>As we discussed before “All models are wrong, but some are useful”. So how do you tell if your <a href="./DSPPH_SM_StartingModel.html">starting model</a> is a useful one; that is, one that can be used to test your hypothesis?</p>
-<p>As discussed in the last section, when you choose your starting model you make an educated guess as to what a useful starting model might be, but you can only validate that it <em>is</em> a useful starting model after you have fit the model to your data.</p>
+<p>When you choose your starting model you make an educated guess as to what a useful starting model might be, but you can only validate that it <em>is</em> a useful starting model after you have fit the model to your data.</p>
 <p>A useful model is one that reflects the mechanistic understanding of your research hypothesis (the deterministic part of your model - your shape assumption) as well as the nature of your observations (the stochastic part of your model - your error distribution assumption)<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>.</p>
 <p>In addition, a useful model is one that conforms to the assumptions of the method you use to test your model (e.g.&nbsp;GLM). The assumptions of the GLM include that your predictors are not correlated with one another, and that your observations are independent of one another.</p>
 <p>In this section, we will explore each of these assumptions by considering if your:</p>
 <ol type="1">
-<li><p>predictors are correlated with one another,</p></li>
-<li><p>observations are independent of one another,</p></li>
-<li><p>error distribution assumption was adequate, and</p></li>
-<li><p>shape distribution assumption was adequate.</p></li>
+<li><p><a href="#sec-predCol">predictors are correlated with one another</a>,</p></li>
+<li><p><a href="#sec-depend">observations are independent of one another</a>,</p></li>
+<li><p><a href="#sec_errorDist">error distribution assumption was adequate</a>, and</p></li>
+<li><p><a href="#sec_shape">shape distribution assumption was adequate</a>.</p></li>
 </ol>
 <p>By considering these four points, you can determine if your model is “well-specified” to test your hypothesis.</p>
-<p>In this section, we will go over tools that will help you determine if your model is well-specified and what to do if you find yourself with a misspecified starting model.</p>
+<p>In this section, we will go over tools that will help you determine if your model is well-specified and what to do if you find yourself with a mis-specified starting model (e.g.&nbsp;updating your starting model).</p>
 <div class="callout callout-style-default callout-tip callout-titled" title="&quot;A well-specified model&quot;">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -251,63 +270,12 @@ In this section you will learn:
 </div>
 </section>
 </section>
-<section id="the-role-of-residuals-in-validating-your-model" class="level1">
-<h1>The role of residuals in validating your model</h1>
-<p>For your starting model to be valid, it needs to capture the variation in your response explained by the predictors, and it needs to follow the error distribution assumption on which the math for fitting the model was based. We can investigate these characteristics by exploring the model residuals.</p>
-<p>Recall that a residual can be defined as<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> the difference between the model fitted value and your response observation:</p>
-<p><img src="./residPlotReview.png" class="img-fluid" style="width:90.0%"></p>
-<p>When your model is a useful one (a valid one for testing your hypothesis), these residuals will:</p>
-<ol type="1">
-<li><p>follow the expected error distribution assumption, and</p></li>
-<li><p>be evenly distributed relative to your model fit and predictors.<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a></p></li>
-</ol>
-<p>In fact, you can only validate the assumptions you made when picking your starting model after the model is fit because violations show up in the model residuals.</p>
-<p>We will be looking at two plots to help us investigate the model residuals.</p>
-<p><img src="./exQQPlotData.png" align="right" width="150px"></p>
-<p><img src="./exQQPlot.png" align="right" width="150px"></p>
-<p>The first is a quantile-quantile (QQ) plot. A reminder from your notes on Data Distributions that a quantile breaks your observations into groups, e.g.&nbsp;the 25% quantile is the value of the variable where 25% of the values are below this value. A quantile-quantile plot compares the position of the quantiles in the expected and observed distribution to see if they come from the same distribution. If they come from the same distribution, the quantiles will match, the points will lie along a 1:1 (red) line on the QQ plot, and your model is valid (like the example on the right).</p>
-<p><img src="./exResidualsPlotData.png" align="right" width="150px"></p>
-<p><img src="./exResidualsPlot.png" align="right" width="150px"></p>
-<p>The second is a residual plot. In the residual plot, you will make plots to compare the residuals (on the y-axis) vs.&nbsp;the model fit and each predictor<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a> (on the x-axis). This will let you see if there are any patterns in the plot which could indicate a violation of your model assumptions. If your model is valid, the points will form a uniform cloud of points in your residual plot (like the example on the right).</p>
-<p>You have been looking at residuals as simple differences between your model fit and the observation of your response (as pictured above). The information that you can get from this type of residual will vary with the structure of your model… this can make residual inspection frustrating, as you would have to learn a new method of considering your residuals for each new type of model.</p>
-<p>Instead, you will be using a different type of residual to validate your starting model - one that can be interpreted in similar ways whatever your model structure. It is called a scaled residual.</p>
-<section id="a-useful-residual---the-scaled-residual" class="level2">
-<h2 class="anchored" data-anchor-id="a-useful-residual---the-scaled-residual">A useful residual - the scaled residual</h2>
-<p>As mentioned above, inspecting scaled residuals gives us a method of validating our model that is generally applicable - GREAT - but it also is a method that is intuitive: The scaled residual method checks to see if your model is useful (valid) by seeing if it can even produce data that looks like the data you used to fit your model (i.e.&nbsp;your observations). A model that is well-specified will be able to simulate data that looks like the data used to fix it.</p>
-<p>We will estimate and explore scaled residuals using functions in the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMa package</a>.</p>
-<div class="callout callout-style-default callout-tip callout-titled" title="DHARMa's scaled residuals">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-DHARMa’s scaled residuals
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-3" class="callout-3-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p><img src="./scaledResiduals.png" align="right" width="400px"></p>
-<p>The DHARMa package uses a simulation-based approach to estimate scaled residuals. These scaled residuals are standardized to a uniform distribution regardless of the model structure.</p>
-<p>Here’s how it works:</p>
-<ul>
-<li><p>DHARMa uses your starting model to simulate new response data for each observation (each row in your data frame). The default is that it simulates 250 new data sets from your model<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p></li>
-<li><p>DHARMa uses the simulated values at each observation to calculate the empirical cumulative density function (ECDF) of the simulated values at that observation.</p></li>
-<li><p>The scaled residual for observed data point <em>i</em> is then defined as the value of the ECDF at the value of the observed data <em>i</em> (see figure to the right).</p></li>
-<li><p>Estimated this way, if your model is wellspecified, the scaled residuals will always follow a uniform distribution, regardless of your starting model structure. Put another way: if the observed data were created from the same data-generating process of your starting model, all values of the cumulative distribution should appear with equal probability and the DHARMa residuals will be distributed uniformly.</p></li>
-</ul>
-<p>You can explore more about the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMa package here</a>.</p>
-</div>
-</div>
-</div>
-</section>
-</section>
 <section id="a-statistical-modelling-example" class="level1">
 <h1>A statistical modelling example</h1>
 <p>It will help our discussions to have an example of a starting model. For our example, consider the research hypothesis that your response variable <code>Resp</code> is explained by a categorical predictor (<code>Cat</code>), two continuous predictors (<code>Cont1</code> and <code>Cont2</code>) as well as the interactions among all predictors. You communicate this as:</p>
 <p><code>Resp ~ Cat + Cont1 + Cont2 + Cat:Cont1 + Cat:Cont2 + Cont1:Cont2 + Cat:Cont1:Cont2 + 1</code></p>
 <p>In this example, <code>Resp</code> is a positive, continuous variable.</p>
-<p>Let us assume you tested this hypothesis by fitting a model with a Gamma error distribution assumption (to reflect the nature of your response variable) and linear shape assumption (to reflect the relationship between each predictor and your response) using a GLM:</p>
+<p>Let us assume you tested this hypothesis by fitting a model with a Gamma error distribution assumption (to reflect the nature of your response variable) and linear shape assumption (to reflect the relationship between each predictor and your response, assuming in all cases these are linear) using a GLM:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># a look at our data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -352,61 +320,61 @@ AIC: 994.32
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
-<p>Let us start by estimating the residuals from this starting model using the scaled residual method mentioned above.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa) <span class="co"># load package</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>simOut <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> startMod, <span class="at">n =</span> <span class="dv">250</span>) <span class="co"># simulate data from our model n times and calculate residuals</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Resid <span class="ot">&lt;-</span> simOut<span class="sc">$</span>scaledResiduals <span class="co"># add residuals to data frame</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># check the structure of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>'data.frame':   190 obs. of  6 variables:
- $ Cont1: int  50 64 65 54 52 39 53 41 44 34 ...
- $ Cont2: num  17.5 21.5 21.8 15.9 14.3 ...
- $ Cat  : Factor w/ 2 levels "Control","Treatment": 2 1 1 1 1 2 2 1 1 1 ...
- $ Resp : num  29.8 21.9 19.8 16.6 13.5 ...
- $ Other: Factor w/ 5 levels "G128","G23","G328",..: 1 1 3 3 4 3 1 3 3 1 ...
- $ Resid: num  0.48 0.604 0.288 0.224 0.032 0.396 0.272 0.632 0.668 0.808 ...</code></pre>
-</div>
-</div>
-<p>The residuals have been added to the data frame as <code>myDat$Resid</code>. We will take a look at these residuals as we walk through the model validation below.</p>
+<p>We will consider this model as we proceed through this section.</p>
 </section>
-<section id="considering-predictor-collinearity" class="level1">
+<section id="sec-predCol" class="level1">
 <h1>Considering predictor collinearity</h1>
 <p><strong>What it is:</strong></p>
-<p>NOTE: predictor collinearity<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a> is only a problem if you have multiple predictors in your hypothesis.</p>
-<p>Your model assumes that your predictors are not correlated with one another, and that each predictor explains a unique part of the variation in your response. When this assumption is violated, the estimates of the coefficients<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> become more uncertain and you are unable to test your hypothesis in a robust way.</p>
+<p>NOTE: predictor collinearity<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> is only a problem if you have more than one predictor in your hypothesis.</p>
+<p>Your model assumes that your predictors are not correlated with one another, and that each predictor explains a unique part of the variation in your response. When this assumption is violated, the estimates of the coefficients<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> become more uncertain and you are unable to test your hypothesis in a robust way.</p>
 <p>Let us use an extreme case to see why this might be a problem:</p>
 <blockquote class="blockquote">
-<p>Imagine you are interested in explaining variability in plant growth (your response is plant growth). You think temperature and water may influence plant growth, so you set up an experiment where you will grow plants under high and low temperature and high and low water (your predictors are temperature and water treatments). But in your experimental set-up you only include two treatments: one where the plants are grown with high temperature and high water, and another where plants are grown with low temperature and low water. In your experiment, your predictors are correlated with one another<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a>. When you try to test your hypothesis, you will not be able to say if the growth differences between treatments is due to differences in temperature or water.</p>
+<p>Imagine you are interested in explaining variability in plant growth (your response is plant growth). You think temperature and water may influence plant growth, so you set up an experiment where you will grow plants under high and low temperature and high and low water (your predictors are temperature and water treatments). But in your experimental set-up you only include two treatments: one where the plants are grown with high temperature and high water, and another where plants are grown with low temperature and low water. In your experiment, your predictors are correlated with one another<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. When you try to test your hypothesis, you will not be able to say if the growth differences between treatments are due to differences in temperature or water.</p>
 </blockquote>
-<p>This is an extreme case (where your predictors are 100% correlated with one another), and one that can easily be avoided with a better experimental design. But, predictors that are at least partially correlated with one another are very common in observational/field studies (e.g.&nbsp;things like salinity, temperature and depth in marine studies). <br clear="right"></p>
-<p>Predictor collinearity causes a problem with our interpretation of our model because it increases the error around the coefficients (modelled effects). This error can be so large, that we are unable to assess the effect of a predictor in explaining the response. This increase in error due to predictor collinearity is called “variance inflation”<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a>.</p>
+<p>This is an extreme case (where your predictors are 100% correlated with one another), and one that can easily be avoided with a better experimental design. But, predictors that are at least partially correlated with one another are very common in observational/field studies (e.g.&nbsp;things like salinity, temperature and depth in marine studies).</p>
+<p><br clear="right"></p>
+<p>Predictor collinearity causes a problem with our interpretation of our model because it increases the error around the coefficients (modelled effects). This error can be so large, that we are unable to assess the effect of a predictor in explaining the response. This increase in error due to predictor collinearity is called “variance inflation”<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>. This is a problem for your statistical modelling (as it becomes difficult to quantify the predictor effects in your model) and for your work as a biologist (as you are unable to mechanistically explain the variability in your response).</p>
 <p><strong>How you know if you have a problem:</strong></p>
 <p>You may have a hunch that you will have a problem with predictor collinearity before you even fit a model. You can identify potential problems by looking at correlations of your predictors with one another.</p>
 <p>Here is a helpful bit of code for your investigations, applied to our example model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally) <span class="co"># loading GGally package</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(<span class="at">data=</span>myDat) <span class="co"># make a plot of your data - each column vs. another - often called a "pairs plot"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally) <span class="co"># loading GGally package</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(<span class="at">data=</span>myDat) <span class="co"># make a plot of your data - each column vs. another - often called a "pairs plot"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+<p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>Note in the figure above that there is a linear pattern in the <code>Cont1</code> vs.&nbsp;<code>Cont2</code> plot, and that there is a correlation estimate of 0.84 for this predictor pair. This indicates predictor collinearity, and that having both <code>Cont1</code> and <code>Cont2</code> in your model may result in variance inflation.</p>
-<p>You can also see how much of a problem predictor collinearity is causing by by estimating <strong>variance inflation factors (VIFs)</strong> after you fit your starting model. VIFs look at your model to see how much correlation among predictors is making your coefficient estimates uncertain.</p>
-<p>Note that when you have a categorical predictor that has more than two categories (levels), VIFs need to be calculated in a different way - as generalized VIFs (GVIF)<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p>
-<p>In general, when a VIF is greater than 3 (or GVIF is greater than <span class="math inline">\(\sqrt 3\)</span>), predictor collinearity is influencing your coefficient estimates enough that you may need to take action.</p>
-<p>An example of how to estimate VIFs is given in the next section.</p>
+<p>You can also see how much of a problem predictor collinearity is causing by estimating <strong>variance inflation factors (VIFs)</strong> after you fit your starting model. VIFs look at your model to see how much correlation among predictors is making your coefficient estimates uncertain.<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a></p>
+<p>In general, when a VIF is greater than 3 (or adjusted GVIF<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a> is greater than <span class="math inline">\(\sqrt 3\)</span>), predictor collinearity is a cause of concern. When VIF is greater than 5 or 10 (or adjusted GVIF<a href="#fn9" class="footnote-ref" id="fnref9" role="doc-noteref"><sup>9</sup></a> is greater than <span class="math inline">\(\sqrt 5\)</span> or <span class="math inline">\(\sqrt 10\)</span>) the influence of predictor collinearity on your coefficients is enough that you need to take action <span class="citation" data-cites="FoxMonette1992">(<a href="#ref-FoxMonette1992" role="doc-biblioref">Fox and Monette 1992</a>)</span>. For this handbook, we will use the more conservative threshold of VIF &gt; 3 (or adjusted GVIF<a href="#fn10" class="footnote-ref" id="fnref10" role="doc-noteref"><sup>10</sup></a> &gt; <span class="math inline">\(\sqrt 3\)</span>) as our criterion.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Generalized variance inflation factors (GVIF)">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Generalized variance inflation factors (GVIF)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Note that when you have a categorical predictor that has more than two categories (levels), VIFs need to be calculated in a different way - as generalized VIFs (or GVIFs).</p>
+<p>This is due to how R fits models with categorical predictors.&nbsp; R does this by modelling the difference in the response when moving from one categorical level to another (a reference level).&nbsp; You want the VIF results to be independent of which level R chooses as its reference level - this is what GVIFs do.</p>
+<p>You can use the same function <code>vif()</code> from the car package to estimate both VIFs and GVIFs. The function will choose the appropriate equation for you based on your model.More on this below.</p>
+<p>Note that the threshold for when we would consider VIF as being a problem is greater than 3 for traditional VIFs and greater than <span class="math inline">\(\sqrt 3\)</span> for GVIFs.</p>
+<p>The math underlying the difference between GVIF and VIF is beyond what is covered in the handbook <a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10475190" title="https://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10475190">but you can read more here if interested.</a></p>
+</div>
+</div>
+</div>
 <p><strong>What to do if it is a problem:</strong></p>
 <p>You can limit the risk of predictor collinearity by carefully planning your experiments to limit predictor correlation as much as possible. If you identify a problem with collinearity, you can:</p>
 <ul>
 <li><p>remove one or more of the offending predictors to remove the problem. Note that removing a predictor will change your research hypothesis.</p></li>
-<li><p>keep the predictor(s) in but be careful when you interpret the effects estimated by your model.</p></li>
+<li><p>keep the predictor(s) in but be careful when you interpret the effects estimated by your model.<a href="#fn11" class="footnote-ref" id="fnref11" role="doc-noteref"><sup>11</sup></a></p></li>
 </ul>
-<p>As is the case with all your choices, the important thing is to be transparent about your process and choices. In a few weeks, we will practice how to communicate the choices and results of your statistical modelling.</p>
+<p>As is the case with all your choices, the important thing is to be transparent about <a href="./DSPPH_SM_Communicating.html">what you are doing and why you are doing it</a>.</p>
 <p>To estimate VIFs, you:</p>
 <ul>
 <li><p>fit a temporary model without interactions<a href="#fn12" class="footnote-ref" id="fnref12" role="doc-noteref"><sup>12</sup></a></p></li>
@@ -417,12 +385,12 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </ul>
 <p>Here is an example of using VIFs to investigate covariate collinearity with our example model. Let us start by fitting a model with no interactions:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a model without interactions</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>startMod.noInt <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> Cont2 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> myDat, <span class="co"># data</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>startMod.noInt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Fit a model without interactions</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>startMod.noInt <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> Cont2 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> myDat, <span class="co"># data</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>startMod.noInt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:  glm(formula = Resp ~ Cat + Cont1 + Cont2 + 1, family = Gamma(link = "log"), 
@@ -439,9 +407,9 @@ Residual Deviance: 4.197    AIC: 993.5</code></pre>
 </div>
 <p>And then estimate VIFs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># load the car package</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(startMod.noInt) <span class="co"># estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car) <span class="co"># load the car package</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(startMod.noInt) <span class="co"># estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     Cat    Cont1    Cont2 
 1.007510 3.341182 3.354825 </code></pre>
@@ -450,11 +418,11 @@ Residual Deviance: 4.197    AIC: 993.5</code></pre>
 <p>Note that there are two VIF values higher than the threshold value (in this case VIFs &gt; 3). This means that the presence of both <code>Cont1</code> and <code>Cont2</code> in the model is resulting in variance inflation.</p>
 <p>Let us remove one of the predictors (<code>Cont2</code>)<a href="#fn13" class="footnote-ref" id="fnref13" role="doc-noteref"><sup>13</sup></a> and recalculate the VIFs:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> myDat, <span class="co"># data</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">data =</span> myDat, <span class="co"># data</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>startMod.noInt.noCont2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:  glm(formula = Resp ~ Cat + Cont1 + 1, family = Gamma(link = "log"), 
@@ -468,18 +436,22 @@ Degrees of Freedom: 189 Total (i.e. Null);  187 Residual
 Null Deviance:      24.11 
 Residual Deviance: 4.197    AIC: 991.5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculating the VIFs</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># vif(startMod.noInt.noCont2) # estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculating the VIFs</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">vif</span>(startMod.noInt.noCont2) <span class="co"># estimate VIFs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Cat    Cont1 
+1.002028 1.002028 </code></pre>
 </div>
-<p>There are no longer major problems with predictor collinearity, as all VIFs &lt; 3. Let us refit this as our starting model, and recalculate the residuals (as we will need them soon):</p>
+</div>
+<p>There are no longer major problems with predictor collinearity as all VIFs &lt; 3. Let us refit this as our starting model, and recalculate the residuals (as we will need them soon):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Refitting your starting model with the interactions back in:</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>startMod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> Cat<span class="sc">:</span>Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod) <span class="co"># a look at the model object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Refitting your starting model with the interactions back in:</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>startMod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="at">formula =</span> Resp <span class="sc">~</span> Cat <span class="sc">+</span> Cont1 <span class="sc">+</span> Cat<span class="sc">:</span>Cont1 <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod) <span class="co"># a look at the model object</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -503,29 +475,130 @@ AIC: 986.69
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Recalculate the residuals</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>simOut <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> startMod, <span class="at">n =</span> <span class="dv">250</span>) <span class="co"># simulate data from our model n times and calculate residuals</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Resid <span class="ot">&lt;-</span> simOut<span class="sc">$</span>scaledResiduals <span class="co"># add residuals to data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Our starting model has now past the first hurdle to being considered wellspecified: no (significant) predictor collinearity.</p>
 </section>
-<section id="considering-observation-independence" class="level1">
+<section id="the-role-of-residuals-in-validating-your-model" class="level1">
+<h1>The role of residuals in validating your model</h1>
+<p>As a reminder, you are validating your model considering four assumptions:</p>
+<ol type="1">
+<li><p><a href="#sec-predCol">predictors are correlated with one another</a>,</p></li>
+<li><p><a href="#sec-depend">observations are independent of one another</a>,</p></li>
+<li><p><a href="#sec_errorDist">error distribution assumption was adequate</a>, and</p></li>
+<li><p><a href="#sec_shape">shape distribution assumption was adequate</a>.</p></li>
+</ol>
+<p>Validating assumptions 2 through 4 require you to consider the <em>residuals</em> of your model fit.</p>
+<p>Recall that a residual can be defined as<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a> the difference between the model fitted value and your response observation:</p>
+<p><img src="./residPlotReview.png" class="img-fluid" style="width:90.0%"></p>
+<p>When your model is a useful one (a valid one for testing your hypothesis), these residuals will:</p>
+<ol type="1">
+<li><p>follow the expected error distribution assumption, and</p></li>
+<li><p>be constantly distributed relative to your model fit and each of your predictors, and</p></li>
+<li><p>be constantly distributed relative to variables NOT in your model.</p></li>
+</ol>
+<p>In fact, you can only validate the assumptions you made when picking your starting model after the model is fit because violations show up in the model residuals.</p>
+<p>We will be looking at two types of plots to help us investigate the model residuals.</p>
+<p><img src="./exQQPlotData.png" align="right" width="150px"></p>
+<p><img src="./exQQPlot.png" align="right" width="150px"></p>
+<p>The first is a quantile-quantile (QQ) plot. A reminder from the section on <a href="./DSPPH_SM_DataDistributions.html">Data Distributions</a> that a quantile breaks your observations into groups, e.g.&nbsp;the 25% quantile is the value of the variable where 25% of the values are below this value. A quantile-quantile plot compares the position of the quantiles in the expected and observed residual distribution to see if they come from the same distribution. If they come from the same distribution, the quantiles will match, the points will lie along a 1:1 (red) line on the QQ plot, and your model assumption is valid (like the example on the right).</p>
+<p><img src="./exResidualsPlotData.png" align="right" width="150px"></p>
+<p><img src="./exResidualsPlot.png" align="right" width="150px"></p>
+<p>The second type of plot is a residual plot. In the residual plot, you will make plots to compare the residuals (on the y-axis) vs.&nbsp;the model fit and each predictor/variable (on the x-axis). This will let you see if there are any patterns in the plot which could indicate a violation of your model assumptions. If your model is valid, the points will form a uniform cloud of points in your residual plot (like the example on the right).</p>
+<p>You have been looking at residuals as simple differences between your model fit and the observation of your response (as pictured above). The information that you can get from this type of residual will vary with the structure of your model… this can make residual inspection frustrating, as you would have to learn a new method of considering your residuals for each new type of model <span class="citation" data-cites="Hartig2024">(<a href="#ref-Hartig2024" role="doc-biblioref">Hartig 2024</a>)</span>.</p>
+<p>Instead, you will be using a particular type of residual to validate your starting model - one that can be interpreted in similar ways whatever your model structure. It is called a scaled residual.</p>
+<section id="sec_scaledResiduals" class="level2">
+<h2 class="anchored" data-anchor-id="sec_scaledResiduals">A useful residual - the scaled residual</h2>
+<p>As mentioned above, inspecting scaled residuals gives us a method of validating our model that is generally applicable - GREAT - but it also is a method that is intuitive: The scaled residual method checks to see if your model is useful (valid) by seeing if it can even produce data that looks like the data you used to fit your model (i.e.&nbsp;your observations). A model that is well-specified will be able to simulate data that looks like the data used to fit it.</p>
+<p>We will estimate and explore scaled residuals using functions in the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMa package</a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="DHARMa's scaled residuals">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+DHARMa’s scaled residuals
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><img src="./scaledResiduals.png" align="right" width="400px"></p>
+<p>The DHARMa package uses a simulation-based approach<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a> to estimate scaled residuals. These scaled residuals are standardized to a uniform distribution regardless of the model structure.</p>
+<p>Here’s how it works:</p>
+<ul>
+<li><p>DHARMa uses your starting model to simulate new response data for each observation (each row in your data frame). The default is that it simulates 250 new data sets from your model<a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>.</p></li>
+<li><p>DHARMa uses the simulated values at each observation to calculate the empirical cumulative density function (ECDF) of the simulated values at that observation.</p></li>
+<li><p>The scaled residual for observed data point <em>i</em> is then defined as the value of the ECDF at the value of the observed data <em>i</em> (see figure to the right).</p></li>
+<li><p>Estimated this way, if your model is well-specified, the scaled residuals will always follow a uniform distribution, regardless of your starting model structure. Put another way: if the observed data were created from the same data-generating process of your starting model, all values of the cumulative distribution should appear with equal probability and the DHARMa residuals will be distributed uniformly.</p></li>
+</ul>
+<p>You can explore more about the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMa package here</a>.</p>
+<p>Note: because DHARMa simulates new data each time it is run, you can get variability in your results from run to run. To avoid this, you can use the function <code>set.seed()</code> which is used to set the seed for the random number generator R is using to simulate the data. This gives the random number generator a specific starting point, so the random numbers (and simulated residuals) are reproducible.</p>
+</div>
+</div>
+</div>
+<p>Let us estimate the residuals from our example starting model using the scaled residual method mentioned above.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa) <span class="co"># load package</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>simOut <span class="ot">&lt;-</span> <span class="fu">simulateResiduals</span>(<span class="at">fittedModel =</span> startMod, <span class="at">n =</span> <span class="dv">250</span>) <span class="co"># simulate data from our model n times and calculate residuals</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Resid <span class="ot">&lt;-</span> simOut<span class="sc">$</span>scaledResiduals <span class="co"># add residuals to data frame</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># check the structure of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   190 obs. of  6 variables:
+ $ Cont1: int  50 64 65 54 52 39 53 41 44 34 ...
+ $ Cont2: num  17.5 21.5 21.8 15.9 14.3 ...
+ $ Cat  : Factor w/ 2 levels "Control","Treatment": 2 1 1 1 1 2 2 1 1 1 ...
+ $ Resp : num  29.8 21.9 19.8 16.6 13.5 ...
+ $ Other: Factor w/ 5 levels "G128","G23","G328",..: 1 1 3 3 4 3 1 3 3 1 ...
+ $ Resid: num  0.496 0.48 0.212 0.232 0.032 0.412 0.22 0.592 0.676 0.804 ...</code></pre>
+</div>
+</div>
+<p>The residuals have been added to the data frame as <code>myDat$Resid</code>. We will take a look at these residuals as we walk through the model validation below for the remaining three assumptions:</p>
+<ol start="2" type="1">
+<li><p><a href="#sec-depend">observations are independent of one another</a>,</p></li>
+<li><p><a href="#sec_errorDist">error distribution assumption was adequate</a>, and</p></li>
+<li><p><a href="#sec_shape">shape distribution assumption was adequate</a>.</p></li>
+</ol>
+<div class="callout callout-style-default callout-tip callout-titled" title="alternatives to DHARMa">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+alternatives to DHARMa
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>In case useful in your future work, alternatives to the methods described here are:</p>
+<ul>
+<li><p>the <a href="https://easystats.github.io/performance/">performance package</a> where you can get residuals and diagnostic plots with the <code>check_model()</code> function.</p></li>
+<li><p>the <a href="https://cran.r-project.org/web/packages/car/index.html">car package</a> where you can get a sense for how well your model is capturing the features of your data using the <code>marginalModelPlots()</code> function.</p></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-depend" class="level1">
 <h1>Considering observation independence</h1>
 <p><strong>What it is:</strong></p>
 <p>Many model fitting methods (including GLMs) assume that the individual observations (e.g.&nbsp;each row in your data frame) are independent from one another. This means that the observations are not correlated (grouped) with one another in any way <strong>except</strong> as described in the predictors in your hypothesis. If this is true, each individual observation (row) can be called a replicate. When this assumption is violated, and you have observation dependence, it makes the estimate of your coefficients inaccurate, limiting the usefulness of your model.</p>
 <p>Here is an example where you want to test the hypothesis that weight change is explained by food consumption (<code>WtChange ~ Food</code>);</p>
 <p><img src="./indepViolationObserver.png" width="600px"></p>
-<p>Notice that <code>Observer</code> is not in your research hypothesis, but it is structuring your observations - the observations sampled by Betty are more similar than those sampled by Bob. Without information about <code>Observer</code>, you will have a difficult time fitting the model to your data. Without the information about <code>Observer</code>, the “noise” of unexplained variation is high compared to the “signal” of the effect of <code>Food</code> on <code>WtChange</code>.</p>
+<p>Notice that <code>Observer</code> is not in your research hypothesis, but it is structuring your observations - the observations sampled by Betty are more similar than those sampled by Bob. Without information about <code>Observer</code>, you will have a difficult time fitting the model to your data. Without the information about <code>Observer</code>, the “noise” of unexplained variation is high compared to the “signal” of the effect of <code>Food</code> on <code>WtChange</code>.<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a>. This is a problem for your statistical modelling and work as a biologists as effects will be difficult to identify in your hypothesis testing.</p>
 <p><strong>How you know if you have a problem:</strong></p>
 <p>An easy way to tell if you have a problem is to plot your model residuals vs.&nbsp;any variable you suspect as being a source of dependence among your observations. For example, highlighting <code>Observer</code> in the residuals with the example above:</p>
 <p><img src="./findingDependenceIssues.png" width="600px"></p>
 <p>If <code>Observer</code> had no effect on <code>WtChange</code>, we would see no pattern in the colours of the residuals when plotted vs.&nbsp;<code>Observer</code>, but, instead, we see the colour of the residual points grouping together. If you have a dependence problem in your model, you will see the “structure” in the unexplained variability (residuals).</p>
 <section id="types-of-observation-dependence-and-what-you-can-do-about-them" class="level2">
 <h2 class="anchored" data-anchor-id="types-of-observation-dependence-and-what-you-can-do-about-them">Types of observation dependence and what you can do about them</h2>
-<p>It is relatively common to find violations of this assumption<a href="#fn14" class="footnote-ref" id="fnref14" role="doc-noteref"><sup>14</sup></a>. Violations can happen from:</p>
+<p>It is relatively common to find violations of this assumption<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a>. Violations can happen from:</p>
 <ul>
-<li><p>grouping of your observations by a variable not in your hypothesis<a href="#fn15" class="footnote-ref" id="fnref15" role="doc-noteref"><sup>15</sup></a></p></li>
+<li><p>grouping of your observations by a variable not in your hypothesis (as the example above)<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a></p></li>
 <li><p>observations that are made at different times (temporal autocorrelation)</p></li>
 <li><p>observations that are made at different locations (spatial autocorrelation)</p></li>
 </ul>
@@ -536,10 +609,14 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <h4 class="anchored" data-anchor-id="an-example">An example</h4>
 <p><img src="./groupingEx.png" align="right" width="250px"></p>
 <p>Another example: you might be exploring the effect of added fertilizer on plant height with your hypothesis being <code>Height</code> ~ <code>Fertilizer</code>, with <code>Fertilizer</code> being a categorical predictor with levels of “Fertilized” or “Control”. In making your observations, you measure 24 plant heights growing in a Fertilized or Control site. Oh, and these sites happened to be organized across six experimental plots.</p>
-<p>Given your hypothesis that <code>Height</code> ~ <code>Fertilizer</code>, each measurement of plant height will be treated as an individual observation (replicate) with the assumption that, other than the <code>Fertilizer</code> treatment, these observations are independent of one another. However, this assumption is violated as the plants from the same plots may be more similar than plants from different plots (e.g.&nbsp;sunlight differences across plots may influence plant height, or water drainage differences across plots may influence the effect of the fertilizer). The <code>Plot</code> variable may be grouping your observations.</p>
+<p>Given your hypothesis that <code>Height</code> ~ <code>Fertilizer</code>, each measurement of plant height will be treated as an individual observation (replicate) with the assumption that, other than the <code>Fertilizer</code> treatment, these observations are independent of one another. However, this assumption is violated as the plants from the same plots may be more similar than plants from different plots (e.g.&nbsp;sunlight differences across plots may influence plant height, or water drainage differences across plots may influence the effect of the fertilizer). For example, plant IDs 17, 10, 8 and 1 may be more similar to one another than other plants in the experiment because they are all growing from Plot #1. The <code>Plot</code> variable may be grouping your observations.</p>
 <p><br clear="right"></p>
-<p>#### How you know if you have a problem with observations dependent based on a grouping variable</p>
-<p>You can find out if observation dependence is influencing your model by inspecting the residuals of your starting model. Here, you plot your residuals vs.&nbsp;variables not in your model that may be causing dependence in the observations. If you have a problem with observation dependence, there will be a pattern in your residuals when plotted against the offending variable.</p>
+</section>
+<section id="how-you-know-if-you-have-a-problem-with-observations-dependent-based-on-a-grouping-variable" class="level4">
+<h4 class="anchored" data-anchor-id="how-you-know-if-you-have-a-problem-with-observations-dependent-based-on-a-grouping-variable">How you know if you have a problem with observations dependent based on a grouping variable</h4>
+<p>You can find out if observation dependence is influencing your model by inspecting the residuals of your starting model. Here, you plot your residuals vs.&nbsp;variables not in your model that may be causing dependence in the observations.</p>
+<p>If you have a problem with observation dependence, there will be a pattern in your residuals when plotted against the offending variable.</p>
+<p>If there is no problem with observation dependence, there will be no pattern in your residuals.</p>
 <p>Here is an example of how to do this with our generic example started above. You can see how the residuals differ across levels of the <code>Other</code> variable also in our data set using violin plots:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span> <span class="co"># start ggplot</span></span>
@@ -549,14 +626,14 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Other, <span class="at">y =</span> Resid))<span class="sc">+</span> <span class="co"># add observations as points</span></span>
 <span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Other variable"</span>)<span class="sc">+</span> <span class="co"># y-axis label</span></span>
 <span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled residual"</span>)<span class="sc">+</span> <span class="co"># x-axis label</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 3: A comparison of model residuals vs. other variable"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"A comparison of model residuals vs. other variable - violin plot"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># change theme of plot</span></span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>)) <span class="co"># move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>or with a points plot, by colouring the residuals based on the level in <code>Other</code><a href="#fn16" class="footnote-ref" id="fnref16" role="doc-noteref"><sup>16</sup></a>:</p>
+<p>or with a points plot, by colouring the residuals based on the level in <code>Other</code><a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>()<span class="sc">+</span> <span class="co"># start ggplot</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> myDat, <span class="co"># the data frame</span></span>
@@ -564,14 +641,14 @@ Number of Fisher Scoring iterations: 4</code></pre>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">size =</span> <span class="dv">3</span>)<span class="sc">+</span> <span class="co"># change the size of the points</span></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Cont1"</span>)<span class="sc">+</span> <span class="co"># y-axis label</span></span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Scaled residual"</span>)<span class="sc">+</span> <span class="co"># x-axis label</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"Figure 3: A comparison of model residuals vs. other variable"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">caption =</span> <span class="st">"A comparison of model residuals vs. other variable - points plot"</span>)<span class="sc">+</span> <span class="co"># figure caption</span></span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># change theme of plot</span></span>
 <span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust=</span><span class="dv">0</span>)) <span class="co"># move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note that the spread of the residuals in each level (category) of <code>Other</code> is fairly equal in the violin plots and the colours are spread across the points plot. This indicates that <code>Other</code> is not causing much structure in the residuals, and likely is not causing the model to violate the assumption of independence.</p>
+<p>Note that the spread of the residuals in each level (category) of <code>Other</code> is fairly equal in the violin plots and the colours are spread across the points plot. This indicates that <code>Other</code> variable is not causing much structure in the residuals, and likely is not causing the model to violate the assumption of independence.</p>
 <p>Finally, if you quantitative evidence that your observations are dependent on your grouping variable, you can test to see if residuals among the different groups have similar variances. This can be done with a Levene test for the homogeneity of variances through functions in the DHARMa package, e.g.&nbsp;</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DHARMa) <span class="co"># load package</span></span>
@@ -591,11 +668,12 @@ group   4  0.1112 0.9785
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Other, <span class="co"># our observations</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">asFactor =</span> <span class="cn">TRUE</span>) <span class="co"># whether the variable plotted is a factor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>When your P-value is large (as it is here: P = 0.978), you would say that there is no evidence that the residual variance depends on the levels in Other (i.e.&nbsp;no concern for observations being dependent on Other).</p>
+<p>When your P-value is large (as it is here: P = 0.978), you would say that there is no evidence that the residual variance depends on the levels in <code>Other</code> (i.e.&nbsp;no concern for observations being dependent on Other).</p>
 </section>
 <section id="what-can-you-do-if-your-observations-are-grouped-by-something-not-in-your-hypothesis" class="level4">
 <h4 class="anchored" data-anchor-id="what-can-you-do-if-your-observations-are-grouped-by-something-not-in-your-hypothesis">What can you do if your observations are grouped by something not in your hypothesis</h4>
 <p>If you find evidence of observation dependence, you can:</p>
+<p><strong>Treat an offending group as an outlier:</strong> If you have one group causing structure in your residuals, you can try removing the group (documenting that you have done so) and proceed with your modelling. Remember to be transparent that you have done this, in the Results and Discussion, including spending some time (and sentences) contemplating why the group might be behaving differently.</p>
 <p><strong>Add the grouping variable to your model as a (fixed effect) predictor:</strong> The assumption of observation independence means that your observations are independent of one another in all ways <em>except for the predictors already included in your hypothesis</em>. Therefore, an easy way to address observation dependence is to include the variable in your hypothesis, e.g.&nbsp;changing your original model:</p>
 <p><code>Height ~ Fertilizer + 1</code></p>
 <p>to</p>
@@ -604,17 +682,17 @@ group   4  0.1112 0.9785
 <p>Note that adding <code>Plot</code> in this way is adding <code>Plot</code> as a “fixed effect” (vs.&nbsp;“random effect” - more on this below). In fact, every predictor we have been discussing up until now is in our model as something called a fixed effect.</p>
 <p>A couple of things to note when you add new fixed effects to your model:</p>
 <ol type="1">
-<li>Fixed effects influence the predicted mean of the model prediction, and so they are formerly part of your research hypothesis. This means that your hypothesis changes every time you add or remove a fixed effect. Your original hypothesis was</li>
+<li>Fixed effects influence the mean of the model prediction, and so they are formerly part of your research hypothesis. This means that your hypothesis changes every time you add or remove a fixed effect. Your original hypothesis was</li>
 </ol>
 <p><code>Height ~ Fertilizer + 1</code></p>
 <p>or that variability in plant height is explained by fertilizer addition. If you add <code>Plot</code> to your hypothesis to deal with observation dependence, your research hypothesis becomes:</p>
 <p><code>Height ~ Fertilizer + Plot + Fertilizer:Plot + 1</code></p>
 <p>or that variability in plant height is explained by fertilizer addition, plot ID and the interaction between the two.</p>
 <ol start="2" type="1">
-<li>When you add new fixed effects to your hypothesis, your model gets more “expensive” to fit. In the section on Hypothesis Testing, we will discuss how we can quantify the “benefit” of the model (increased explained deviance related to the likelihood of the model) vs.&nbsp;the cost of the model (how many coefficients have to be estimated). Adding new fixed effects increases the cost of fitting your model as more coefficients need to be estimated. This increased cost means you need bigger datasets (more observations) to fit the model. When you add a new continuous predictor to your hypothesis, there is one more coefficient to estimate (in a linear model, this is a slope). When you add a new categorical predictor to your hypothesis, you need to estimate another coefficient for each <strong>level</strong> in your new predictor. In our example, you would need to estimate 6 - 1 = 5<a href="#fn17" class="footnote-ref" id="fnref17" role="doc-noteref"><sup>17</sup></a> new coefficients to add the main effect of the <code>Plot</code> variable to the model, and another 6 - 1 = 5 coefficients to add the <code>Fertilizer:Plot</code> interaction to the model.</li>
+<li>When you add new fixed effects to your hypothesis, your model gets more “expensive” to fit. In the section on <a href="./DSPPH_SM_HypothesisTesting.html">Hypothesis Testing</a>, we will discuss how we can quantify the “benefit” of the model (increased explained deviance related to the likelihood of the model) vs.&nbsp;the cost of the model (how many coefficients have to be estimated to fit your model). Adding new fixed effects increases the cost of fitting your model as more coefficients need to be estimated. This increased cost means you need more observations (data) to fit the model. When you add a new continuous predictor to your hypothesis, there is one more coefficient to estimate (in a linear model, this is a slope). When you add a new categorical predictor to your hypothesis, you need to estimate another coefficient for each <strong>level</strong> in your new predictor. In our example, you would need to estimate 6 - 1 = 5<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a> new coefficients to add the main effect of the <code>Plot</code> variable to the model, and another 6 - 1 = 5 coefficients to add the <code>Fertilizer:Plot</code> interaction to the model.</li>
 </ol>
 <p>Both points above (that your hypothesis will change, and that your model will be more expensive to fit) means that just adding your grouping variable to deal with observation dependence is not always a great option. Instead you could,</p>
-<p><strong>Add the grouping variable to your model as a random effect using a mixed model:</strong> Many turn to mixed modelling as a way to deal with observation dependence. Mixed modelling<a href="#fn18" class="footnote-ref" id="fnref18" role="doc-noteref"><sup>18</sup></a> is called “mixed” modelling because it includes a mix of both fixed effects (predictors that influence the model predicted mean) and random effects (predictors that influence the model predicted variance). Fitting mixed models is beyond the scope of this course, but I wanted you to have an idea of what mixed modelling is, and how to get started with mixed modelling, in case you want to use these methods in the future.</p>
+<p><strong>Add the grouping variable to your model as a random effect using a mixed model:</strong> Many turn to mixed modelling as a way to deal with observation dependence. Mixed modelling<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a> is called “mixed” modelling because it includes a mix of both fixed effects (predictors that influence the model predicted mean) and random effects (predictors that influence the model predicted variance). Fitting mixed models will be covered in an upcoming handbook section, but I wanted you to have an idea of what mixed modelling is, and how to get started with mixed modelling, in case you want to use these methods in the future.</p>
 <p>To fit mixed models in R, you need to adjust your hypothesis formula to tell R which predictors should be treated as fixed and which should be random. Recall that your model with only fixed effects:</p>
 <p><code>Height ~ Fertilizer + Plot + Fertilizer:Plot + 1</code></p>
 <p>indicates that the predicted mean height is affected by fertilizer, plot ID and the interaction between the two, with separate coefficients associated with each plot ID. In mixed modelling, you could instead include <code>Plot</code> with:</p>
@@ -647,7 +725,7 @@ group   4  0.1112 0.9785
 <td>fixed effect<br></td>
 </tr>
 <tr class="even">
-<td>- the levels in the variable are only samples from a population of levels<br>- if you have enough levels (at least 5) to estimate the variance of the effect due to your variable</td>
+<td>- the levels in the variable are only samples from a population of levels<br>- if you have enough levels (at least 5) to estimate the variance of the effect due to your variable<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a></td>
 <td>random effect<br></td>
 </tr>
 </tbody>
@@ -658,21 +736,21 @@ group   4  0.1112 0.9785
 <section id="temporal-autocorrelation" class="level3">
 <h3 class="anchored" data-anchor-id="temporal-autocorrelation">Temporal autocorrelation</h3>
 <p>Temporal autocorrelation occurs when you measure your observations at different points in time.</p>
-<p>Observations collected closer together in time will be more similar than those collected further apart in time, and this could be happening independent of the mechanisms underlying your hypothesis. This topic is beyond the scope of this course, but I add a short description here so the idea is “on your radar” as you move forward in biology.</p>
+<p>Observations collected closer together in time will be more similar than those collected further apart in time, and this could be happening independent of the mechanisms underlying your hypothesis. This topic is beyond the scope of this section, but I add a short description here so the idea is “on your radar” as you move forward in biology.</p>
 <section id="an-example-1" class="level4">
 <h4 class="anchored" data-anchor-id="an-example-1">An example</h4>
-<p>Suppose you want to test the hypothesis that variability in growth rate of newly hatched cod (torsk) in the Kattegat is explained by prey availability (<code>Growth</code> ~ <code>Prey</code>). The observations you are using to test this hypothesis have been collected over ~15 years, and it is likely that measurements made closer to each other in time are more similar than those made further apart from each other in time. This may be because the physical or biological environment was more similar in years that are close to each other in time (e.g.&nbsp;the parent population was similar, the temperature was similar) However, there is nothing in your hypothesis (<code>Growth</code> ~ <code>Prey</code>) to let R know which observations are close to each other in time. Thus, you violate the assumption of observation independence.</p>
+<p>Suppose you want to test the hypothesis that variability in growth rate of newly hatched cod (torsk) in the Kattegat is explained by prey availability (<code>Growth</code> ~ <code>Prey</code>). The observations you are using to test this hypothesis have been collected over ~15 years, and it is likely that measurements made closer to each other in time are more similar than those made further apart from each other in time. This may be because the physical or biological environment was more similar in years that are close to each other in time (e.g.&nbsp;the parent population was similar, the temperature was similar). However, there is nothing in your hypothesis (<code>Growth</code> ~ <code>Prey</code>) to let R know which observations are close to each other in time. Thus, you violate the assumption of observation independence.</p>
 <p><img src="./TempAuto.png" align="right" width="400px"></p>
 <p>When a model is fit to data and the observations are dependent on their sampling time, similar values closer in time are given too much weight on the model coefficients and the model fit is biased (compare lines in the plot on the right).</p>
 </section>
 <section id="how-you-know-if-you-have-a-problem-with-temporal-autocorrelation" class="level4">
 <h4 class="anchored" data-anchor-id="how-you-know-if-you-have-a-problem-with-temporal-autocorrelation">How you know if you have a problem with temporal autocorrelation</h4>
 <p>You can find out if observation dependence due to temporal autocorrelation is influencing your model by plotting your model residuals vs.&nbsp;time. If you have a problem with observation dependence, there will be a pattern in your residuals when plotted against the offending variable - in this case time.</p>
-<p>You can also determine how large the problem of temporal autocorrelation is by estimating the autocorrelation function<a href="#fn19" class="footnote-ref" id="fnref19" role="doc-noteref"><sup>19</sup></a> and the Durbin-Watson test. An easy way to test the latter is with the <code>testTemporalAutocorrelation()</code> function in the DHARMa package.</p>
+<p>You can also determine how large the problem of temporal autocorrelation is by estimating the autocorrelation function<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a> and the Durbin-Watson test. An easy way to test the latter is with the <code>testTemporalAutocorrelation()</code> function in the DHARMa package.</p>
 </section>
 <section id="what-you-do-if-your-observations-are-influenced-by-temporal-autocorrelation" class="level4">
 <h4 class="anchored" data-anchor-id="what-you-do-if-your-observations-are-influenced-by-temporal-autocorrelation">What you do if your observations are influenced by temporal autocorrelation</h4>
-<p>As above, the assumption of observation independence means that your observations are independent of one another in all ways <em>except for the predictors included in your hypothesis</em>. We need to tell R about this temporal dependence in your model. This can be done by including time as a predictor in your model. Note that time will need to be a fixed effect as it is continuous, and will need to be modelled with a non-linear shape assumption<a href="#fn20" class="footnote-ref" id="fnref20" role="doc-noteref"><sup>20</sup></a> to deal with the complicated form of the temporal autocorrelation.</p>
+<p>As above, the assumption of observation independence means that your observations are independent of one another in all ways <em>except for the predictors included in your hypothesis</em>. We need to tell R about this temporal dependence in your model. This can be done by including time as a predictor in your model. Note that time will need to be a fixed effect as it is continuous, and will need to be modelled with a non-linear shape assumption<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a> to deal with the complicated form of the temporal autocorrelation.</p>
 <p>Alternatively, you can tell R about the correlation structure of the data directly (i.e.&nbsp;how similarity in observations changes as observations are further and further away from each other).<!--- need to give guidance here---></p>
 <p>### Spatial autocorrelation</p>
 <p><img src="./SpatAuto.png" align="right" width="400px"></p>
@@ -683,11 +761,11 @@ group   4  0.1112 0.9785
 </section>
 <section id="how-you-know-if-you-have-a-problem-with-spatial-autocorrelation" class="level4">
 <h4 class="anchored" data-anchor-id="how-you-know-if-you-have-a-problem-with-spatial-autocorrelation">How you know if you have a problem with spatial autocorrelation</h4>
-<p>You can find out if observation dependence due to spatial autocorrelation is influencing your modelling by plotting your model residuals vs.&nbsp;location. As location is measured in two dimensions, you could try a bubble plot<a href="#fn21" class="footnote-ref" id="fnref21" role="doc-noteref"><sup>21</sup></a> or variogram<a href="#fn22" class="footnote-ref" id="fnref22" role="doc-noteref"><sup>22</sup></a> to help you look for patterns in your residuals with space. You can also estimate how big the problem of spatial autocorrelation is with Moran’s I test. The last can be done with the <code>testSpatialAutocorrelation()</code> function in the DHARMa package.</p>
+<p>You can find out if observation dependence due to spatial autocorrelation is influencing your modelling by plotting your model residuals vs.&nbsp;location. As location is measured in two dimensions, you could try a bubble plot<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a> or variogram<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a> to help you look for patterns in your residuals with space. You can also estimate how big the problem of spatial autocorrelation is with Moran’s I test. The last can be done with the <code>testSpatialAutocorrelation()</code> function in the DHARMa package.</p>
 </section>
 <section id="what-you-do-if-your-observations-are-influenced-by-spatial-autocorrelation" class="level4">
 <h4 class="anchored" data-anchor-id="what-you-do-if-your-observations-are-influenced-by-spatial-autocorrelation">What you do if your observations are influenced by spatial autocorrelation</h4>
-<p>Similarly to our discussion about temporal autocorrelation, the location of the observations (e.g.&nbsp;latitude and longitude) can be included in your model to account for the spatial autocorrelation<a href="#fn23" class="footnote-ref" id="fnref23" role="doc-noteref"><sup>23</sup></a>. Alternatively, the dependence among observations due to proximity can be included in the model as a spatial autocorrelation structure. <!---Again, this topic is beyond the scope of the course but check 9999.--></p>
+<p>Similarly to our discussion about temporal autocorrelation, the location of the observations (e.g.&nbsp;latitude and longitude) can be included in your model to account for the spatial autocorrelation<a href="#fn28" class="footnote-ref" id="fnref28" role="doc-noteref"><sup>28</sup></a>. Alternatively, the dependence among observations due to proximity can be included in the model as a spatial autocorrelation structure.</p>
 </section>
 </section>
 <section id="a-final-point-about-observation-independence" class="level3">
@@ -696,13 +774,14 @@ group   4  0.1112 0.9785
 </section>
 </section>
 </section>
-<section id="considering-your-error-distribution-assumption" class="level1">
+<section id="sec_errorDist" class="level1">
 <h1>Considering your error distribution assumption</h1>
 <p><strong>What it is:</strong></p>
 <p>The error distribution (i.e.&nbsp;distribution of your residuals) needs to match the assumption you made when you chose your starting model. If this assumption is violated, the estimates of your coefficients will be less accurate, limiting your ability to use the model to test your hypothesis and make predictions.</p>
-<p><img src="./QQPlot.png" align="right" width="300px"> <strong>How do you know if you have a problem:</strong></p>
-<p>You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot. A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles<a href="#fn24" class="footnote-ref" id="fnref24" role="doc-noteref"><sup>24</sup></a>. When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line). You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).</p>
-<p>The scaled residuals method introduced above will allow you to consider the behaviour of your residuals in a similar way regardless of the structure of your model. You can get a Q-Q plot of your residuals with:</p>
+<p><img src="./QQPlot.png" align="right" width="300px"></p>
+<p><strong>How do you know if you have a problem:</strong></p>
+<p>You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot. A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles<a href="#fn29" class="footnote-ref" id="fnref29" role="doc-noteref"><sup>29</sup></a>. When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line). You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).</p>
+<p>The scaled residuals method <a href="#sec_scaledResiduals">introduced above</a> will allow you to consider the behaviour of your residuals in a similar way regardless of the structure of your model. You can get a Q-Q plot of your residuals with:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider your error distribution assumption by inspecting observed vs. expected residuals:</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -714,33 +793,54 @@ group   4  0.1112 0.9785
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note that the plot is the observed vs.&nbsp;expected scaled residuals. As above, the triangular points will follow the red line in a well-specified model. You will generally access this by eye, but the DHARMa package also includes three null hypothesis tests that give you more information about the behaviour of your residuals relative to the expected behaviour. In all cases, a low P-value (traditionally P &lt; 0.05) means that there is evidence that the null hypothesis can be rejected (and your error distribution assumption is not valid).<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a></p>
+<p>Note that the plot is the observed vs.&nbsp;expected scaled residuals. As above, the triangular points will follow the red line in a well-specified model. You will generally assess this by eye, but the DHARMa package also includes three null hypothesis tests that give you more information about the behaviour of your residuals relative to the expected behaviour. In all cases, a low P-value (traditionally P &lt; 0.05) means that there is evidence that the null hypothesis can be rejected (and your error distribution assumption is not valid).<a href="#fn30" class="footnote-ref" id="fnref30" role="doc-noteref"><sup>30</sup></a></p>
 <p>The tests are:</p>
 <ul>
 <li><p>KS test: The Kolmogorov-Smirnov test tests the null hypothesis that the distribution of your residuals is similar to the expected distribution (here, a uniform distribution). A low P-value means there is evidence that the observed residuals are different than expected, and your error distribution assumption is not valid. You can also access this test directly with the <code>testUniformity()</code> function in the DHARMa package.</p></li>
 <li><p>Dispersion test: This Dispersion test tests the null hypothesis that the dispersion of your residuals is similar to the expected dispersion. A low P-value means there is evidence that the observed dispersion is different than expected, and that your error distribution assumption is not valid. You can also access this test directly with the <code>testDispersion()</code> function in the DHARMa package.</p></li>
-<li><p>Outlier test: This Outlier test tests the null hypothesis that the number of outliers in your observed residuals is similar to the expected number. A low P-value means there is evidence that you have outliers. You can also access this test directly with the <code>testOutliers()</code> function in the DHARMa package. You can also find the position (row number) of the outliers with the <code>outliers()</code> function (also in the DHARMa package).</p></li>
+<li><p>Outlier test: This Outlier test tests the null hypothesis that the number of outliers in your observed residuals is similar to the expected number. A low P-value means there is evidence that you have outliers. You can also access this test directly with the <code>testOutliers()</code> function in the DHARMa package. You can also find the position (row number) of the outliers with the <code>outliers()</code> function (also in the DHARMa package). A general definition of an outlier is a value that is surprising relative to the majority of the data sampled <span class="citation" data-cites="VenablesRipley2002">(<a href="#ref-VenablesRipley2002" role="doc-biblioref">Venables and Ripley 2002</a>)</span>. Just what is surprising will vary with the type of data distribution (e.g.&nbsp;the interquartile range) and functions in the DHARMa package look for values outside the range simulated when estimating the scaled residuals. You can read more about the methods DHARMa uses in the help files.</p></li>
 </ul>
 <p><br clear="right"></p>
 <p><strong>What to do if it is a problem:</strong>.</p>
 <p>Here are two examples (from the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMA package vignette</a>) of Q-Q plots where the error distribution assumption is not met:</p>
-<p><img src="./overDispersion.png" align="right" width="250px"> First, here is an example of overdispersion, where there are too many residuals in the tails of the distribution and not enough in the middle of the distribution when compared to the expected:<a href="#fn26" class="footnote-ref" id="fnref26" role="doc-noteref"><sup>26</sup></a></p>
+<p><img src="./overDispersion.png" align="right" width="250px"></p>
+<p>First, here is an example of overdispersion, where there are too many residuals in the tails of the distribution and not enough in the middle of the distribution when compared to the expected:<a href="#fn31" class="footnote-ref" id="fnref31" role="doc-noteref"><sup>31</sup></a></p>
 <p><br clear="right"></p>
-<p><img src="./underDispersion.png" align="right" width="250px"> Second, here is an example of underdispersion, where there are too many residuals in the middle of the distribution and not enough in the tails of the distribution when compared to the expected:</p>
+<p><img src="./underDispersion.png" align="right" width="250px"></p>
+<p>Second, here is an example of underdispersion, where there are too many residuals in the middle of the distribution and not enough in the tails of the distribution when compared to the expected:</p>
 <p><br clear="right"></p>
-<p>If your model residuals are not behaving as expected, you should first address any outlier problems. Explore the observations labelled as outliers and see if they should be kept in your data set.</p>
-<p>Once you have explored outliers, if you still have residuals not behaving as expected, you can change your error distribution assumption and refit your starting model. This may mean you change the link function you used to fit the model. The link function we have been using is always the default link function - which you can see at the help file with <code>?family</code>, but there are alternative link functions which can be used to help models that appear misspecified. We will be discussing this in class.</p>
+<p><img src="./outlierLeverageInfluence.png" align="right" width="250px"></p>
+<p>If your model residuals are not behaving as expected, you should first address any outlier problems. Explore the observations labelled as outliers and see if they should be kept in your data set. Outliers can be described in terms of their leverage and influence. A high leverage data point inflates the strength (certainty) of your modelled effects. This may or may not be classified as an outlier but should be explored for how it is influencing the strength of your modelled effects. On the other hand, an influential data point changes the estimate of your model effects (coefficients like slope and intercept) and may reduce the strength of your modelled effects.</p>
+<p><br clear="right"></p>
+<p>Once you have explored outliers, if you still have residuals not behaving as expected, you can change your error distribution assumption and refit your starting model. This may mean you change the link function you used to fit the model. The link function we have been using is always the default link function - which you can see at the help file with <code>?family</code>, but there are alternative link functions which can be used to help models that appear mis-specified. Try searching for alternative link functions online to get you started.</p>
 <p>Alternatively, you can try changing the actual assumption (e.g.&nbsp;trying a normal distribution instead of a Gamma distribution). Note that with some types of response data (e.g.&nbsp;continuous) you have a number of different error distribution assumptions you can try (e.g.&nbsp;Gamma vs.&nbsp;normal), while others (e.g.&nbsp;binomial, presence/absence, etc.) are more limited.</p>
-<p>In all cases, you will refit your model with the new assumption choice and re-validate that new model, as described here. There will be times where you have tried everything and you still have evidence that your model is misspecified. In these cases, look at the magnitude of the violation.</p>
-<p>If the violation appears minor (e.g.&nbsp;only a minor pattern in your residuals), your model <em>may</em> still be useable. In such cases communicate the issue in your model validation assessment along with your attempts to correct it, and proceed with your hypothesis testing with a cautious eye. We will discuss how to do this in class.</p>
-<p>If the violation appears major, you may need to move on to another method (e.g.&nbsp;random forest or Bayesian design) that can help you design a more customized model to your situation.</p>
+<div class="callout callout-style-default callout-tip callout-titled" title="Trying alternate error distribution assumptions">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Trying alternate error distribution assumptions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We focus here on four error distribution assumptions that are useful for biology: gaussian (normal), Gamma, poisson and binomial. Being aware that there are others will help you find your way in future hypothesis testing adventures.</p>
+<p>For example, a negative binomial assumption can help for models where a poisson error distribution assumption is not enough as the negative binomial distribution includes an extra parameter that can help control data that is not quite following a poisson distribution (e.g.&nbsp;excess variance).</p>
+</div>
+</div>
+</div>
+<p>In all cases, you will refit your model with the new assumption choice and re-validate that new model, as described here. There will be times where you have tried everything and you still have evidence that your model is mis-specified. In these cases, look at the magnitude of the violation.</p>
+<p>If the violation appears minor (e.g.&nbsp;only a minor pattern in your residuals), your model <em>may</em> still be useable. In such cases communicate the issue in your model validation assessment along with your attempts to correct it, and proceed with your hypothesis testing with a cautious eye.</p>
+<p>If the violation appears major, you may need to move on to another method (e.g.&nbsp;random forest or Bayesian design) that can help you design a more customized model to test your hypothesis.</p>
 </section>
-<section id="considering-your-shape-assumption" class="level1">
+<section id="sec_shape" class="level1">
 <h1>Considering your shape assumption</h1>
 <p><strong>What it is:</strong></p>
-<p>You made an assumption about the shape of the relationship between your response and each predictor (e.g.&nbsp;a linear shape assumption). You need to make sure that the assumption you made was useful before you can have the confidence in your coefficient estimates needed to proceed with the hypothesis testing.</p>
+<p>You made an assumption about the shape of the relationship between your response and each predictor (e.g.&nbsp;a linear shape assumption). You need to make sure that the assumption you made was useful before you can have the confidence in the coefficient estimates you will use to test your hypothesis.</p>
 <p><strong>How do you know if you have a problem:</strong></p>
-<p>For this assumption, you need to look at how your residuals are scattered around your model fit. If your model is a useful one (“wellspecified”), the scatter of those residuals will be even and uniform around the fit (“a uniform cloud”). You can inspect your residuals in this way by plotting the residuals vs.&nbsp;the fitted values.</p>
+<p>For this assumption, you need to look at how your residuals are scattered around your model fit. If your model is a useful one (“well-specified”), the scatter of those residuals will be even and uniform around the fit (“a uniform cloud”). You can inspect your residuals in this way by plotting the residuals vs.&nbsp;the fitted values.</p>
 <p>Here is code for this using the DHARMa package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
@@ -749,9 +849,9 @@ group   4  0.1112 0.9785
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>This gives a plot of the scaled residual (“DHARMa residual”) vs.&nbsp;the fitted values (“Model predictions”). Any simulation outliers (data points that are outside the range of simulated values) are highlighted as red stars. You can use the <code>testOutliers()</code> and <code>outliers()</code> function in the DHARMa package to learn more about outliers.</p>
+<p>This gives a plot of the scaled residual (“DHARMa residual”) vs.&nbsp;the fitted values (“Model predictions”). Any simulation outliers (data points that are outside the range of simulated values, see also the <a href="sec_errorDist">section</a> above) are highlighted as red stars. You can use the <code>testOutliers()</code> and <code>outliers()</code> function in the DHARMa package to learn more about outliers.</p>
 <p>Again, you are looking for a uniform cloud of points. To help you assess the uniformity of the cloud, R adds quantile regression results: The three solid lines (called splines) are fit through the 0.25, 0.5 and 0.75 quantiles of the residual distribution. Quantile regression compares the empirical 0.25, 0.5 and 0.75 quantiles of the residuals (solid lines) with the theoretical 0.25, 0.5 and 0.75 quantiles (dashed line), These lines are then compared with a quantile test that tests the null hypothesis that these splines are not different than the dashed horizontal lines. If the null hypothesis of this is rejected, the curves will appear red in the figure, and you can determine your shape assumption was not valid.</p>
-<p>You should always inspect a plot of residuals vs.&nbsp;fitted values to explore your shape assumption. If you have multiple predictors in your model, you should also plot the residuals vs.&nbsp;each predictor to make sure the shape you chose for each relationship is useful. Here are the residuals of our example model vs.&nbsp;the <code>Cont1</code> predictor:</p>
+<p>You should always inspect a plot of residuals vs.&nbsp;fitted values to explore your shape assumption. If you have multiple predictors in your model, you should also plot the residuals vs.&nbsp;each predictor to make sure the shape you chose for each relationship is useful. This will help to ensure that the shape assumption was correct for each of your predictor variables. Here are the residuals of our example model vs.&nbsp;the <code>Cont1</code> predictor:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cont1) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -767,57 +867,76 @@ group   4  0.1112 0.9785
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>In this last figure, you get boxplots showing the distribution of the residuals - one for each level of your categorical predictor. This different picture is because the predictor <code>Cat</code> is categorical. Instead of a uniform cloud, you look for boxplots that spread across the 0.25 and 0.75 quantiles. If the spread is wide and even across the levels of your categorical predictor, you have evidence the model is wellspecified to test your hypothesis.</p>
+<p>In this last figure, you get boxplots showing the distribution of the residuals - one for each level of your categorical predictor. This different picture is because the predictor <code>Cat</code> is categorical. Instead of a uniform cloud, you look for boxplots that spread across the 0.25 and 0.75 quantiles. If the spread is wide and even across the levels of your categorical predictor, you have evidence the model is well-specified to test your hypothesis. DHARMa also includes a Levene Test that tests if the variance across the levels in your categorical predictor are similar. If they are different, the Levene Test will be flagged in red with a p-value &lt; 0.05.</p>
 <p><br clear="right"></p>
 <p><strong>What to do if it is a problem:</strong></p>
-<p>Here is an example of a residual plot when you have a violation in your shape assumption<a href="#fn27" class="footnote-ref" id="fnref27" role="doc-noteref"><sup>27</sup></a>:</p>
+<p>Here is an example of a residual plot when you have a violation in your shape assumption<a href="#fn32" class="footnote-ref" id="fnref32" role="doc-noteref"><sup>32</sup></a>:</p>
 <p><img src="./violateShape.png" width="450px"></p>
 <p>In this case, the predictor <code>Environment1</code> was fit with an assumption of a linear relationship with the response, when a non-linear shape assumption was needed. Note that you can also access the quantile test used to flag shape assumption violations with the <code>testQuantiles()</code> function in the DHARMa package.</p>
-<p>If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model. This may mean changing the shape of the model (e.g.&nbsp;from linear to non-linear) and/or including an interaction in your model.</p>
-<p>In all cases, you will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section.</p>
+<p>If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model. This may mean changing the shape of the model (e.g.&nbsp;from linear to non-linear) and/or including an interaction in your model.<a href="#fn33" class="footnote-ref" id="fnref33" role="doc-noteref"><sup>33</sup></a> You will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section. Note that quantile tests are sensitive for very large data sets. You may have quantile regression results flagged for minor problems if you have a very large data set even though the model is still usable to test your hypothesis <span class="citation" data-cites="Hartig2024">(<a href="#ref-Hartig2024" role="doc-biblioref">Hartig 2024</a>)</span>. In all cases communicate any issues in your model validation assessment along with your attempts to correct it. Keep any remaining (minor) problems in mind as you proceed with your hypothesis testing with a cautious eye.</p>
 </section>
 <section id="a-final-thought" class="level1">
 <h1>A final thought</h1>
-<p>As you can see, validating your starting model will sometimes lead you to make changes to your starting model that require you to refit your starting model and re-validate the new model It can feel a bit like you are walking in circles, but rest assured that this is very normal. And necessary: you can’t go further to test your hypothesis until you are confident you have a useful model.</p>
+<p>As you can see, validating your starting model will sometimes lead you to make changes to your starting model that require you to refit your starting model and re-validate the new model It can feel a bit like you are walking in circles, but rest assured that this is very normal. And necessary: you can not go further to test your hypothesis until you are confident you have a useful model.</p>
 </section>
 <section id="up-next" class="level1">
 <h1>Up next</h1>
 <p>In the next section, we will discuss how you can use your validated model to test your hypothesis. Finally: the science!</p>
 
 
+
 </section>
 
 
-<p>Copyright 2025, DSP Taskforce</p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+<p>Copyright 2025, DSP Taskforce</p><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-FoxMonette1992" class="csl-entry" role="listitem">
+Fox, John, and Georges Monette. 1992. <span>“Generalized Collinearity Diagnostics.”</span> <em>Journal of the American Statistical Association</em> 87 (417): 178–83. <a href="https://doi.org/10.1080/01621459.1992.10475190">https://doi.org/10.1080/01621459.1992.10475190</a>.
+</div>
+<div id="ref-Hartig2024" class="csl-entry" role="listitem">
+Hartig, Florian. 2024. <em>DHARMa: Residual Diagnostics for Hierarchical (Multi-Level / Mixed) Regression Models</em>. <a href="https://CRAN.R-project.org/package=DHARMa">https://CRAN.R-project.org/package=DHARMa</a>.
+</div>
+<div id="ref-PorterEtAl2005Walleye" class="csl-entry" role="listitem">
+Porter, Lorenzo Ciannelli, Steven M., and Lew J. Haldorson. n.d. <span>“Environmental Factors Influencing Larval Walleye Pollock Theragra Chalcogramma Feeding in Alaskan Waters.”</span> <em>Marine Ecology Progress Series</em> 302: 207–17.
+</div>
+<div id="ref-VenablesRipley2002" class="csl-entry" role="listitem">
+Venables, W. N., and B. D. Ripley. 2002. <em>Modern Applied Statistics with s</em>. Fourth. New York: Springer. <a href="http://www.stats.ox.ac.uk/pub/MASS4">http://www.stats.ox.ac.uk/pub/MASS4</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>see course notes from last week if this is unclear<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>see the section on <a href="./DSPPH_SM_StartingModel.html">Starting Model</a> if this is unclear<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>but not all models<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>notice I say “can be defined as…”. This is because there are many different definitions of a residual that have been made to deal with different model structures. We are going to use a very useful one - the scaled residuals - that will let you explore residuals for a wide range of models. More on this below!<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>including those predictors inside your model, and possible predictors not included in your model. More on this to come!<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>including those predictors inside your model, and possible predictors not included in your model. More on this to come!<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>this can be adjusted if needed<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn7"><p>sometimes also called multicollinearity<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn8"><p>remember, these are the modelled effects of your predictors on your response<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn9"><p>your predictors are so correlated, in fact, we say they are “aliased” with one another<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn10"><p>the error (variance) around the coefficient estimates is getting bigger (inflation)<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn11"><p>the function we will use to calculate this will choose the correct estimate - either VIF or GVIF - depending on your model.<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn12"><p>the model can not have interactions when estimating VIFs because an interaction term will <em>always</em> be correlated with the main effect predictor terms involved in the interaction. Ask in class if you have questions about this.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn13"><p>in your own work, you will choose the predictor to remove based on your study goals and particular situation<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn14"><p>also called pseudoreplication<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn15"><p>also called nested sampling<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn16"><p>here I plot the residuals vs.&nbsp;<code>Cont1</code> but it could also be vs.&nbsp;the fitted values<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn17"><p>remember with categorical predictors, one factor level is included in the intercept<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn18"><p>also called “multi-level modelling” or “hierarchical modelling”<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn19"><p>e.g.&nbsp;using the <code>acf()</code> function in the base stats package in R<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn20"><p>we’ll talk about non-linear models in a couple of weeks<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn21"><p>check the sp package for more<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn22"><p>check the sgeotest package for more<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn23"><p>this would be done with a non-linear model<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn24"><p>A quantile defines a particular part of a data set, e.g.&nbsp;the 90% quantile indicates the value where 90% of the values are less than the 90% quantile value. See your notes DSPH_SM_DataDistributions.html for more<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn25"><p>“Deviation n.s.” on the plot means that there is no significant deviation from expected<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn26"><p>Note that zero-inflated data (more zeroes than expected) appears similarly<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn27"><p>from the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMA package vignette</a><a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>sometimes also called multicollinearity<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>remember, these are the modelled effects of your predictors on your response<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>your predictors are so correlated, in fact, we say they are “aliased” with one another<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>the error (variance) around the coefficient estimates is getting bigger (inflated)<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>VIF can also be defined as the inverse of tolerance or the amount of variability in a particular predictor not accounted for by variability in the other predictors (Hebbali olsrr package 2024)<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>see callout below<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn9"><p>see callout below<a href="#fnref9" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn10"><p>see callout below<a href="#fnref10" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn11"><p>Other options include centering or detrending the offending predictor(s), combining information from one or more offending predictor e.g.&nbsp;by regressing the two offending predictors against one another and using those residuals as your model predictor (see here for an example <span class="citation" data-cites="PorterEtAl2005Walleye">(<a href="#ref-PorterEtAl2005Walleye" role="doc-biblioref">Porter and Haldorson, n.d.</a>)</span>), or using multivariate analysis (see the coming section on multivariate analysis), or using more conservative methods of fitting your model (estimating your coefficients) with e.g.&nbsp;a ridge penalty<a href="#fnref11" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn12"><p>the model can not have interactions when estimating VIFs because an interaction term will <em>always</em> be correlated with the main effect predictor terms involved in the interaction.<a href="#fnref12" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn13"><p>in your own work, you will choose the predictor to remove based on your domain knowledge, study’s goals and particular situation<a href="#fnref13" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn14"><p>notice I say “can be defined as…”. This is because there are many different definitions of a residual that have been made to deal with different model structures. We are going to use a very useful one - the scaled residual - that will let you explore residuals for a wide range of models. More on this below!<a href="#fnref14" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn15"><p>similar to Bayesian p-values or parametric bootstrapping<a href="#fnref15" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn16"><p>this can be adjusted if needed<a href="#fnref16" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn17"><p><code>Observer</code> might be called a nuisance variable or variation<a href="#fnref17" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn18"><p>also called pseudoreplication<a href="#fnref18" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn19"><p>also called nested sampling<a href="#fnref19" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn20"><p>here I plot the residuals vs.&nbsp;<code>Cont1</code> but it could also be vs.&nbsp;the fitted values<a href="#fnref20" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn21"><p>remember with categorical predictors, one factor level is included in the intercept<a href="#fnref21" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn22"><p>also called “multi-level modelling” or “hierarchical modelling”<a href="#fnref22" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn23"><p>a software limitation, not a statistical limitation<a href="#fnref23" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn24"><p>e.g.&nbsp;using the <code>acf()</code> function in the base stats package in R<a href="#fnref24" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn25"><p>non-linear modelling will come in a future handbook section<a href="#fnref25" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn26"><p>check the sp package for more<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn27"><p>check the sgeotest package for more<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn28"><p>this would be done with a non-linear model<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn29"><p>A quantile defines a particular part of a data set, e.g.&nbsp;the 90% quantile indicates the value where 90% of the values are less than the 90% quantile value. See the section on <a href="./DSPPH_SM_DataDistributions.html">Data Distributions</a> for more<a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn30"><p>“Deviation n.s.” on the plot means that there is no significant deviation from expected<a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn31"><p>Note that zero-inflated data (more zeroes than expected) appears similarly<a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn32"><p>from the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMA package vignette</a><a href="#fnref32" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn33"><p>More on fitting non-linear models will come in a future handbook section.<a href="#fnref33" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

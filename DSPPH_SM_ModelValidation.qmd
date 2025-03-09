@@ -1,5 +1,6 @@
 ---
 title: "Statistical Modelling: Validation"
+bibliography: handbook.bib
 ---
 
 ```{r setup, include=FALSE} 
@@ -21,7 +22,7 @@ library(ggplot2)
 
 - how to determine if your starting model can be used to test your hypothesis
 
-- what to do if your model is misspecified
+- what to do if your model is mis-specified
 
 :::
 
@@ -31,25 +32,26 @@ library(ggplot2)
 ## Why do you need to validate your starting model?
 As we discussed before "All models are wrong, but some are useful".  So how do you tell if your [starting model](DSPPH_SM_StartingModel.qmd) is a useful one; that is, one that can be used to test your hypothesis? 
 
-As discussed in the last section, when you choose your starting model you make an educated guess as to what a useful starting model might be, but you can only validate that it *is* a useful starting model after you have fit the model to your data.
+When you choose your starting model you make an educated guess as to what a useful starting model might be, but you can only validate that it *is* a useful starting model after you have fit the model to your data.
 
-A useful model is one that reflects the mechanistic understanding of your research hypothesis (the deterministic part of your model - your shape assumption) as well as the nature of your observations (the stochastic part of your model - your error distribution assumption)^[see course notes from last week if this is unclear].  
+A useful model is one that reflects the mechanistic understanding of your research hypothesis (the deterministic part of your model - your shape assumption) as well as the nature of your observations (the stochastic part of your model - your error distribution assumption)^[see the section on [Starting Model](DSPPH_SM_StartingModel.qmd) if this is unclear].  
 
 In addition, a useful model is one that conforms to the assumptions of the method you use to test your model (e.g. GLM). The assumptions of the GLM include that your predictors are not correlated with one another, and that your observations are independent of one another.  
 
 In this section, we will explore each of these assumptions by considering if your:
 
-1) predictors are correlated with one another,
+1) [predictors are correlated with one another](#sec-predCol),
 
-2) observations are independent of one another,
+2) [observations are independent of one another](#sec-depend),
 
-3) error distribution assumption was adequate, and
+3) [error distribution assumption was adequate](#sec_errorDist), and
 
-4) shape distribution assumption was adequate.
+4) [shape distribution assumption was adequate](#sec_shape).
 
 By considering these four points, you can determine if your model is "well-specified" to test your hypothesis.
 
-In this section, we will go over tools that will help you determine if your model is well-specified and what to do if you find yourself with a misspecified starting model.
+In this section, we will go over tools that will help you determine if your model is well-specified and what to do if you find yourself with a mis-specified starting model (e.g. updating your starting model).
+
 
 ::: {.callout-tip collapse="true" title='"A well-specified model"'} 
 
@@ -58,70 +60,6 @@ Note that you are trying to find "**a** well-specified model".  This terminology
 :::
 
 
-# The role of residuals in validating your model
-
-For your starting model to be valid, it needs to capture the variation in your response explained by the predictors, and it needs to follow the error distribution assumption on which the math for fitting the model was based.  We can investigate these characteristics by exploring the model residuals.
-
-Recall that a residual can be defined as^[notice I say "can be defined as...".  This is because there are many different definitions of a residual that have been made to deal with different model structures. We are going to use a very useful one - the scaled residuals - that will let you explore residuals for a wide range of models.  More on this below!] the difference between the model fitted value and your response observation:
-
-![](./residPlotReview.png){width=90%}
-
-When your model is a useful one (a valid one for testing your hypothesis), these residuals will:
-
-1) follow the expected error distribution assumption, and
-
-2) be evenly distributed relative to your model fit and predictors.^[including those predictors inside your model, and possible predictors not included in your model. More on this to come!] 
-
-In fact, you can only validate the assumptions you made when picking your starting model after the model is fit because violations show up in the model residuals.  
-
-We will be looking at two plots to help us investigate the model residuals.  
-
-<img src="./exQQPlotData.png" align="right" width="150px"/>
-
-<img src="./exQQPlot.png" align="right" width="150px"/>
-
-
-The first is a quantile-quantile (QQ) plot.  A reminder from your notes on Data Distributions that a quantile breaks your observations into groups, e.g. the 25% quantile is the value of the variable where 25% of the values are below this value. A quantile-quantile plot compares the position of the quantiles in the expected and observed distribution to see if they come from the same distribution.  If they come from the same distribution, the quantiles will match, the points will lie along a 1:1 (red) line on the QQ plot, and your model is valid (like the example on the right).
-
-<img src="./exResidualsPlotData.png" align="right" width="150px"/>
-
-
-<img src="./exResidualsPlot.png" align="right" width="150px"/>
-
-
-
-The second is a residual plot.  In the residual plot, you will make plots to compare the residuals (on the y-axis) vs. the model fit and each predictor^[including those predictors inside your model, and possible predictors not included in your model. More on this to come!]  (on the x-axis).  This will let you see if there are any patterns in the plot which could indicate a violation of your model assumptions.  If your model is valid, the points will form a uniform cloud of points in your residual plot (like the example on the right).
-
-You have been looking at residuals as simple differences between your model fit and the observation of your response (as pictured above).  The information that you can get from this type of residual will vary with the structure of your model... this can make residual inspection frustrating, as you would have to learn a new method of considering your residuals for each new type of model.
-
-Instead, you will be using a different type of residual to validate your starting model - one that can be interpreted in similar ways whatever your model structure.  It is called a scaled residual.  
-
-## A useful residual - the scaled residual
-
-As mentioned above, inspecting scaled residuals gives us a method of validating our model that is generally applicable - GREAT - but it also is a method that is intuitive: The scaled residual method checks to see if your model is useful (valid) by seeing if it can even produce data that looks like the data you used to fit your model (i.e. your observations).  A model that is well-specified will be able to simulate data that looks like the data used to fix it.
-
-We will estimate and explore scaled residuals using functions in the [DHARMa package](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html).  
-
-
-::: {.callout-tip collapse="true" title="DHARMa's scaled residuals"} 
-<img src="./scaledResiduals.png" align="right" width="400px"/>
-
-
-The DHARMa package uses a simulation-based approach to estimate scaled residuals.  These scaled residuals are standardized to a uniform distribution regardless of the model structure.  
-
-Here's how it works:
-
-- DHARMa uses your starting model to simulate new response data for each observation (each row in your data frame).  The default is that it simulates 250 new data sets from your model^[this can be adjusted if needed].
-
-- DHARMa uses the simulated values at each observation to calculate the empirical cumulative density function (ECDF) of the simulated values at that observation.
-
-- The scaled residual for observed data point *i* is then defined as the value of the ECDF at the value of the observed data *i* (see figure to the right).
-
-- Estimated this way, if your model is wellspecified, the scaled residuals will always follow a uniform distribution, regardless of your starting model structure.  Put another way: if the observed data were created from the same data-generating process of your starting model, all values of the cumulative distribution should appear with equal probability and the DHARMa residuals will be distributed uniformly.
-
-You can explore more about the [DHARMa package here](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html).  
-
-:::
 
 # A statistical modelling example
 
@@ -148,7 +86,7 @@ It will help our discussions to have an example of a starting model.  For our ex
 
 In this example, `Resp` is a positive, continuous variable.
 
-Let us assume you tested this hypothesis by fitting a model with a Gamma error distribution assumption (to reflect the nature of your response variable) and linear shape assumption (to reflect the relationship between each predictor and your response) using a GLM:
+Let us assume you tested this hypothesis by fitting a model with a Gamma error distribution assumption (to reflect the nature of your response variable) and linear shape assumption (to reflect the relationship between each predictor and your response, assuming in all cases these are linear) using a GLM:
 
 ```{r}
 
@@ -162,37 +100,27 @@ summary(startMod) # a look into our model object
 
 ```
 
-Let us start by estimating the residuals from this starting model using the scaled residual method mentioned above.  
-
-```{r}
-
-library(DHARMa) # load package
-
-simOut <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times and calculate residuals
-
-myDat$Resid <- simOut$scaledResiduals # add residuals to data frame
-
-str(myDat) # check the structure of the data
-```
-The residuals have been added to the data frame as `myDat$Resid`.  We will take a look at these residuals as we walk through the model validation below.
+We will consider this model as we proceed through this section.
 
 
-# Considering predictor collinearity
+# Considering predictor collinearity {#sec-predCol}
 
 **What it is:**
   
-  NOTE: predictor collinearity^[sometimes also called multicollinearity] is only a problem if you have multiple predictors in your hypothesis.
+NOTE: predictor collinearity^[sometimes also called multicollinearity] is only a problem if you have more than one predictor in your hypothesis.
 
 Your model assumes that your predictors are not correlated with one another, and that each predictor explains a unique part of the variation in your response.  When this assumption is violated, the estimates of the coefficients^[remember, these are the modelled effects of your predictors on your response] become more uncertain and you are unable to test your hypothesis in a robust way. 
 
 Let us use an extreme case to see why this might be a problem:  
   
-  >Imagine you are interested in explaining variability in plant growth (your response is plant growth).  You think temperature and water may influence plant growth, so you set up an experiment where you will grow plants under high and low temperature and high and low water (your predictors are temperature and water treatments).  But in your experimental set-up you only include two treatments: one where the plants are grown with high temperature and high water, and another where plants are grown with low temperature and low water.  In your experiment, your predictors are correlated with one another^[your predictors are so correlated, in fact, we say they are  "aliased" with one another].  When you try to test your hypothesis, you will not be able to say if the growth differences between treatments is due to differences in temperature or water. 
+  >Imagine you are interested in explaining variability in plant growth (your response is plant growth).  You think temperature and water may influence plant growth, so you set up an experiment where you will grow plants under high and low temperature and high and low water (your predictors are temperature and water treatments).  But in your experimental set-up you only include two treatments: one where the plants are grown with high temperature and high water, and another where plants are grown with low temperature and low water.  In your experiment, your predictors are correlated with one another^[your predictors are so correlated, in fact, we say they are  "aliased" with one another].  When you try to test your hypothesis, you will not be able to say if the growth differences between treatments are due to differences in temperature or water. 
 
 This is an extreme case (where your predictors are 100% correlated with one another), and one that can easily be avoided with a better experimental design.  But, predictors that are at least partially correlated with one another are very common in observational/field studies (e.g. things like salinity, temperature and depth in marine studies).
+
 <br clear="right"/>
   
-  Predictor collinearity causes a problem with our interpretation of our model because it increases the error around the coefficients (modelled effects).  This error can be so large, that we are unable to assess the effect of a predictor in explaining the response.  This increase in error due to predictor collinearity is called "variance inflation"^[the error (variance) around the coefficient estimates is getting bigger (inflation)].
+  Predictor collinearity causes a problem with our interpretation of our model because it increases the error around the coefficients (modelled effects).  This error can be so large, that we are unable to assess the effect of a predictor in explaining the response.  This increase in error due to predictor collinearity is called "variance inflation"^[the error (variance) around the coefficient estimates is getting bigger (inflated)].  This is a problem for your statistical modelling (as it becomes difficult to quantify the predictor effects in your model) and for your work as a biologist (as you are unable to mechanistically explain the variability in your response).
+  
 
 **How you know if you have a problem:**
   
@@ -221,27 +149,38 @@ toRep <-round(as.numeric(substr(result[[2]][[1]]$label,7,11)),2)
 
 Note in the figure above that there is a linear pattern in the `Cont1` vs. `Cont2` plot, and that there is a correlation estimate of `r toRep` for this predictor pair.  This indicates predictor collinearity, and that having both `Cont1` and `Cont2` in your model may result in variance inflation.  
 
-You can also see how much of a problem predictor collinearity is causing by by estimating **variance inflation factors (VIFs)** after you fit your starting model.  VIFs look at your model to see how much correlation among predictors is making your coefficient estimates uncertain. 
+You can also see how much of a problem predictor collinearity is causing by estimating **variance inflation factors (VIFs)** after you fit your starting model.  VIFs look at your model to see how much correlation among predictors is making your coefficient estimates uncertain.^[VIF can also be defined as the inverse of tolerance or the amount of variability in a particular predictor not accounted for by variability in the other predictors (Hebbali olsrr package 2024)]
 
-Note that when you have a categorical predictor that has more than two categories (levels), VIFs need to be calculated in a different way - as generalized VIFs (GVIF)^[the function we will use to calculate this will choose the correct estimate - either VIF or GVIF - depending on your model.]
+In general, when a VIF is greater than 3 (or adjusted GVIF^[see callout below] is greater than $\sqrt 3$), predictor collinearity is a cause of concern.  When VIF is greater than 5 or 10 (or adjusted GVIF^[see callout below] is greater than $\sqrt 5$ or $\sqrt 10$) the influence of predictor collinearity on your coefficients is enough that you need to take action [@FoxMonette1992].  For this handbook, we will use the more conservative threshold of VIF > 3 (or adjusted GVIF^[see callout below] > $\sqrt 3$) as our criterion.
 
-In general, when a VIF is greater than 3 (or GVIF is greater than $\sqrt 3$), predictor collinearity is influencing your coefficient estimates enough that you may need to take action.  
+::: {.callout-tip collapse="true" title="Generalized variance inflation factors (GVIF)"} 
 
-An example of how to estimate VIFs is given in the next section.  
+Note that when you have a categorical predictor that has more than two categories (levels), VIFs need to be calculated in a different way - as generalized VIFs (or GVIFs). 
+
+This is due to how R fits models with categorical predictors.  R does this by modelling the difference in the response when moving from one categorical level to another (a reference level).  You want the VIF results to be independent of which level R chooses as its reference level - this is what GVIFs do.
+
+You can use the same function `vif()` from the car package to estimate both VIFs and GVIFs. The function will choose the appropriate equation for you based on your model.More on this below.
+
+Note that the threshold for when we would consider VIF as being a problem is greater than 3 for traditional VIFs and greater than $\sqrt 3$ for GVIFs.
+
+The math underlying the difference between GVIF and VIF is beyond what is covered in the handbook [but you can read more here if interested.](https://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10475190 "https://www.tandfonline.com/doi/abs/10.1080/01621459.1992.10475190")
+
+:::
+
 
 **What to do if it is a problem:**
   
   You can limit the risk of predictor collinearity by carefully planning your experiments to limit predictor correlation as much as possible. If you identify a problem with collinearity, you can:
   
-  * remove one or more of the offending predictors to remove the problem.  Note that removing a predictor will change your research hypothesis.
+* remove one or more of the offending predictors to remove the problem.  Note that removing a predictor will change your research hypothesis.
 
-* keep the predictor(s) in but be careful when you interpret the effects estimated by your model.
+* keep the predictor(s) in but be careful when you interpret the effects estimated by your model.^[Other options include centering or detrending the offending predictor(s), combining information from one or more offending predictor e.g. by regressing the two offending predictors against one another and using those residuals as your model predictor (see here for an example [@PorterEtAl2005Walleye]), or using multivariate analysis (see the coming section on multivariate analysis), or using more conservative methods of fitting your model (estimating your coefficients) with e.g. a ridge penalty]
 
-As is the case with all your choices, the important thing is to be transparent about your process and choices.  In a few weeks, we will practice how to communicate the choices and results of your statistical modelling.
+As is the case with all your choices, the important thing is to be transparent about [what you are doing and why you are doing it](DSPPH_SM_Communicating.qmd).
 
 To estimate VIFs, you:
   
-  * fit a temporary model without interactions^[the model can not have interactions when estimating VIFs because an interaction term will *always* be correlated with the main effect predictor terms involved in the interaction.  Ask in class if you have questions about this.]
+  * fit a temporary model without interactions^[the model can not have interactions when estimating VIFs because an interaction term will *always* be correlated with the main effect predictor terms involved in the interaction.]
 
 * estimate the VIFs for the temporary model
 
@@ -274,10 +213,9 @@ vif(startMod.noInt) # estimate VIFs
 ```
 
 
-
 Note that there are two VIF values higher than the threshold value (in this case VIFs > 3).  This means that the presence of both `Cont1` and `Cont2` in the model is resulting in variance inflation.  
 
-Let us remove one of the predictors (`Cont2`)^[in your own work, you will choose the predictor to remove based on your study goals and particular situation] and recalculate the VIFs:
+Let us remove one of the predictors (`Cont2`)^[in your own work, you will choose the predictor to remove based on your domain knowledge, study's goals and particular situation] and recalculate the VIFs:
   
 ```{r}
 
@@ -289,14 +227,14 @@ startMod.noInt.noCont2
 
 ## Recalculating the VIFs
 
-# vif(startMod.noInt.noCont2) # estimate VIFs
+vif(startMod.noInt.noCont2) # estimate VIFs
 
 
 ```
 
 
 
-There are no longer major problems with predictor collinearity, as all VIFs < 3.  Let us refit this as our starting model, and recalculate the residuals (as we will need them soon):
+There are no longer major problems with predictor collinearity as all VIFs < 3.  Let us refit this as our starting model, and recalculate the residuals (as we will need them soon):
   
 ```{r}
 
@@ -307,18 +245,125 @@ startMod <- glm(formula = Resp ~ Cat + Cont1 + Cat:Cont1 + 1, # hypothesis
 
 summary(startMod) # a look at the model object
 
-## Recalculate the residuals
-simOut <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times and calculate residuals
-
-myDat$Resid <- simOut$scaledResiduals # add residuals to data frame
-
-
 ```
 
 
 Our starting model has now past the first hurdle to being considered wellspecified: no (significant) predictor collinearity.
 
-# Considering observation independence
+# The role of residuals in validating your model
+
+As a reminder, you are validating your model considering four assumptions:
+
+1) [predictors are correlated with one another](#sec-predCol),
+
+2) [observations are independent of one another](#sec-depend),
+
+3) [error distribution assumption was adequate](#sec_errorDist), and
+
+4) [shape distribution assumption was adequate](#sec_shape).
+
+Validating assumptions 2 through 4 require you to consider the *residuals* of your model fit.
+
+Recall that a residual can be defined as^[notice I say "can be defined as...".  This is because there are many different definitions of a residual that have been made to deal with different model structures. We are going to use a very useful one - the scaled residual - that will let you explore residuals for a wide range of models.  More on this below!] the difference between the model fitted value and your response observation:
+
+![](./residPlotReview.png){width=90%}
+
+
+When your model is a useful one (a valid one for testing your hypothesis), these residuals will:
+
+1) follow the expected error distribution assumption, and
+
+2) be constantly distributed relative to your model fit and each of your predictors, and
+
+3) be constantly distributed relative to variables NOT in your model.  
+
+In fact, you can only validate the assumptions you made when picking your starting model after the model is fit because violations show up in the model residuals.  
+
+We will be looking at two types of plots to help us investigate the model residuals.  
+
+<img src="./exQQPlotData.png" align="right" width="150px"/>
+
+<img src="./exQQPlot.png" align="right" width="150px"/>
+
+
+The first is a quantile-quantile (QQ) plot.  A reminder from the section on [Data Distributions](DSPPH_SM_DataDistributions.qmd) that a quantile breaks your observations into groups, e.g. the 25% quantile is the value of the variable where 25% of the values are below this value. A quantile-quantile plot compares the position of the quantiles in the expected and observed residual distribution to see if they come from the same distribution.  If they come from the same distribution, the quantiles will match, the points will lie along a 1:1 (red) line on the QQ plot, and your model assumption is valid (like the example on the right).
+
+<img src="./exResidualsPlotData.png" align="right" width="150px"/>
+
+
+<img src="./exResidualsPlot.png" align="right" width="150px"/>
+
+
+
+The second type of plot is a residual plot.  In the residual plot, you will make plots to compare the residuals (on the y-axis) vs. the model fit and each predictor/variable (on the x-axis).  This will let you see if there are any patterns in the plot which could indicate a violation of your model assumptions.  If your model is valid, the points will form a uniform cloud of points in your residual plot (like the example on the right).
+
+You have been looking at residuals as simple differences between your model fit and the observation of your response (as pictured above).  The information that you can get from this type of residual will vary with the structure of your model... this can make residual inspection frustrating, as you would have to learn a new method of considering your residuals for each new type of model [@Hartig2024].
+
+Instead, you will be using a particular type of residual to validate your starting model - one that can be interpreted in similar ways whatever your model structure.  It is called a scaled residual.  
+
+## A useful residual - the scaled residual {#sec_scaledResiduals}
+
+As mentioned above, inspecting scaled residuals gives us a method of validating our model that is generally applicable - GREAT - but it also is a method that is intuitive: The scaled residual method checks to see if your model is useful (valid) by seeing if it can even produce data that looks like the data you used to fit your model (i.e. your observations).  A model that is well-specified will be able to simulate data that looks like the data used to fit it.
+
+We will estimate and explore scaled residuals using functions in the [DHARMa package](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html).
+
+
+
+::: {.callout-tip collapse="true" title="DHARMa's scaled residuals"} 
+<img src="./scaledResiduals.png" align="right" width="400px"/>
+
+The DHARMa package uses a simulation-based approach^[similar to Bayesian p-values or parametric bootstrapping] to estimate scaled residuals.  These scaled residuals are standardized to a uniform distribution regardless of the model structure.  
+
+Here's how it works:
+
+- DHARMa uses your starting model to simulate new response data for each observation (each row in your data frame).  The default is that it simulates 250 new data sets from your model^[this can be adjusted if needed].
+
+- DHARMa uses the simulated values at each observation to calculate the empirical cumulative density function (ECDF) of the simulated values at that observation.
+
+- The scaled residual for observed data point *i* is then defined as the value of the ECDF at the value of the observed data *i* (see figure to the right).
+
+- Estimated this way, if your model is well-specified, the scaled residuals will always follow a uniform distribution, regardless of your starting model structure.  Put another way: if the observed data were created from the same data-generating process of your starting model, all values of the cumulative distribution should appear with equal probability and the DHARMa residuals will be distributed uniformly.
+
+You can explore more about the [DHARMa package here](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html).  
+
+Note: because DHARMa simulates new data each time it is run, you can get variability in your results from run to run.  To avoid this, you can use the function `set.seed()` which is used to set the seed for the random number generator R is using to simulate the data. This gives the random number generator a specific starting point, so the random numbers (and simulated residuals) are reproducible.
+
+:::
+
+Let us estimate the residuals from our example starting model using the scaled residual method mentioned above.  
+
+```{r}
+
+library(DHARMa) # load package
+
+simOut <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times and calculate residuals
+
+myDat$Resid <- simOut$scaledResiduals # add residuals to data frame
+
+str(myDat) # check the structure of the data
+```
+
+The residuals have been added to the data frame as `myDat$Resid`.  We will take a look at these residuals as we walk through the model validation below for the remaining three assumptions:
+
+2) [observations are independent of one another](#sec-depend),
+
+3) [error distribution assumption was adequate](#sec_errorDist), and
+
+4) [shape distribution assumption was adequate](#sec_shape).
+
+
+::: {.callout-tip collapse="true" title="alternatives to DHARMa"} 
+
+In case useful in your future work, alternatives to the methods described here are:  
+
+- the [performance package](https://easystats.github.io/performance/) where you can get residuals and diagnostic plots with the `check_model()` function.  
+
+- the [car package](https://cran.r-project.org/web/packages/car/index.html) where you can get a sense for how well your model is capturing the features of your data using the `marginalModelPlots()` function.
+
+:::
+
+
+# Considering observation independence {#sec-depend}
 
 
 **What it is:**
@@ -329,7 +374,7 @@ Here is an example where you want to test the hypothesis that weight change is e
 
 <img src="./indepViolationObserver.png" width="600px"/>
   
-  Notice that `Observer` is not in your research hypothesis, but it is structuring your observations - the observations sampled by Betty are more similar than those sampled by Bob.  Without information about `Observer`, you will have a difficult time fitting the model to your data. Without the information about `Observer`, the "noise" of unexplained variation is high compared to the "signal" of the effect of `Food` on `WtChange`.
+  Notice that `Observer` is not in your research hypothesis, but it is structuring your observations - the observations sampled by Betty are more similar than those sampled by Bob.  Without information about `Observer`, you will have a difficult time fitting the model to your data. Without the information about `Observer`, the "noise" of unexplained variation is high compared to the "signal" of the effect of `Food` on `WtChange`.^[`Observer` might be called a nuisance variable or variation].  This is a problem for your statistical modelling and work as a biologists as effects will be difficult to identify in your hypothesis testing.
 
 
 **How you know if you have a problem:**
@@ -345,7 +390,7 @@ Here is an example where you want to test the hypothesis that weight change is e
 
 It is relatively common to find violations of this assumption^[also called pseudoreplication].  Violations can happen from:  
   
-* grouping of your observations by a variable not in your hypothesis^[also called nested sampling]
+* grouping of your observations by a variable not in your hypothesis (as the example above)^[also called nested sampling]
 
 * observations that are made at different times (temporal autocorrelation)
 
@@ -362,14 +407,18 @@ Grouping occurs when you have observations dependent on one another due to some 
   
   Another example: you might be exploring the effect of added fertilizer on plant height with your hypothesis being `Height` ~ `Fertilizer`, with `Fertilizer` being a categorical predictor with levels of "Fertilized" or "Control".  In making your observations, you measure 24 plant heights growing in a Fertilized or Control site.  Oh, and these sites happened to be organized across six experimental plots.  
 
-Given your hypothesis that `Height` ~ `Fertilizer`, each measurement of plant height will be treated as an individual observation (replicate) with the assumption that, other than the `Fertilizer` treatment, these observations are independent of one another.  However, this assumption is violated as the plants from the same plots may be more similar than plants from different plots (e.g. sunlight differences across plots may influence plant height, or water drainage differences across plots may influence the effect of the fertilizer).  The `Plot` variable may be grouping your observations.
+Given your hypothesis that `Height` ~ `Fertilizer`, each measurement of plant height will be treated as an individual observation (replicate) with the assumption that, other than the `Fertilizer` treatment, these observations are independent of one another.  However, this assumption is violated as the plants from the same plots may be more similar than plants from different plots (e.g. sunlight differences across plots may influence plant height, or water drainage differences across plots may influence the effect of the fertilizer). For example, plant IDs 17, 10, 8 and 1 may be more similar to one another than other plants in the experiment because they are all growing from Plot #1.  The `Plot` variable may be grouping your observations.
 
 <br clear="right"/>
   
   
-  #### How you know if you have a problem with observations dependent based on a grouping variable
+#### How you know if you have a problem with observations dependent based on a grouping variable
   
-  You can find out if observation dependence is influencing your model by inspecting the residuals of your starting model.  Here, you plot your residuals vs. variables not in your model that may be causing dependence in the observations.  If you have a problem with observation dependence, there will be a pattern in your residuals when plotted against the offending variable.
+  You can find out if observation dependence is influencing your model by inspecting the residuals of your starting model.  Here, you plot your residuals vs. variables not in your model that may be causing dependence in the observations.  
+  
+  If you have a problem with observation dependence, there will be a pattern in your residuals when plotted against the offending variable.  
+  
+  If there is no problem with observation dependence, there will be no pattern in your residuals.
 
 Here is an example of how to do this with our generic example started above.  You can see how the residuals differ across levels of the `Other` variable also in our data set using violin plots: 
   
@@ -381,7 +430,7 @@ ggplot()+ # start ggplot
              mapping = aes(x = Other, y = Resid))+ # add observations as points
   xlab("Other variable")+ # y-axis label
   ylab("Scaled residual")+ # x-axis label
-  labs(caption = "Figure 3: A comparison of model residuals vs. other variable")+ # figure caption
+  labs(caption = "A comparison of model residuals vs. other variable - violin plot")+ # figure caption
   theme_bw()+ # change theme of plot
   theme(plot.caption = element_text(hjust=0)) # move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.
 
@@ -397,13 +446,13 @@ ggplot()+ # start ggplot
              size = 3)+ # change the size of the points
   xlab("Cont1")+ # y-axis label
   ylab("Scaled residual")+ # x-axis label
-  labs(caption = "Figure 3: A comparison of model residuals vs. other variable")+ # figure caption
+  labs(caption = "A comparison of model residuals vs. other variable - points plot")+ # figure caption
   theme_bw()+ # change theme of plot
   theme(plot.caption = element_text(hjust=0)) # move figure legend (caption) to left alignment. Use hjust = 0.5 to align in the center.
 
 ```
 
-Note that the spread of the residuals in each level (category) of `Other` is fairly equal in the violin plots and the colours are spread across the points plot.  This indicates that `Other` is not causing much structure in the residuals, and likely is not causing the model to violate the assumption of independence. 
+Note that the spread of the residuals in each level (category) of `Other` is fairly equal in the violin plots and the colours are spread across the points plot.  This indicates that `Other` variable is not causing much structure in the residuals, and likely is not causing the model to violate the assumption of independence. 
 
 Finally, if you quantitative evidence that your observations are dependent on your grouping variable, you can test to see if residuals among the different groups have similar variances.  This can be done with a Levene test for the homogeneity of variances through functions in the DHARMa package, e.g. 
 
@@ -423,12 +472,15 @@ plotResiduals(simulationOutput = simOut, # compare simulated data to
 
 ```
 
-When your P-value is large (as it is here: P = `r round(data.frame(testCategorical(simOut, catPred = myDat$Other)$homogeneity)["group", "Pr..F."],3)`), you would say that there is no evidence that the residual variance depends on the levels in Other (i.e. no concern for observations being dependent on Other).
+When your P-value is large (as it is here: P = `r round(data.frame(testCategorical(simOut, catPred = myDat$Other)$homogeneity)["group", "Pr..F."],3)`), you would say that there is no evidence that the residual variance depends on the levels in `Other` (i.e. no concern for observations being dependent on Other).
+
 
 #### What can you do if your observations are grouped by something not in your hypothesis
 
 If you find evidence of observation dependence, you can:
-  
+
+**Treat an offending group as an outlier:** If you have one group causing structure in your residuals, you can try removing the group (documenting that you have done so) and proceed with your modelling.  Remember to be transparent that you have done this, in the Results and Discussion, including spending some time (and sentences) contemplating why the group might be behaving differently.
+
 **Add the grouping variable to your model as a (fixed effect) predictor:** The assumption of observation independence means that your observations are independent of one another in all ways *except for the predictors already included in your hypothesis*.  Therefore, an easy way to address observation dependence is to include the variable in your hypothesis, e.g. changing your original model:
   
   `Height ~ Fertilizer + 1`
@@ -443,7 +495,7 @@ Note that adding `Plot` in this way is adding `Plot` as a "fixed effect" (vs. "r
 
 A couple of things to note when you add new fixed effects to your model: 
   
-  1) Fixed effects influence the predicted mean of the model prediction, and so they are formerly part of your research hypothesis.  This means that your hypothesis changes every time you add or remove a fixed effect.  Your original hypothesis was
+  1) Fixed effects influence the mean of the model prediction, and so they are formerly part of your research hypothesis.  This means that your hypothesis changes every time you add or remove a fixed effect.  Your original hypothesis was
 
 `Height ~ Fertilizer + 1`
 
@@ -453,13 +505,13 @@ or that variability in plant height is explained by fertilizer addition.  If you
 
 or that variability in plant height is explained by fertilizer addition, plot ID and the interaction between the two.
 
-2) When you add new fixed effects to your hypothesis, your model gets more "expensive" to fit.  In the section on Hypothesis Testing, we will discuss how we can quantify the "benefit" of the model (increased explained deviance related to the likelihood of the model) vs. the cost of the model (how many coefficients have to be estimated).  Adding new fixed effects increases the cost of fitting your model as more coefficients need to be estimated.  This increased cost means you need bigger datasets (more observations) to fit the model.  When you add a new continuous predictor to your hypothesis, there is one more coefficient to estimate (in a linear model, this is a slope).  When you add a new categorical predictor to your hypothesis, you need to estimate another coefficient for each **level** in your new predictor.  In our example, you would need to estimate 6 - 1 = 5^[remember with categorical predictors, one factor level is included in the intercept] new coefficients to add the main effect of the `Plot` variable to the model, and another 6 - 1 = 5 coefficients to add the `Fertilizer:Plot` interaction to the model.
+2) When you add new fixed effects to your hypothesis, your model gets more "expensive" to fit.  In the section on [Hypothesis Testing](DSPPH_SM_HypothesisTesting.qmd), we will discuss how we can quantify the "benefit" of the model (increased explained deviance related to the likelihood of the model) vs. the cost of the model (how many coefficients have to be estimated to fit your model).  Adding new fixed effects increases the cost of fitting your model as more coefficients need to be estimated.  This increased cost means you need more observations (data) to fit the model.  When you add a new continuous predictor to your hypothesis, there is one more coefficient to estimate (in a linear model, this is a slope).  When you add a new categorical predictor to your hypothesis, you need to estimate another coefficient for each **level** in your new predictor.  In our example, you would need to estimate 6 - 1 = 5^[remember with categorical predictors, one factor level is included in the intercept] new coefficients to add the main effect of the `Plot` variable to the model, and another 6 - 1 = 5 coefficients to add the `Fertilizer:Plot` interaction to the model.
 
 Both points above (that your hypothesis will change, and that your model will be more expensive to fit) means that just adding your grouping variable to deal with observation dependence is not always a great option. Instead you could,
 
 
 
-**Add the grouping variable to your model as a random effect using a mixed model:** Many turn to mixed modelling as a way to deal with observation dependence.  Mixed modelling^[also called "multi-level modelling" or "hierarchical modelling"] is called "mixed" modelling because it includes a mix of both fixed effects (predictors that influence the model predicted mean) and random effects (predictors that influence the model predicted variance). Fitting mixed models is beyond the scope of this course, but I wanted you to have an idea of what mixed modelling is, and how to get started with mixed modelling, in case you want to use these methods in the future.  
+**Add the grouping variable to your model as a random effect using a mixed model:** Many turn to mixed modelling as a way to deal with observation dependence.  Mixed modelling^[also called "multi-level modelling" or "hierarchical modelling"] is called "mixed" modelling because it includes a mix of both fixed effects (predictors that influence the model predicted mean) and random effects (predictors that influence the model predicted variance). Fitting mixed models will be covered in an upcoming handbook section, but I wanted you to have an idea of what mixed modelling is, and how to get started with mixed modelling, in case you want to use these methods in the future.  
 
 To fit mixed models in R, you need to adjust your hypothesis formula to tell R which predictors should be treated as fixed and which should be random.    Recall that your model with only fixed effects:
   
@@ -490,29 +542,26 @@ Here is a table if you are trying to determine if a variable causing dependence 
 | Your situation                                                                                                                                                                    | Your choice       |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
 | - the variable causing dependence is continuous<br>- if you are interested in effect sizes of the variable on your response<br>- if the factor levels are informative (vs. just numeric labels)         | fixed effect<br>  |
-| - the levels in the variable are only samples from a population of levels<br>- if you have enough levels (at least 5) to estimate the variance of the effect due to your variable | random effect<br> |
+| - the levels in the variable are only samples from a population of levels<br>- if you have enough levels (at least 5) to estimate the variance of the effect due to your variable^[a software limitation, not a statistical limitation] | random effect<br> |
 
 (adapted from Crawley2013TheRBook)
 
 
-
-### Temporal autocorrelation
+### Temporal autocorrelation 
 
 Temporal autocorrelation occurs when you measure your observations at different points in time. 
 
-Observations collected closer together in time will be more similar than those collected further apart in time, and this could be happening independent of the mechanisms underlying your hypothesis.  This topic is beyond the scope of this course, but I add a short description here so the idea is "on your radar" as you move forward in biology.
+Observations collected closer together in time will be more similar than those collected further apart in time, and this could be happening independent of the mechanisms underlying your hypothesis.  This topic is beyond the scope of this section, but I add a short description here so the idea is "on your radar" as you move forward in biology.
 
 
 #### An example
 
-
-Suppose you want to test the hypothesis that variability in growth rate of newly hatched cod (torsk) in the Kattegat is explained by prey availability (`Growth` ~ `Prey`).  The observations you are using to test this hypothesis have been collected over ~15 years, and it is likely that measurements made closer to each other in time are more similar than those made further apart from each other in time.  This may be because the physical or biological environment was more similar in years that are close to each other in time (e.g. the parent population was similar, the temperature was similar)   However, there is nothing in your hypothesis (`Growth` ~ `Prey`) to let R know which observations are close to each other in time.  Thus, you violate the assumption of observation independence.
+Suppose you want to test the hypothesis that variability in growth rate of newly hatched cod (torsk) in the Kattegat is explained by prey availability (`Growth` ~ `Prey`).  The observations you are using to test this hypothesis have been collected over ~15 years, and it is likely that measurements made closer to each other in time are more similar than those made further apart from each other in time.  This may be because the physical or biological environment was more similar in years that are close to each other in time (e.g. the parent population was similar, the temperature was similar).  However, there is nothing in your hypothesis (`Growth` ~ `Prey`) to let R know which observations are close to each other in time.  Thus, you violate the assumption of observation independence.
 
 <img src="./TempAuto.png" align = "right" width="400px"/>
 
 
 When a model is fit to data and the observations are dependent on their sampling time, similar values closer in time are given too much weight on the model coefficients and the model fit is biased (compare lines in the plot on the right).
-
 
 
 #### How you know if you have a problem with temporal autocorrelation
@@ -524,7 +573,7 @@ You can also determine how large the problem of temporal autocorrelation is by e
 
 #### What you do if your observations are influenced by temporal autocorrelation
 
-As above, the assumption of observation independence means that your observations are independent of one another in all ways *except for the predictors included in your hypothesis*.  We need to tell R about this temporal dependence in your model.  This can be done by including time as a predictor in your model.  Note that time will need to be a fixed effect as it is continuous, and will need to be modelled with a non-linear shape assumption^[we'll talk about non-linear models in a couple of weeks] to deal with the complicated form of the temporal autocorrelation.  
+As above, the assumption of observation independence means that your observations are independent of one another in all ways *except for the predictors included in your hypothesis*.  We need to tell R about this temporal dependence in your model.  This can be done by including time as a predictor in your model.  Note that time will need to be a fixed effect as it is continuous, and will need to be modelled with a non-linear shape assumption^[non-linear modelling will come in a future handbook section] to deal with the complicated form of the temporal autocorrelation.  
 
 Alternatively, you can tell R about the correlation structure of the data directly (i.e. how similarity in observations changes as observations are further and further away from each other).<!--- need to give guidance here--->
   
@@ -549,16 +598,13 @@ You can find out if observation dependence due to spatial autocorrelation is inf
 
 #### What you do if your observations are influenced by spatial autocorrelation
 
-Similarly to our discussion about temporal autocorrelation, the location of the observations (e.g. latitude and longitude) can be included in your model to account for the spatial autocorrelation^[this would be done with a non-linear model].  Alternatively, the dependence among observations due to proximity can be included in the model as a spatial autocorrelation structure.  <!---Again, this topic is beyond the scope of the course but check 9999.-->
-
+Similarly to our discussion about temporal autocorrelation, the location of the observations (e.g. latitude and longitude) can be included in your model to account for the spatial autocorrelation^[this would be done with a non-linear model].  Alternatively, the dependence among observations due to proximity can be included in the model as a spatial autocorrelation structure.  
 
 ### A final point about observation independence
 
 Remember that you only have to worry about your observations being dependent based on variables not already in your hypothesis.    
 
-
-
-# Considering your error distribution assumption
+# Considering your error distribution assumption {#sec_errorDist}
 
 **What it is:** 
 
@@ -566,11 +612,12 @@ The error distribution (i.e. distribution of your residuals) needs to match the 
 
 
 <img src="./QQPlot.png" align="right" width="300px"/>
+
 **How do you know if you have a problem:** 
 
-You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot.  A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles^[A quantile defines a particular part of a data set, e.g. the 90% quantile indicates the value where 90% of the values are less than the 90% quantile value.  See your notes DSPH_SM_DataDistributions.html for more].  When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line).  You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).
+You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot.  A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles^[A quantile defines a particular part of a data set, e.g. the 90% quantile indicates the value where 90% of the values are less than the 90% quantile value.  See the section on [Data Distributions](DSPPH_SM_DataDistributions.qmd) for more].  When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line).  You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).
 
-The scaled residuals method introduced above will allow you to consider the behaviour of your residuals in a similar way regardless of the structure of your model.  You can get a Q-Q plot of your residuals with:
+The scaled residuals method [introduced above](#sec_scaledResiduals) will allow you to consider the behaviour of your residuals in a similar way regardless of the structure of your model.  You can get a Q-Q plot of your residuals with:
 
 ```{r}
 
@@ -585,7 +632,7 @@ plotQQunif(simOut, # the object made when estimating the scaled residuals.  See 
 
 ```
 
-Note that the plot is the observed vs. expected scaled residuals.  As above, the triangular points will follow the red line in a well-specified model.  You will generally access this by eye, but the DHARMa package also includes three null hypothesis tests that give you more information about the behaviour of your residuals relative to the expected behaviour.  In all cases, a low P-value (traditionally P < 0.05) means that there is evidence that the null hypothesis can be rejected (and your error distribution assumption is not valid).^["Deviation n.s." on the plot means that there is no significant deviation from expected] 
+Note that the plot is the observed vs. expected scaled residuals.  As above, the triangular points will follow the red line in a well-specified model.  You will generally assess this by eye, but the DHARMa package also includes three null hypothesis tests that give you more information about the behaviour of your residuals relative to the expected behaviour.  In all cases, a low P-value (traditionally P < 0.05) means that there is evidence that the null hypothesis can be rejected (and your error distribution assumption is not valid).^["Deviation n.s." on the plot means that there is no significant deviation from expected] 
 
 The tests are:
 
@@ -593,10 +640,7 @@ The tests are:
 
 * Dispersion test: This Dispersion test tests the null hypothesis that the dispersion of your residuals is similar to the expected dispersion. A low P-value means there is evidence that the observed dispersion is different than expected, and that your error distribution assumption is not valid.  You can also access this test directly with the `testDispersion()` function in the DHARMa package. 
 
-* Outlier test: This Outlier test tests the null hypothesis that the number of outliers in your observed residuals is similar to the expected number. A low P-value means there is evidence that you have outliers.  You can also access this test directly with the `testOutliers()` function in the DHARMa package.  You can also find the position (row number) of the outliers with the `outliers()` function (also in the DHARMa package).
-
-
-
+* Outlier test: This Outlier test tests the null hypothesis that the number of outliers in your observed residuals is similar to the expected number. A low P-value means there is evidence that you have outliers.  You can also access this test directly with the `testOutliers()` function in the DHARMa package.  You can also find the position (row number) of the outliers with the `outliers()` function (also in the DHARMa package). A general definition of an outlier is a value that is surprising relative to the majority of the data sampled [@VenablesRipley2002].  Just what is surprising will vary with the type of data distribution (e.g. the interquartile range) and functions in the DHARMa package look for values outside the range simulated when estimating the scaled residuals.  You can read more about the methods DHARMa uses in the help files. 
 
 <br clear="right"/>
 
@@ -607,41 +651,57 @@ The tests are:
 Here are two examples (from the [DHARMA package vignette](https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html)) of Q-Q plots where the error distribution assumption is not met:
 
 <img src="./overDispersion.png" align="right" width="250px"/>
+
 First, here is an example of overdispersion, where there are too many residuals in the tails of the distribution and not enough in the middle of the distribution when compared to the expected:^[Note that zero-inflated data (more zeroes than expected) appears similarly]
 
 <br clear="right"/>
 
 
 <img src="./underDispersion.png" align="right" width="250px"/>
+
 Second, here is an example of underdispersion, where there are too many residuals in the middle of the distribution and not enough in the tails of the distribution when compared to the expected:
 
 <br clear="right"/>
 
-If your model residuals are not behaving as expected, you should first address any outlier problems.  Explore the observations labelled as outliers and see if they should be kept in your data set.  
+<img src="./outlierLeverageInfluence.png" align="right" width="250px"/>
 
-Once you have explored outliers, if you still have residuals not behaving as expected, you can change your error distribution assumption and refit your starting model.  This may mean you change the link function you used to fit the model. The link function we have been using is always the default link function - which you can see at the help file with `?family`, but there are alternative link functions which can be used to help models that appear misspecified.  We will be discussing this in class.
+
+If your model residuals are not behaving as expected, you should first address any outlier problems.  Explore the observations labelled as outliers and see if they should be kept in your data set.  Outliers can be described in terms of their leverage and influence.  A high leverage data point inflates the strength (certainty) of your modelled effects.  This may or may not be classified as an outlier but should be explored for how it is influencing the strength of your modelled effects.  On the other hand, an influential data point changes the estimate of your model effects (coefficients like slope and intercept) and may reduce the strength of your modelled effects. 
+
+<br clear="right"/>
+
+
+Once you have explored outliers, if you still have residuals not behaving as expected, you can change your error distribution assumption and refit your starting model.  This may mean you change the link function you used to fit the model. The link function we have been using is always the default link function - which you can see at the help file with `?family`, but there are alternative link functions which can be used to help models that appear mis-specified.  Try searching for alternative link functions online to get you started.
 
 Alternatively, you can try changing the actual assumption (e.g. trying a normal distribution instead of a Gamma distribution).  Note that with some types of response data (e.g. continuous) you have a number of different error distribution assumptions you can try (e.g. Gamma vs. normal), while others (e.g. binomial, presence/absence, etc.) are more limited.
 
-In all cases, you will refit your model with the new assumption choice and re-validate that new model, as described here.  There will be times where you have tried everything and you still have evidence that your model is misspecified.  In these cases, look at the magnitude of the violation. 
+::: {.callout-tip collapse="true" title="Trying alternate error distribution assumptions"}
 
-If the violation appears minor (e.g. only a minor pattern in your residuals), your model *may* still be useable.  In such cases communicate the issue in your model validation assessment along with your attempts to correct it, and proceed with your hypothesis testing with a cautious eye.  We will discuss how to do this in class.
+We focus here on four error distribution assumptions that are useful for biology: gaussian (normal), Gamma, poisson and binomial.  Being aware that there are others will help you find your way in future hypothesis testing adventures.
 
-If the violation appears major, you may need to move on to another method (e.g. random forest or Bayesian design) that can help you design a more customized model to your situation. 
+For example, a negative binomial assumption can help for models where a poisson error distribution assumption is not enough as the negative binomial distribution includes an extra parameter that can help control data that is not quite following a poisson distribution (e.g. excess variance).
+
+:::
 
 
 
+In all cases, you will refit your model with the new assumption choice and re-validate that new model, as described here.  There will be times where you have tried everything and you still have evidence that your model is mis-specified.  In these cases, look at the magnitude of the violation. 
 
-# Considering your shape assumption
+If the violation appears minor (e.g. only a minor pattern in your residuals), your model *may* still be useable.  In such cases communicate the issue in your model validation assessment along with your attempts to correct it, and proceed with your hypothesis testing with a cautious eye.  
+
+If the violation appears major, you may need to move on to another method (e.g. random forest or Bayesian design) that can help you design a more customized model to test your hypothesis.  
+
+
+# Considering your shape assumption {#sec_shape}
 
 
 **What it is:** 
 
-You made an assumption about the shape of the relationship between your response and each predictor (e.g. a linear shape assumption).  You need to make sure that the assumption you made was useful before you can have the confidence in your coefficient estimates needed to proceed with the hypothesis testing.
+You made an assumption about the shape of the relationship between your response and each predictor (e.g. a linear shape assumption).  You need to make sure that the assumption you made was useful before you can have the confidence in the coefficient estimates you will use to test your hypothesis.
 
 **How do you know if you have a problem:** 
 
-For this assumption, you need to look at how your residuals are scattered around your model fit.  If your model is a useful one ("wellspecified"), the scatter of those residuals will be even and uniform around the fit ("a uniform cloud").  You can inspect your residuals in this way by plotting the residuals vs. the fitted values.  
+For this assumption, you need to look at how your residuals are scattered around your model fit.  If your model is a useful one ("well-specified"), the scatter of those residuals will be even and uniform around the fit ("a uniform cloud").  You can inspect your residuals in this way by plotting the residuals vs. the fitted values.  
 
 Here is code for this using the DHARMa package:
 
@@ -653,11 +713,11 @@ plotResiduals(simOut, # the object made when estimating the scaled residuals.  S
 
 ```
 
-This gives a plot of the scaled residual ("DHARMa residual") vs. the fitted values ("Model predictions"). Any simulation outliers (data points that are outside the range of simulated values) are highlighted as red stars.  You can use the `testOutliers()` and `outliers()` function in the DHARMa package to learn more about outliers.
+This gives a plot of the scaled residual ("DHARMa residual") vs. the fitted values ("Model predictions"). Any simulation outliers (data points that are outside the range of simulated values, see also the [section](sec_errorDist) above) are highlighted as red stars.  You can use the `testOutliers()` and `outliers()` function in the DHARMa package to learn more about outliers.
 
 Again, you are looking for a uniform cloud of points.  To help you assess the uniformity of the cloud, R adds quantile regression results: The three solid lines (called splines) are fit through the 0.25, 0.5 and 0.75 quantiles of the residual distribution.  Quantile regression compares the empirical 0.25, 0.5 and 0.75 quantiles of the residuals (solid lines) with the theoretical 0.25, 0.5 and 0.75 quantiles (dashed line), These lines are then compared with a quantile test that tests the null hypothesis that these splines are not different than the dashed horizontal lines.  If the null hypothesis of this is rejected, the curves will appear red in the figure, and you can determine your shape assumption was not valid.  
 
-You should always inspect a plot of residuals vs. fitted values to explore your shape assumption.  If you have multiple predictors in your model, you should also plot the residuals vs. each predictor to make sure the shape you chose for each relationship is useful.  Here are the residuals of our example model vs. the `Cont1` predictor:
+You should always inspect a plot of residuals vs. fitted values to explore your shape assumption.  If you have multiple predictors in your model, you should also plot the residuals vs. each predictor to make sure the shape you chose for each relationship is useful.  This will help to ensure that the shape assumption was correct for each of your predictor variables. Here are the residuals of our example model vs. the `Cont1` predictor:
 
 ```{r}
 
@@ -676,11 +736,10 @@ plotResiduals(simOut, # the object made when estimating the scaled residuals.  S
               
 
 ```
-In this last figure, you get boxplots showing the distribution of the residuals - one for each level of your categorical predictor.  This different picture is because the predictor `Cat` is categorical.  Instead of a uniform cloud, you look for boxplots that spread across the 0.25 and 0.75 quantiles.  If the spread is wide and even across the levels of your categorical predictor, you have evidence the model is wellspecified to test your hypothesis.
+In this last figure, you get boxplots showing the distribution of the residuals - one for each level of your categorical predictor.  This different picture is because the predictor `Cat` is categorical.  Instead of a uniform cloud, you look for boxplots that spread across the 0.25 and 0.75 quantiles.  If the spread is wide and even across the levels of your categorical predictor, you have evidence the model is well-specified to test your hypothesis.  DHARMa also includes a Levene Test that tests if the variance across the levels in your categorical predictor are similar. If they are different, the Levene Test will be flagged in red with a p-value < 0.05.
 
 
 <br clear="right"/>
-
 
 **What to do if it is a problem:** 
 
@@ -693,13 +752,12 @@ Here is an example of a residual plot when you have a violation in your shape as
 
 In this case, the predictor `Environment1` was fit with an assumption of a linear relationship with the response, when a non-linear shape assumption was needed.  Note that you can also access the quantile test used to flag shape assumption violations with the `testQuantiles()` function in the DHARMa package. 
 
-If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model.  This may mean changing the shape of the model (e.g. from linear to non-linear) and/or including an interaction in your model.  
+If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model.  This may mean changing the shape of the model (e.g. from linear to non-linear) and/or including an interaction in your model.^[More on fitting non-linear models will come in a future handbook section.] You will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section. Note that quantile tests are sensitive for very large data sets.  You may have quantile regression results flagged for minor problems if you have a very large data set even though the model is still usable to test your hypothesis [@Hartig2024]. In all cases communicate any issues in your model validation assessment along with your attempts to correct it.  Keep any remaining (minor) problems in mind as you proceed with your hypothesis testing with a cautious eye.  
 
-In all cases, you will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section.
 
 # A final thought
 
-As you can see, validating your starting model will sometimes lead you to make changes to your starting model that require you to refit your starting model and re-validate the new model  It can feel a bit like you are walking in circles, but rest assured that this is very normal.  And necessary: you can't go further to test your hypothesis until you are confident you have a useful model.
+As you can see, validating your starting model will sometimes lead you to make changes to your starting model that require you to refit your starting model and re-validate the new model  It can feel a bit like you are walking in circles, but rest assured that this is very normal.  And necessary: you can not go further to test your hypothesis until you are confident you have a useful model.
 
 
 # Up next
