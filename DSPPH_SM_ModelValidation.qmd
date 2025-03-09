@@ -1,6 +1,10 @@
 ---
 title: "Statistical Modelling: Validation"
 bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
 ---
 
 ```{r setup, include=FALSE} 
