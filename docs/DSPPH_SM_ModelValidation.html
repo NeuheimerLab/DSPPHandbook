@@ -185,6 +185,7 @@ div.csl-indent {
   <ul class="collapse">
   <li><a href="#grouping---a-missing-predictor" id="toc-grouping---a-missing-predictor" class="nav-link" data-scroll-target="#grouping---a-missing-predictor">Grouping - a missing predictor</a></li>
   <li><a href="#temporal-autocorrelation" id="toc-temporal-autocorrelation" class="nav-link" data-scroll-target="#temporal-autocorrelation">Temporal autocorrelation</a></li>
+  <li><a href="#spatial-autocorrelation" id="toc-spatial-autocorrelation" class="nav-link" data-scroll-target="#spatial-autocorrelation">Spatial autocorrelation</a></li>
   <li><a href="#a-final-point-about-observation-independence" id="toc-a-final-point-about-observation-independence" class="nav-link" data-scroll-target="#a-final-point-about-observation-independence">A final point about observation independence</a></li>
   </ul></li>
   </ul></li>
@@ -752,11 +753,15 @@ group   4  0.1112 0.9785
 <h4 class="anchored" data-anchor-id="what-you-do-if-your-observations-are-influenced-by-temporal-autocorrelation">What you do if your observations are influenced by temporal autocorrelation</h4>
 <p>As above, the assumption of observation independence means that your observations are independent of one another in all ways <em>except for the predictors included in your hypothesis</em>. We need to tell R about this temporal dependence in your model. This can be done by including time as a predictor in your model. Note that time will need to be a fixed effect as it is continuous, and will need to be modelled with a non-linear shape assumption<a href="#fn25" class="footnote-ref" id="fnref25" role="doc-noteref"><sup>25</sup></a> to deal with the complicated form of the temporal autocorrelation.</p>
 <p>Alternatively, you can tell R about the correlation structure of the data directly (i.e.&nbsp;how similarity in observations changes as observations are further and further away from each other).<!--- need to give guidance here---></p>
-<p>### Spatial autocorrelation</p>
+</section>
+</section>
+<section id="spatial-autocorrelation" class="level3">
+<h3 class="anchored" data-anchor-id="spatial-autocorrelation">Spatial autocorrelation</h3>
 <p><img src="./SpatAuto.png" align="right" width="400px"></p>
 <p>Similar to the previous section, spatial autocorrelation describes the dependence among observations that are collected at different spatial locations. Observations measured close to each other in space are more (or less!) likely to be similar to one another than those measured further apart. In the plot on the right you can see examples of observation dependence on space in the dispersed and clustered drawings. In the dispersed example, observations closer to each other in space are <strong>less</strong> likely to resemble each other than one would expect if observations were distributed randomly in space (random example). In the clustered example, observations closer to each other in space are <strong>more</strong> likely to resemble each other than one would expect if observations were distributed randomly in space.</p>
 <p><br clear="right"></p>
-<p>#### An example</p>
+<section id="an-example-2" class="level4">
+<h4 class="anchored" data-anchor-id="an-example-2">An example</h4>
 <p>For example, you might be interested in how abundance of a species changes with mean environmental temperature and intend on testing the hypothesis that <code>Abundance ~ Temperature</code>. Measuring abundance over a large spatial area, you find that observations made closer to each other in space are more similar than those measured farther apart and part of this is due to effects other than temperature (e.g.&nbsp;other aspects of the environment such as food availability are more similar to each other for sites that are closer together). Without telling R information about where in space the observations were collected (remember, the hypothesis only includes <code>Temperature</code>), you violate the assumption of observation independence.</p>
 </section>
 <section id="how-you-know-if-you-have-a-problem-with-spatial-autocorrelation" class="level4">

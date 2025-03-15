@@ -582,7 +582,7 @@ As above, the assumption of observation independence means that your observation
 Alternatively, you can tell R about the correlation structure of the data directly (i.e. how similarity in observations changes as observations are further and further away from each other).<!--- need to give guidance here--->
   
   
-  ### Spatial autocorrelation
+### Spatial autocorrelation
   
   
   <img src="./SpatAuto.png" align = "right" width="400px"/>
@@ -592,7 +592,7 @@ Alternatively, you can tell R about the correlation structure of the data direct
 
 <br clear= "right"/>
   
-  #### An example
+#### An example
   
   For example, you might be interested in how abundance of a species changes with mean environmental temperature and intend on testing the hypothesis that `Abundance ~ Temperature`.  Measuring abundance over a large spatial area, you find that observations made closer to each other in space are more similar than those measured farther apart and part of this is due to effects other than temperature (e.g. other aspects of the environment such as food availability are more similar to each other for sites that are closer together).  Without telling R information about where in space the observations were collected (remember, the hypothesis only includes `Temperature`), you violate the assumption of observation independence.
 

@@ -1,5 +1,10 @@
 ---
 title: "Statistical Modelling: Hypothesis Testing"
+bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
 ---
 
 ```{r setup, include=FALSE} 
@@ -20,16 +25,17 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 # What is hypothesis testing?
 
 
-Once you have confidence in your starting model, you can finally arrive at the reason for your statistical journey: testing your model to see what evidence there is for your research hypothesis.  **Finally - the science!**  By testing your model, you will find out what inference^[inference is the conclusion you make based on reasoning and evidence] can be made from your modelled effects.
+Once you have validated your starting model, you can finally arrive at the reason for your statistical journey: testing your model to see what evidence there is for your research hypothesis.  **Finally - the science!**  By testing your model, you will find out what inference^[inference is the conclusion you make based on reasoning and evidence] can be made from your modelled effects.
 
-Recall that fitting your starting model meant that you estimated the parameter for each coefficient associated with your predictors.  
+Recall that fitting your starting model meant that you estimated the parameter for each coefficient associated with your predictors.  These are your modelled effects.
 
-Let's take an example where we want to explain variability in change in weight (`WtChange`, g) and believe it is due to prey density (`Prey`, $num \cdot m^{-3}$). Here, we have `Prey` as a continuous^[vs. categorical] predictor.  
+Let's take an example where we want to explain variability in change in weight (`WtChange`, g) and believe it is due to prey density (`Prey`, $num \cdot m^{-3}$). Here, we have `Prey` as a numeric^[vs. categorical] predictor.  
 
-We will test the hypothesis `WtChange ~ Prey` by first fitting a model with a normal error distribution assumption and a linear shape assumption^[if you're confused why we are choosing these assumptions, read the course notes section on Starting Model]. 
+We will test the hypothesis `WtChange ~ Prey` by first fitting a model with a normal error distribution assumption and a linear shape assumption^[if you are confused why we are choosing these assumptions, read the [Starting Model](DSPPH_SM_StartingModel.qmd) section again]. 
+
 If our research hypothesis is 
 
-*WtChange* $\sim Prey + 1$
+*WtChange* $\sim Prey + 1$,
 
 our starting model will fit:
 
@@ -39,17 +45,17 @@ where the coefficients are the slope ($\beta_1$) and intercept ($\beta_0$), and 
 
 When you test your hypothesis, you are focusing on the estimates of your model coefficients^[these estimates are called parameters] and whether or not these estimates are different than zero.  
 
-For example, if $\beta_1 \approx 0$, the effect of `Prey` on `WtChange` would be zero, the `Prey` predictor would fall out of the model, and you would conclude that there is little evidence that `Prey` explains variability in `WtChange`.
+For example, if $\beta_1 \approx 0$, the effect of `Prey` on `WtChange` would be zero, the `Prey` predictor would be removed from the model, and you would conclude that there is little evidence that `Prey` explains variability in `WtChange`.
 
-So, to test your research hypothesis, you need to determine if each of the coefficients are significantly different than zero.  
+So, to test your research hypothesis, you need to determine if each of the coefficients (effects) are significantly different than zero.  
 
-This can be done using (at least) two methods: 
+This can be done using a number of methods^[others not discussed here include cross-validation, Bayes Factors, confidence intervals].  Two are: 
 
-* the P-value^[note that some write this as "*P* value" and some as "*p* value" and some as "*p*-value".  There is no one rule.  Just pick one and make it consistent through your text.  I'll try to do that here.] method: The first method estimates the probability (P-value) your coefficient (e.g. $\beta_1$) would be estimated at the value it is even though the "real" value of your coefficient is 0. More on P-values below.
+* the P-value^[note that some write this as "*P* value" and some as "*p* value" and some as "*p*-value".  There is no one rule.  Just pick one and make it consistent through your text.  We will try to do that here.] method: The first method estimates the probability (P-value) that your coefficient (e.g. $\beta_1$) would be estimated at the value it is even though the "real" value of your coefficient is 0. [More on P-values below](#sec_PValue).
 
 * the model selection method: The second method involves comparing models with different predictor combinations (model selection).  Here, you will consider the evidence for models with and without each of your predictors to determine the evidence that each coefficient is different than zero.
 
-The method that you can use to test your hypothesis depends on the design of the study you use to explore your research hypothesis - i.e. experimental vs. observational^[field] studies^[see more in your notes on Data curation and collection].  With experimental studies where you are able to control (to a good extent) the collinearity among your predictors^[See your notes on Model Validation for more on predictor collinearity], you can use either the P-value or model selection methods.  For observational studies, the model selection method is a more robust way to test your hypothesis.  For this reason^[because it is generally applicable], in this course, you will test your research hypothesis through model selection but let us first discuss the P-value method (what it is, and its limitations).
+The method that you can use to test your hypothesis can depend on the design of the study you use to explore your research hypothesis - i.e. experimental vs. observational^[field] studies^[see more in the section on [Data curation and collection](handbookDCIntro.qmd)].  With experimental studies, where you are able to control (to a good extent) the collinearity among your predictors^[see more in the section on [Model Validation](DSPPH_SM_ModelValidation.qmd)], you can use either the P-value or model selection methods.  For observational studies, the model selection method is a more robust way to test your hypothesis.  For this reason^[because it is generally applicable], this handbook will primarily focus on the model selection method but let us first discuss the P-value method (what it is, and its limitations).
 
 
 ```{r echo = FALSE}
@@ -68,10 +74,10 @@ R<-(8*CV-700+rnorm(n,0,40))/100
 
 myDat<-data.frame(WtChange=R, Prey=CV)
 #myDat<-read.csv("forMyDatWt.csv")
-startMod<-glm(WtChange~Prey, myDat, family=gaussian(link = "identity"))
-# summary(startMod)
+validMod<-glm(WtChange~Prey, myDat, family=gaussian(link = "identity"))
+# summary(validMod)
 # library(DHARMa)
-# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# simulationOutput <- simulateResiduals(fittedModel = validMod, n = 250) # simulate data from our model n times
 # plot(simulationOutput, asFactor=FALSE) # compare simulated data to our observations
 # plotQQunif(simulationOutput, testUniformity = FALSE, testOutliers=FALSE, testDispersion=FALSE)
 # plotQQunif(simulationOutput)
@@ -84,7 +90,7 @@ startMod<-glm(WtChange~Prey, myDat, family=gaussian(link = "identity"))
 
 # library(MuMIn)
 # options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
-# (dredgeOut<-dredge(startMod, extra = "R^2")) # fit and compare a model set representing all possible predictor combinations
+# (dredgeOut<-dredge(validMod, extra = "R^2")) # fit and compare a model set representing all possible predictor combinations
 # 
 # subset(dredgeOut, delta < 2) # look at top model(s) within ∆AIC <2
 # 
@@ -95,48 +101,50 @@ startMod<-glm(WtChange~Prey, myDat, family=gaussian(link = "identity"))
 
 
 
-# Hypothesis testing using P-values
+# Hypothesis testing using P-values {#sec_PValue}
 
 ## What is a P-value
 
-The P-value is used for null-hypothesis significance testing (NHST) (@Muff2022).  The "P" in P-value stands for probability - the probability of observing an outcome given that the null hypothesis is true (@Muff2022; @Popovic2024). Remember that null-hypothesis tests assume that the tested effect is zero.  In the case of hypothesis testing, the null hypothesis test assumes a coefficient describing the effect of a predictor on your response is zero.  
+The P-value is used for null-hypothesis significance testing (NHST) (@Muff2022).  The "P" in P-value stands for probability - the probability of observing an outcome given that the null hypothesis is true (@Muff2022; @Popovic2024). Remember that the null-hypothesis assumes that the tested effect is zero.  In the case of hypothesis testing, the null hypothesis test assumes a coefficient describing the effect of a predictor on your response is zero.  
 
-In the case of hypothesis testing, the null hypothesis you are testing against is that a predictor's coefficient is zero.  So, the P-value associated with the hypothesis testing tells you the probability of getting a coefficient of the value you got even though the coefficient is in fact zero. 
+In the case of hypothesis testing, the null hypothesis you are testing against is that a predictor's coefficient is zero.  So, the P-value associated with the hypothesis testing tells you the probability of getting a coefficient at least as big as your value even though the coefficient is in fact zero. 
 
-When the P-value is very low, we say that there is evidence that the coefficient is not zero, i.e. evidence that your predictor has an effect on your response.  By convention, we say a P-value is low if P < 0.05; meaning that the evidence comes with a 5% probability that the coefficient is actually zero.
+When the P-value is very low, we say that there is evidence that the coefficient is not zero, i.e. evidence that your predictor has an effect on your response.  By convention, we say a P-value is low if P < 0.05; meaning that the evidence comes with a 5% probability that the coefficient is actually zero.  The research community has decided that less than a 5% probability is a level of uncertainty with which we are comfortable.
 
 First, let's describe how this works in general, and then look at an example: 
 
 To determine a P-value associated with a model coefficient, the null-hypothesis testing estimates something called a test statistic based on the coefficient's estimate and the error around it.  This test statistic is assumed to come from a certain data distribution (the exact distribution will vary based on your model structure)
 
-Let's look at an example using our model fit to the hypothesis `WtChange ~ Prey + 1`.  By using `summary()` on our model, we get 
+Let us look at an example using our model fit to the hypothesis `WtChange ~ Prey + 1`.  By using `summary()` on our model, we get 
 
 ```{r}
 
-summary(startMod) # look at our validated starting model
+summary(validMod) # look at our validated starting model
 
 ```
 
-The coefficients table shows us that the Intercept was estimated as `r signif(summary(startMod)$coefficients['(Intercept)', 'Estimate'], 2)` ± `r signif(summary(startMod)$coefficients['(Intercept)', 'Std. Error'], 2)` g and the slope associated with `Prey`^[i.e. the effect of `Prey` on `WtChange`] is `r signif(summary(startMod)$coefficients['Prey', 'Estimate'], 2)` ± `r signif(summary(startMod)$coefficients['Prey', 'Std. Error'], 2)` $g \cdot m^{3}\cdot num^{-1}$. 
+The coefficients table shows us that the Intercept was estimated as `r signif(summary(validMod)$coefficients['(Intercept)', 'Estimate'], 2)` ± `r signif(summary(validMod)$coefficients['(Intercept)', 'Std. Error'], 2)` g and the slope associated with `Prey`^[i.e. the effect of `Prey` on `WtChange`] is `r signif(summary(validMod)$coefficients['Prey', 'Estimate'], 2)` ± `r signif(summary(validMod)$coefficients['Prey', 'Std. Error'], 2)` $g \cdot m^{3}\cdot num^{-1}$. 
 
-For each coefficient, you can see t-statistic (called `t value` in the table) and P-value (called `Pr(>|t\)` in the table).  The t-statistic allows you to test the hypothesis that the coefficient is not different than zero. The t-statistic is the value of the coefficient divided by the standard error (e.g. for the intercept in the example, `r signif(summary(startMod)$coefficients['(Intercept)', 'Estimate'], 2)`/`r signif(summary(startMod)$coefficients['(Intercept)', 'Std. Error'], 2)` =  `r round((summary(startMod)$coefficients['(Intercept)', 'Estimate']/ summary(startMod)$coefficients['(Intercept)', 'Std. Error']),2)`).  The t-statistic is compared to a Student t Distribution to get the probability that we get the estimated coefficient value even though the coefficient is zero.  This probability is the P-value.  When P-values are very small (P << 0.05), we are confident that the coefficients we are estimating are likely different than zero^[for example, a P value of 0.006 means that there is a 0.6% chance we would estimate the effect of `Prey` to be 0.12 $g \cdot m^{3}\cdot num{-1}$ when it was in fact 0], and that the predictor associated with the coefficient can be included in our model (i.e. the predictor is explaining a significant amount of our response variability).  
+For each coefficient, you can see t-statistic (called `t value` in the table) and P-value (called `Pr(>|t\)` in the table).  The t-statistic allows you to test the hypothesis that the coefficient is not different than zero. The t-statistic is the value of the coefficient divided by the standard error (e.g. for the intercept in the example, `r signif(summary(validMod)$coefficients['(Intercept)', 'Estimate'], 2)`/`r signif(summary(validMod)$coefficients['(Intercept)', 'Std. Error'], 2)` =  `r round((summary(validMod)$coefficients['(Intercept)', 'Estimate']/ summary(validMod)$coefficients['(Intercept)', 'Std. Error']),2)`).  The t-statistic is compared to a Student t Distribution to get the probability that we get the estimated coefficient value even though the coefficient is actually zero.  This probability is the P-value.  When P-values are very small (P << 0.05), we are confident that the coefficients we are estimating are likely different than zero^[for example, a P value of 0.006 means that there is a 0.6% chance we would estimate the effect of `Prey` to be 0.12 $g \cdot m^{3}\cdot num{-1}$ when it was in fact 0], and that the predictor associated with the coefficient can be included in our model (i.e. the predictor is explaining a significant amount of our response variability).  
+
+Note that some null-hypothesis tests using P-values will use different test statistics.  For example, your model summary will show a z-statistic instead of a t-statistic for models that only measure the mean of the coefficient value (vs. more than one parameter, e.g. mean and the scale parameter). 
 
 **How to estimate P-values for your model**
 
 The output from the `summary()` function quickly becomes limiting when you have more than one predictor.  Instead, you can use the `anova()` function to estimate the P-values associated with each model term.  
 
-Here's an example for our model testing *WtChange* $\sim Prey + 1$:
+Here is an example for our model testing *WtChange* $\sim Prey + 1$:
 
 ```{r}
 
-anova(startMod, # model object
+anova(validMod, # model object
       test = "F") # type of null hypothesis test to perform
 
 ```
 
 Note here that you need to indicate what type of null hypothesis testing you want:
 
-- use the F-test for error distribution assumptions like normal or gamma (i.e. distributions where the scale parameter is estimated)
+- use the F-test for error distribution assumptions like normal (gaussian) or Gamma (i.e. distributions where the scale parameter is estimated)
 
 - use the Chi-square test for error distribution assumptions like poisson or binomial (i.e. distributions where the scale parameter is fixed)
 
@@ -157,12 +165,12 @@ Two more notes about using P-values:
 
 ## Limitations of P-values
 
-As mentioned in the previous section, problem with the P-value method of testing your research hypothesis comes when you have more than one predictor in your hypothesis.  Correlation among your predictors^[See your notes on Model Validation for more on predictor collinearity] means that it is difficult to trust your coefficient estimates.  This means that you can not use the P-values as a way to determine which coefficients are significantly different than zero when you have correlated predictors.  Said another way, your assessment of whether a predictor is useful in your model will be uncertain if you have correlated predictors.  And correlated predictors are very common. For this reason, we will be hypothesis testing using model selection.
+As mentioned in the previous section, problems with the P-value method of testing your research hypothesis comes when you have more than one predictor in your hypothesis.  Correlation among your predictors^^[see more in the section on [Model Validation](DSPPH_SM_ModelValidation.qmd)] means that it is difficult to trust your coefficient estimates.  This means that you can not use the P-values as a way to determine which coefficients are significantly different than zero when you have correlated predictors.  Said another way, your assessment of whether a predictor is useful in your model will be uncertain if you have correlated predictors.  And correlated predictors are very common. For this reason, we will be hypothesis testing using model selection for the remainder of the handbook.
 
 
 # Hypothesis testing using model selection
 
-An alternative method of testing your hypothesis is through model selection.  This method is more robust to issues like predictor collinearity and can be generally applied regardless of the structure of your experiment or model.  For this reason, we focus on this method of hypothesis testing.
+An alternative method of testing your hypothesis is through model selection.  This method is more robust to issues like predictor collinearity and can be generally applied regardless of the structure of your experiment or model.  
 
 
 ## What is model selection
@@ -173,7 +181,7 @@ Compare the following two models:
 
 (2) *WtChange* $\sim \beta_0 + error$
 
-Note that model 2 is obtained by making the coefficient of `Prey` ($\beta_1$) equal to 0 (i.e. if the effect of `Prey` on `WtChange` was zero).  If you determined which of these two models better fits your data, you will know if $\beta_1$ is likely to be 0 and, thus, whether or not you have evidence that `Prey` can explain variation in `WtChange`.
+Note that model 2 can be made by making the coefficient of `Prey` ($\beta_1$) equal to 0 (i.e. if the effect of `Prey` on `WtChange` was zero).  If you determined which of these two models better fits your data, you will know if $\beta_1$ is likely to be 0 and, thus, whether or not you have evidence that `Prey` can explain variation in `WtChange`.
 
 ## How do you use hypothesis testing for model selection
 
@@ -218,19 +226,20 @@ $Resp \sim 1$
 
 Note that the more predictors you have in your model, the bigger your candidate model set.
 
+
 :::
 
-Hopefully you are starting to see that the difference among models in the candidate model set can be described by setting the coefficient associated with a predictor to zero.  In this way, fitting and comparing the models in your candidate model set is a way of assessing the evidence for your hypothesis. This method is more robust to issues like predictor collinearity because you are assessing the evidence for a predictor's effect on your response when each predictor is in a model alone and when it is in a model with other predictors.
+Hopefully you are starting to see that the difference among models in the candidate model set can be described by setting the coefficient associated with a particular predictor to zero.  In this way, fitting and comparing the models in your candidate model set is a way of assessing the evidence for your hypothesis. This method is more robust to issues like predictor collinearity because you are assessing the evidence for a predictor's effect on your response when each predictor is in a model alone and when it is in a model with other predictors.
 
-One last note about your candidate model set: you must remember the biology when you form your candidate model set.  There may be a biological reason why a certain model must not be included in your candidate model set (i.e. a model that defies biological logic).  These should be excluded from your candidate model set. (@BurnhamAnderson2002).
+One last note about your candidate model set: you must remember the biology when you form your candidate model set.  There may be a biological reason why a certain model must not be included in your candidate model set (i.e. a model that defies biological logic).  These should be excluded from your candidate model set. (@Burnham_Anderson_2002_Book_ModelSelectionMultimodelInference).
 
 ### Fit and rank models in your candidate model set
 
-Each model in the candidate model set is graded based on an estimate of the model's "cost" vs. its "benefit".  
+Next, each model in the candidate model set is fit to your data and graded based on an estimate of the model's "cost" vs. its "benefit".  
 
-The model's cost is how many parameters the model has where you have preference for a simpler model (less parameters) ^[see "The Principle of Parsimony" below].
+The model's cost is how many parameters the model has where you have preference for a simpler model (less parameters; see "The Principle of Parsimony" section below].
 
-The model's benefit is how well the model fits your data - i.e. how much of the variability in your response the model explains.  The benefit estimate relates to the likelihood measure that was used to fit your model and estimate your coefficients.^[see the section on Starting Model] 
+The model's benefit is how well the model fits your data - i.e. how much of the variability in your response the model explains.  The benefit estimate relates to the likelihood measure that was used to fit your model and estimate your coefficients (described in the [Starting Model](DSPPH_SM_StartingModel.qmd) section).
 
 ::: {.callout-tip collapse="true" title="The Principle of Parsimony"}
 
@@ -242,11 +251,11 @@ The principle of parsimony means that, when in doubt, you will choose the simple
 
 * models with fewer assumptions are better
 
-This said, there are times when you might choose a more complicated explanation over a simpler explanation.  One example of this is when you prioritize a model's ability to predict a future response vs. getting an accurate understanding of the underlying mechanisms.  We will discuss this more in the upcoming section on Prediction.  
+This said, there are times when you might choose a more complicated explanation over a simpler explanation.  One example of this is when you prioritize a model's ability to predict a future response vs. getting an accurate understanding of the underlying mechanisms (e.g. using a model to accurately predict tomorrow's weather vs. understanding the mechanisms behind tomorrow's weather).  We will discuss this more in the upcoming section on Prediction.  
 
 :::
 
-You can fit and rank your models quickly using a function called `dredge()` in the MuMIn package^[note the spelling and capitalization of this package name!].  The `dredge()` function fits and ranks models representing all possible predictor combinations based on your starting model - i.e. your default candidate model set^[other methods include forwards or backwards model selection.  In these, you add (or subtract) one predictor term from your starting model to determine the effect on your model's ability to explain the variability in your response.  These methods can be biased by collinearity among your predictors in your model, so we will proceed with looking at all possible predictor combinations as described here].  The output is a table ranking the models in your candidate model set.  
+You can fit and rank your models quickly using a function called `dredge()` in the MuMIn package^[note the spelling and capitalization of this package name!].  The `dredge()` function fits and ranks models representing all possible predictor combinations based on your validated starting model - i.e. your default candidate model set^[other methods include forwards or backwards model selection.  In these, you add (or subtract) one predictor term from your starting model to determine the effect on your model's ability to explain the variability in your response.  These methods can be biased by collinearity among your predictors in your model, so we will proceed with looking at all possible predictor combinations as described here].  The output is a table ranking the models in your candidate model set.  
 
 Let's explore this now.
 
@@ -257,7 +266,7 @@ library(MuMIn) # load MuMIn package
 
 options(na.action = "na.fail") # to avoid illegal model fitting
 
-dredgeOut <- dredge(startMod) # create model selection table for validated starting model
+dredgeOut <- dredge(validMod) # create model selection table for validated starting model
 
 print(dredgeOut)
 
@@ -283,14 +292,14 @@ The Model selection table contains one row for each model in our candidate model
 
 *Find the column called "(Intrc)"*.  This column tells us when the intercept is included in the model.  If there is a number in that column, the associated model in your candidate model set (row) contains an intercept.  Note that by default all models will contain an intercept^[indeed, your null model *only* contains an intercept].
 
-*Find the column called "Prey"*.  This column tells us when the `Prey` predictor is in the model. Notice the first row contains a number in the Prey column, while the second row is blank.  This means that `Prey` is a predictor in the model reported in the first row but is missing from the model in the second.  Note also that a number is recorded in the Prey column, row 1 (`r round(dredgeOut$Prey[1],4)`).  This is the coefficient associated with the `Prey` predictor.  Since we have a normal error distribution assumption, this coefficient can be considered the slope of a line^[and it is the same number given in the `summary()` output above. More on this coming up in the Reporting section!].  If the predictor was a categorical predictor (vs. continuous predictor), a "+" would appear in the Model selection table when the categorical predictor was in the model. 
+*Find the column called "Prey"*.  This column tells us when the `Prey` predictor is in the model. Notice the first row contains a number in the Prey column, while the second row is blank.  This means that `Prey` is a predictor in the model reported in the first row but is missing from the model in the second.  Note also that a number is recorded in the Prey column, row 1 (`r round(dredgeOut$Prey[1],4)`).  This is the coefficient associated with the `Prey` predictor.  Since we have a normal error distribution assumption, this coefficient can be considered the slope of a line^[and it is the same number given in the `summary()` output above. More on this coming up in the [Reporting section](DSPPH_SM_Reporting.qmd)!].  If the predictor was a categorical predictor (vs. numeric predictor), a "+" would appear in the Model selection table when the categorical predictor was in the model. 
 
-So, in our example above, the model in the first row contains an intercept and the `Prey` - i.e. the first row is the model `WtChange ~ Prey + 1`.  The model in the second row contains only an intercept - i.e. the second row is the model `WtChange ~ 1`.  
+So, in our example above, the model in the first row contains an intercept and the `Prey` predictor - i.e. the first row is the model `WtChange ~ Prey + 1`.  The model in the second row contains only an intercept - i.e. the second row is the model `WtChange ~ 1`.  
 
 
-The rest of the columns in the Model selection table contain information that help us rank the models.  
+The rest of the columns in the model selection table contain information that help us rank the models.  
 
-* the "df" column reports the number of model coefficients. Models that are more complicated (e.g. more predictors) will have a higher df as they require more coefficients to fit. Models with more terms are more "costly". In the first row (`WtChange ~ Prey + 1`), df is 3 because the model fitting estimates a coefficient for `Prey`, for the intercept, and for the normal error distribution assumption (standard deviation).  In the second row (`WtChange ~ 1`), df is 2 because the model fitting estimates a coefficient for the intercept, and for the normal error distribution assumption (standard deviation). So the model in the first row is more costly than the second row.
+* the "df" column reports the number of model coefficients. Models that are more complicated (e.g. more predictors) will have a higher df as they require more coefficients to fit. Models with more terms are more "costly". In the first row (`WtChange ~ Prey + 1`), df is 3 because the model fitting estimates three coefficients: one for the effect of `Prey` on `WtChange`, one for the intercept, and, since this is a normal error distribution assumption, one for the standard deviation.  In the second row (`WtChange ~ 1`), df is 2 because the model fitting estimates a coefficient for the intercept, and for the normal error distribution assumption's standard deviation. So the model in the first row is more "costly" than the second row.
 
 * the "logLik" column reports the log-Likelihood of the model fit.  The absolute value of this estimate will depend on the type of data you are modelling, but in general, the logLik is related to how much variation in your response the model explains.  It can be used to compare models fit to the same data.  This can be seen as a measure of the "benefit" of the model.
 
@@ -298,7 +307,7 @@ The rest of the columns in the Model selection table contain information that he
 
 $AIC = 2\cdot k - 2 \cdot ln(L)$
 
-where $k$ is the cost of the model (number of coefficients, like df above), and $L$ is the maximum likelihood estimate made when the model was fit. 
+where $k$ is the cost of the model (number of coefficients, like df above), and $L$ is the maximum likelihood estimate made when the model was fit (like logLik above). 
 
 There are other types of information criteria such as Bayesian Information Criteria (BIC, where the cost is penalized harsher, favouring a simpler model), and the corrected Akaike Information Criterion (AICc, where the metric is optimized for small sample sizes).  The AICc is reported by default here, but you can control that in the `dredge()` function.  **In all cases, lower information criterion means more support for the model.**
 
@@ -322,7 +331,7 @@ where
 - $\Delta AIC_i$ is the change in AIC for model *i* vs. the model with the lowest AIC
 - $\Delta AIC_r$ is the change in AIC for model *r* vs. the model with the lowest AIC.  This is estimated for all models in the candidate model set (*R* models).
 
-@BurnhamAnderson2002
+@Burnham_Anderson_2002_Book_ModelSelectionMultimodelInference
 
 :::
 
@@ -333,13 +342,17 @@ Using the model selection table, you can choose your best-specified model(s) and
 
 In general, your best-specified model will be the model with the lowest information criterion (e.g. AIC)^[Note that lower is always better with information criterion, though the magnitude of the AIC value will change from case to case.].  This will be the model at the top of the model selection table. 
 
-That said, notice I write "best-specified model(s)" - possibly plural.  This is because you might have models where the AIC estimates are very close to one another.   A good rule of thumb is to report all models where the AIC is within 2 of the lowest AIC model (i.e. delta < 2).  Following @BurnhamAnderson2002, 
+That said, notice I write "best-specified model(s)" - possibly plural.  This is because you might have models where the AIC estimates are very close to one another.   A good rule of thumb is to report all models where the AIC is within 2 of the lowest AIC model (i.e. delta < 2).  Following @Burnham_Anderson_2002_Book_ModelSelectionMultimodelInference, 
 
 | for models where delta is | there is ... for the model |
 |----|----|
 | 0-2 | substantial support |
 | 4-7 | considerably less support |
 | > 10 | essentially no support |
+
+
+Remember that ambivalence about which is the best model to explain variability in your response is a valid scientific result [@Burnham_Anderson_2002_Book_ModelSelectionMultimodelInference].  Report all possible best-specified models and discuss what they mean for your research hypothesis and area, including possible follow-up studies that could be done to further the science in this area. More on this is discussed in the section on [Communicating](DSPPH_SM_Communicating.qmd).
+
 
 With our example above:
 
@@ -356,12 +369,12 @@ and essentially no support for the null model:
 
 `WtChange ~ 1` (AICc = `r round(dredgeOut$AICc[2],1)`; delta = `r round(dredgeOut$delta[2],1)`)
 
-We can conclude that there is evidence that `Prey` explains variability in `WtChange`.  
+We can conclude that there is evidence that `Prey` explains variability in `WtChange`.
 
 
 ### What does your best-specified model(s) say about your hypothesis?
 
-Model selection is a way of hypothesis testing.  So what does your best-specified model say about your hypothesis?  By comparing your best-specified model to your starting model, you can see where there is evidence for the effects of each predictor, and where the effects are estimated to be zero.  
+Model selection is a way of hypothesis testing.  So what does your best-specified model say about your hypothesis?  By comparing your best-specified model to your validated starting model, you can see where there is evidence for the effects of each predictor, and where the effects are estimated to be zero.  
 
 
 As our best-specified model is 
@@ -372,7 +385,7 @@ We can conclude that there is evidence that `Prey` explains variability in `WtCh
 
 ::: {.callout-tip collapse="true" title="More examples"}
 
-if our starting hypothesis was: 
+if our validated starting hypothesis was: 
 
 $Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1$
 
@@ -386,7 +399,7 @@ $Resp \sim Pred1 + Pred2 + Pred1:Pred2 + 1$
 
 :::
 
-In the next section (on Reporting), we will discuss further how to communicate what your hypothesis testing results say about your hypothesis.
+In the next section (on [Reporting](DSPPH_SM_Reporting)), we will discuss further how to communicate what your hypothesis testing results say about your hypothesis.
 
 
 
