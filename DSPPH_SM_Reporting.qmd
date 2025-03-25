@@ -1,7 +1,11 @@
 ---
 title: "Statistical Modelling: Reporting"
----
+bibliography: handbook.bib
 
+number-sections: true
+number-depth: 2
+
+---
 
 ```{r} 
 #| echo: false
@@ -25,15 +29,35 @@ library(formatR)
 
 # Reporting your hypothesis testing results
 
-To report your model, you want to communicate a number of things:  
+In an upcoming section, we will discuss [communicating your hypothesis testing (including results)](DSPPH_SM_Communicating.qmd) more formally - i.e. the text and visuals you will use to write your own scientific reports and papers.  In the current chapter, we will gather many of the pieces needed for that task.
 
-* your best-specified model(s) 
+Remember that testing your hypothesis means looking for evidence of an effect of each predictor on your response.  To report your model, you want to communicate this evidence, including:  
 
-* how well your model explains your response 
+:::{.callout-tip collapse="true" title="your best-specified model(s) "} 
 
-* your modelled effects 
+You will report [your best-specified model](#sec_reportBestMod) by reporting the terms - the predictors and any interactions - that are in your model, and any from your starting model that were removed during model selection.
 
-In a few weeks, we will discuss communicating your hypothesis testing (including results) more formally - i.e. the text and visuals you will use to write your own scientific reports and papers.  In the current chapter, we will gather many of the pieces needed for that task.
+:::
+
+:::{.callout-tip collapse="true" title="how well your model explains your response "} 
+
+You will report [how much variability in your response your best-specified model is able to explain](#sec_reportExplainedDeviance), and the relative importance of each model term - the predictors and any interactions - in explaining that variability.
+
+:::
+
+:::{.callout-tip collapse="true" title="your modelled effects "} 
+
+You will [report your modelled effects](#sec_reportEffects) - i.e. the effect of each predictor on your response.  Here you are interested in reporting:
+
+- how big the effect of a predictor is on your response,
+
+- how certain you are that there is an effect of the predictor on your response (is the effect bigger than zero?), and
+
+- (for categorical predictors), if the effects differ among levels of a categorical predictor.
+
+Remember that model effects are captured in your coefficients. 
+
+:::
 
 
 # Introducing the examples:
@@ -63,7 +87,7 @@ Note that each example is testing a different hypothesis by fitting a different 
 
 Note also that the examples will all involve a normal error distribution assumption.  I will point out when your process would be different for a different error distribution assumption (e.g. Gamma, poisson, and binomial)
 
-Finally, note that I am not going through all the steps that got us to these example best-specified models, but assume we went through the previous steps (Response, Predictors, Hypothesis, Starting model, Model validation and Hypothesis testing) as we practiced in class to choose each best-specified model.
+Finally, note that I am not going through all the steps that got us to these example best-specified models, but assume we went through the previous steps ([Responses](DSPPH_SM_Response.qmd), [Predictors](DSPPH_SM_Predictors.qmd), [Hypothesis](DSPPH_SM_Hypothesis.qmd), [Starting model](DSPPH_SM_StartingModel.qmd), [Model validation](DSPPH_SM_ModelValidation.qmd) and [Hypothesis testing](DSPPH_SM_HypothesisTesting.qmd)) as outlined in this Handbook to choose each best-specified model.
 
 :::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
 
@@ -471,15 +495,15 @@ dredgeOut4
 ```
 :::
 
-# Reporting your best-specified models 
+# Reporting your best-specified models {#sec_reportBestMod}
 
 ::: {.alert .alert-warning}
-This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the same process for models of any structure.
+This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the process presented here for models of any structure.
 :::
 
 Reporting your best-specified model means reporting the terms - the predictors and any interactions - that are in your model.  It is good practice to present the model along with the results from the model selection.  In this way, you can include multiple best-specified models if there is evidence that more than one might be useful.  Depending on your hypothesis and results, you may want to present all models within ∆AICc < 2 of the best-specified model, or all models with any Akaike weight, or simply all models.
 
-Remember from the Hypothesis Testing chapter that you can also use the output from `dredge()` function to report evidence for how you picked the best-specified model. When we discuss communicating your hypothesis testing in a few weeks, I'll include some functions that can help make quick work of making a model selection table. 
+Remember from the [Hypothesis Testing](DSPPH_SM_HypothesisTesting.qmd) chapter that you can also use the output from `dredge()` function to report evidence for how you picked the best-specified model.^[more to come in the section on [communicating](DSPPH_SM_Communicating.qmd)]
 
 
 Let's take a look at how you do this with our examples:
@@ -554,33 +578,33 @@ This was chosen as the best-specified model as it had the lowest AICc and the ne
 
 :::
 
-# Reporting how well your model explains your response
+# Reporting how well your model explains your response {#sec_reportExplainedDeviance}
 
 ::: {.alert .alert-warning}
-This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the same process for models of any structure.
+This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the process presented here for models of any structure.
 :::
 
-In this section you will determine
+In this section you will report
 
-* how much deviance in your response is explained by your model
+* how much variation (deviance) in your response is explained by your model
 
 * how important each of your predictors is in explaining that deviance
 
-## how much variation in your response is explained by your model
+## how much variation (deviance) in your response is explained by your model
 
 If you will recall, your whole motivation for pursuing statistical modelling was to explain variation in your response.  Thus, it is important that you quantify how much variation in your response you are able to explain by your model.
 
 Note that **we will discuss this as "explained deviance" rather than "explained variation"**.  This is because the term "variance" is associated with models where the error distribution assumption is normal, whereas deviance is a more universal term.  
 
-When you have a **normal error distribution assumption and linear shape assumption**, you can capture the amount of explained deviance simply by comparing the variance in your response (i.e. the starting variation *before* you fit your model - the null variation) vs. the variance in your model residuals (i.e. the remaining variation *after* you fit your model - the residual variation) as the $R^2$:
+When you have a **normal error distribution assumption and linear shape assumption**, you can capture the amount of explained deviance simply by comparing the variation in your response (i.e. the starting variation *before* you fit your model - the null variation) vs. the variation in your model residuals (i.e. the remaining variation *after* you fit your model - the residual variation) as the $R^2$:
 
 $R^2 = 1 - \frac{residual variation}{null variation}$
 
 From this equation, you can see how, if your model is able to explain all the variation in the response, the residual variation will be zero, and $R^2 = 1$.  Alternatively, if the model explains no variation in the response the residual variation equals the null variation and $R^2 = 0$.
 
-For models with **other error distribution and shape assumptions**, you need another way of estimating the goodness of fit of your model.  You can do this through a pseudo $R^2$.  
+For models with **other error distribution and shape assumptions**, you need another way of estimating the goodness of fit of your model.  You can do this through estimating a pseudo $R^2$. 
 
-One useful pseudo $R^2$ is called the Likelihood Ratio $R^2$ or $R^2_{LR}$.  The $R^2_{LR}$ compares the likelihood of your best-specified model to the likelihood of the null model:
+There are many many different types of pseudo $R^2$.^[check the [rr2 package](https://cran.r-project.org/web/packages/effectsize/vignettes/interpret.html) for many different options] One useful pseudo $R^2$ is called the Likelihood Ratio $R^2$ or $R^2_{LR}$.  The $R^2_{LR}$ compares the likelihood of your best-specified model to the likelihood of the null model:
 
 $R^2_{LR} = 1-exp(-\frac{2}{n}(log𝓛(model)-log𝓛(null)))$
 
@@ -598,11 +622,27 @@ Let's compare this to the traditional $R^2$:
 1-summary(bestMod1)$deviance/summary(bestMod1)$null.deviance
 ```
 
-Note that the two estimates are similar: One nice feature of the $R^2_{LR}$ is that it is equivalent to the regular $R^2$ when our model assumes a normal error distribution assumption and linear shape assumption, so **you can use $R^2_{LR}$ for any of the models that we are discussing in class.**
+Note that the two estimates are similar: One nice feature of the $R^2_{LR}$ is that it is equivalent to the regular $R^2$ when our model assumes a normal error distribution assumption and linear shape assumption, so you can use $R^2_{LR}$ for a wide range of models.
+
+
+:::{.callout-caution collapse="true" title="Aside: what is a "good" `R^2`?"} 
+
+Recall that your goal in hypothesis testing is to explain the variation in your response - preferably as much variation as possible!  So it is natural to hope for a high `R^2` but this is a trap: the results of your hypothesis testing^[when done in a robust fashion] are valuable whether you are able to explain 3% or 93% of the variation in your response.  Remember:
+
+- You are progressing science either way - helping the field learn about mechanisms and design future experiments.
+
+- Remaining unexplained variation points to potential limitations in measuring predictor effects and/or other predictors (not in your model) that may play a role.
+
+For context, here is a plot of `R^2` values from a meta-analysis of biology studies:
+
+<img src="./goodR2.png" align="right" width="300px"/>
+
+:::
+
 
 ## how important is each of your predictors in explaining that variation
 
-When you have more than one predictor in your model. you may also want to report how relatively important each predictor is to explaining deviance in your response.  This is also called "partitioning the explained deviance" to the predictors.
+When you have more than one predictor in your model, you may also want to report how relatively important each predictor is to explaining deviance in your response.  This is also called "partitioning the explained deviance" to the predictors or "variance decomposition".
 
 :::{.callout-caution collapse="true" title="Aside: what we won't be doing"} 
 
@@ -640,7 +680,7 @@ diffR2 <- R2.mod3 - R2.mod1 # find estimated contribution of Cont to explained d
 diffR2
 ```
 
-Now it looks like `r round(diffR2,3)*100`% of the variability in `Resp4` is explained by `Cont6`! Quite a different answer!  Your estimates of the contribution of `Cont6` to explaining the response deviation don't agree because of collinearity among our predictors^[see also the course notes from Model Validation].  
+Now it looks like `r round(diffR2,3)*100`% of the variability in `Resp4` is explained by `Cont6`! Quite a different answer!  Your estimates of the contribution of `Cont6` to explaining the response deviation don't agree because of collinearity among our predictors - more on this in the section on [Model Validation](DSPPH_SM_ModelValidation.qmd).
 
 :::
 
@@ -812,11 +852,15 @@ Here you can see that `Cat5`, `Cont6` and the interaction `Cat5:Cont6` are all e
 :::
 
 
-# Reporting your modelled effects
+# Reporting your modelled effects {#sec_reportEffects}
 
-In the last chapter of these notes, we discussed testing your hypothesis.  
+In the last chapter of these notes, we discussed [testing your hypothesis](DSPPH_SM_HypothesisTesting.qmd).  
 
-Remember that testing your hypothesis is looking for evidence of **effects** of your predictors on your response.  By testing your hypothesis, you determined that there was evidence that the effects of your predictors on your response are non-zero.  
+Remember that testing your hypothesis is looking for evidence of **effects** of your predictors on your response.  By testing your hypothesis, you determined that there was evidence that the effects of your predictors on your response are non-zero [@Popovic2024]. 
+
+These effects are presented as estimates of the coefficients in your model (e.g. a slope) which are called parameters once they have been estimated.
+
+For *categorical* predictors, the coefficient represents how much your response changes (increases or decreases) when you change from one level of the category to another.  For *numeric* predictors, the coefficient represents how much your response changes (increases or decreases) when you increase your predictor by one unit.  More on this below!
 
 Here you will gather the information to communicate visually and quantitatively the magnitude and direction of your effects and determine (in some cases) where effects are similar or different from one another, answering questions like:
 
@@ -826,17 +870,20 @@ Here you will gather the information to communicate visually and quantitatively 
 
 - is that change (effect) similar across levels of your categorical predictor?
 
-You will report your modelled effects in two ways:
+You can report your modelled effects in a number of ways^[with some options being more or less helpful depending on your model structure]:
 
 1) **Visualizing your model effects**: Here, you will make plots of your model effects including the effects themselves, uncertainty around the effects and your observations.  These plots will help communicate your modelled effects as well as how well your model fits your observations.
 
-2) **Quantifying your model effects**: Here, you will report (in numbers) the magnitude and direction of your modelled effects along with the uncertainty. Exactly how you do that will depend on the structure of your model (e.g. the error distribution assumption).  We will go through a number of examples here. You will also look for evidence of whether modelled effects of a categorical predictor differ across all levels.  
+2) **Giving examples of your modelled effects**: Here, you will use your model to predict the value of your response (with uncertainty) to illustrate how the response changes when your predictors change.  
 
+3) **Quantifying your model effects**: Here, you will report (in numbers) the magnitude and direction of your modelled effects along with the uncertainty. Exactly how you do that will depend on the structure of your model (e.g. the error distribution assumption).  We will go through a number of examples here. You will also look for evidence of whether modelled effects of a categorical predictor differ across all levels.  
+
+We will focus on options #1 and 3 here as giving examples of your modelled effects is covered^[also see the "by hand" visualization method below] in the section on [predicting](DSPPH_SM_Predicting.qmd).
 
 ## Visualizing your model effects
 
 ::: {.alert .alert-warning}
-This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the same process for models of any structure.
+This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the process presented here for models of any structure.
 :::
 
 Here, you will visualize how each predictor is affecting the response by drawing how your modelled fitted values (the estimates of your response made by the model) change with your predictors, along with a measure of uncertainty around those fitted values.  You also want to include your data (actual observations of your response and predictors) so you can start to communicate how well your model captures your hypothesis, and what amount of deviance in your response is explained by your model.  
@@ -845,10 +892,13 @@ There are a lot of different R packages that make it easy to quickly visualize y
 
 * *visualizing using the visreg package*: This will let you get a quick look at your model object with a limited amount of customization. 
 
-* *vizualizing "by hand"*: Here, "by hand" is a bit of a silly description as R will be doing the work for you.  What I mean by "by hand" is that you will be building the plot yourself by querying your model object. This method is very flexible and will lead you to a fully customizable visualization.  This process involves i) choosing the values of your predictors at which to make estimates of your fitted values, ii) using `predict()` to use your model to estimate your response variable at those values of your predictors, and iii) use the model estimates to plot your model fit.  Aside: this is similar to what we will be doing when we learn about model predictions in the next chapter of these notes.
+* *vizualizing "by hand"*: Here, "by hand" is a bit of a silly description as R will be doing the work for you.  What I mean by "by hand" is that you will be building the plot yourself by querying your model object. This method is very flexible and will lead you to a fully customizable visualization.  This process involves i) choosing the values of your predictors at which to make estimates of your fitted values, ii) using `predict()` to use your model to estimate your response variable at those values of your predictors, and iii) use the model estimates to plot your model fit.  Aside: this method is also what is used to make predictions from your model - more in the [Predicting](DSPPH_SM_Predicting.qmd) section. 
 
-Below are visualizations for each of our examples. 
+Below are visualizations for each of our examples.  Two further tips:
 
+- In a few of the examples, we use ggplot2's `position_dodge` argument.  Be careful here - it can be useful for avoiding overlapping data points when predictors are categorical BUT can actually change the location of data points if used with a numeric predictor.
+
+- Note that we *do not* use the `geom_smooth()` function in the ggplot2 package.  The fits provided by `geom_smooth()` are not the same as the model fits directly from your best-specified model so we avoid this here (e.g. `geom_smooth()` will fit a separate model for each level of your categorical predictor negating the hypothesis testing that allows us to make comparisons across the predictor levels).
 
 
 :::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
@@ -879,7 +929,8 @@ visreg(bestMod1, # model to visualize
 
 
 ```
-Unfortunately due to limitations of the visreg package, you can not easily add you observations onto plots where the x-axis is a categorical predictor.  But that's ok, because there are other options...
+
+Note the small dashes at the top and bottom of the plot.  This is called the "rug".  visreg uses the rug to give an indication of where your observed data lie - a dash on the bottom axis means you have a data point at that location that would be a positive residual relative to the model fit; a dash on the top axis means you have a data point at that location that would be a positive residual relative to the model fit.  This is useful, but not the same as actually including your observations on the plot.  Unfortunately due to limitations of the visreg package, you can not easily add you observations onto plots where the x-axis is a categorical predictor.  But that's ok, because there are other options...
 
 **Visualizing by hand**
 
@@ -899,19 +950,21 @@ forVis<-expand.grid(Cat1=forCat1) # expand.grid() function makes sure you have a
 ```
 
 
-ii) Next, you will use the `predict()` function^[you will be using the `predict()` function again in an upcoming chapter... when you predict!] to get the model estimates of your response variable at those values of your predictors:
+ii) Next, you will use the `predict()` function^[you will be using the `predict()` function again in the [Predicting](DSPPH_SM_Predicting) chapter] to get the model estimates of your response variable at those values of your predictors:
 
 ```{r}
 
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod1, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod1)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
 
 
 ```
@@ -1003,7 +1056,7 @@ visreg(bestMod2, # model to visualize
 
 ```
 
-Unfortunately due to limitations of the visreg package, you can not easily add you observations onto plots where the x-axis is a categorical predictor.  But that's ok, because there are other options...
+Note the small dashes at the top and bottom of the plot.  This is called the "rug".  visreg uses the rug to give an indication of where your observed data lie - a dash on the bottom axis means you have a data point at that location that would be a positive residual relative to the model fit; a dash on the top axis means you have a data point at that location that would be a positive residual relative to the model fit.  This is useful, but not the same as actually including your observations on the plot. Unfortunately due to limitations of the visreg package, you can not easily add you observations onto plots where the x-axis is a categorical predictor.  But that's ok, because there are other options...
 
 
 
@@ -1026,12 +1079,14 @@ forVis<-expand.grid(Cat2 = forCat2, Cat3 = forCat3) # expand.grid() function mak
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod2, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod2)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
 
 #### iii) use the model estimates to plot your model fit
 
@@ -1098,6 +1153,8 @@ visreg(bestMod3, # model to visualize
 
 ```
 
+Note the small dashes at the top and bottom of the plot.  This is called the "rug".  visreg uses the rug to give an indication of where your observed data lie - a dash on the bottom axis means you have a data point at that location that would be a positive residual relative to the model fit; a dash on the top axis means you have a data point at that location that would be a positive residual relative to the model fit.  
+
 **Visualizing by hand**
 ```{r}
 
@@ -1116,12 +1173,15 @@ forVis<-expand.grid(Cont4 = forCont4) # expand.grid() function makes sure you ha
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod3, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link",# here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+
+ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
 
 #### iii) use the model estimates to plot your model fit
 
@@ -1154,6 +1214,28 @@ ggplot() + # start ggplot
   theme_bw() # change ggplot theme
 
 
+# another option making use of geom_ribbon()
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat3, # add observations to your plot
+             mapping = aes(x = Cont4, y = Resp3)) + # control position of data points so they are easier to see on the plot
+  
+  geom_ribbon(data = forVis, # add uncertainty to your plot (upper line)
+          mapping = aes(x = Cont4, ymin = Lower, ymax = Upper),
+          alpha = 0.3) + # control the transparency, between 0 (transparent) and 1 (opaque)
+
+  geom_line(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Cont4, y = Fit),
+              size = 1.2) + # control thickness of line
+  
+  ylab("Resp3, (units)") + # change y-axis label
+  
+  xlab("Cont4, (units)") + # change x-axis label
+  
+  theme_bw() # change ggplot theme
+
+
 
 ```
 
@@ -1164,7 +1246,7 @@ ggplot() + # start ggplot
 
 ###### Example 4: Resp4 ~ Cat5 + Cont6 + Cat5:Cont6 + 1
 
-
+plotting with marginal effects can be 4 D with x-axis, colour, row and columns
 **Visualizing with the visreg package** 
 
 As you will see in @sec_quantifying, there is no evidence of an effect of `Cont6` on `Resp3` when `Cat5 = Farm` - i.e. the coefficient (slope) is not different from zero.  In such cases, you would typically **not** include the effect on the plot (red line in the next figure), but I include it here to illustrate the visualization techniques.
@@ -1177,7 +1259,7 @@ library (visreg) # load visreg package for visualization
 
 library(ggplot2) # load ggplot2 package for visualization
 
-visreg(bestMod, # model to visualize
+visreg(bestMod4, # model to visualize
        scale = "response", # plot on the scale of the response
        xvar = "Cont6", # predictor on x-axis
        by = "Cat5", # predictor plotted as colour
@@ -1200,7 +1282,7 @@ A plot with `Cat5` on the x-axis: Notice how the continuous predictor is represe
 ```{r}
 
 
-visreg(bestMod, # model to visualize
+visreg(bestMod4, # model to visualize
        scale = "response", # plot on the scale of the response
        xvar = "Cat5", # predictor on x-axis
        by = "Cont6", # predictor plotted as colour
@@ -1220,7 +1302,7 @@ You can also specify at which levels the breaks should occur with the `breaks = 
 
 ```{r}
 
-visreg(bestMod, # model to visualize
+visreg(bestMod4, # model to visualize
        scale = "response", # plot on the scale of the response
        xvar = "Cat5", # predictor on x-axis
        by = "Cont6", # predictor plotted as colour
@@ -1249,7 +1331,6 @@ Here's an example with `Cont6` on the x-axis:
 
 #### i) choosing the values of your predictors at which to make a prediction
 
-
 # Set up your predictors for the visualized fit
 forCat5<-unique(myDat4$Cat5) # all levels of your categorical predictor
 forCont6<-seq(from = min(myDat4$Cont6), to = max(myDat4$Cont6), by = 1)# a sequence of numbers in your continuous predictor range
@@ -1263,12 +1344,14 @@ forVis<-expand.grid(Cat5 = forCat5, Cont6 = forCont6) # expand.grid() function m
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod4, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link",# here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
 
 #### iii) use the model estimates to plot your model fit
 
@@ -1301,6 +1384,32 @@ ggplot() + # start ggplot
   labs(fill="Cat5, (units)", col="Cat5, (units)") + # change legend title
   
   theme_bw() # change ggplot theme
+
+
+
+# another option making use of geom_ribbon()
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat4, # add observations to your plot
+             mapping = aes(x = Cont6, y = Resp4, col = Cat5)) + # control position of data points so they are easier to see on the plot
+  
+  geom_ribbon(data = forVis, # add uncertainty to your plot (upper line)
+          mapping = aes(x = Cont6,  ymin = Lower, ymax = Upper, fill = Cat5),
+          alpha = 0.3) + # control the transparency, between 0 (transparent) and 1 (opaque)
+
+  geom_line(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Cont6, y = Fit, col = Cat5),
+              size = 1.2) + # control thickness of line
+  
+  ylab("Resp4, (units)") + # change y-axis label
+  
+  xlab("Cont6, (units)") + # change x-axis label
+  
+  labs(fill="Cat5, (units)", col="Cat5, (units)") + # change legend title
+  
+  theme_bw() # change ggplot theme
+
 
 
 
@@ -1443,7 +1552,7 @@ How you quantify your model effects varies with your model structure.  If it is 
 
 In this section, you will learn how to report your modelled effects in numbers. In general, this section will involve answering:
 
-* What are your modelled effects (with uncertainty)?
+* What are your modelled effects (the magnitude, direction and uncertainty of your coefficient estimates)?
 
 If you also have a categorical predictor with more than two levels, you will also want to answer:
 
@@ -1453,9 +1562,11 @@ Let's examine each of these in turn:
 
 ### What are your modelled effects (with uncertainty)?
 
-Recall from the text above that your model effects describe the change in your response given a change in your predictor.  
+Recall from the text above that your model effects describe the change in your response given a change in your predictor.  These effects are given in the estimates of your coefficients.
 
-When you have a continuous predictor, this effect is the the amount of change in the response that is caused by a unit change in your continuous predictor.  Information about this effect is captured in the coefficient (slope) of the linear fit. Expand the text box below to see why.
+When you have a numeric predictor, the coefficient gives the amount of change in the response that is caused by a unit change in your numeric predictor.  When the coefficient is positive, you have an increase in your response with a unit change in your predictor.  When the coefficient is negative, you have a decrease in your response with a unit change in your predictor. When the coefficient is zero, you have no change in your response for a unit change in your predictor, and you would conclude that there is no evidence that your predictor explains variability in your response. 
+
+For linear models, information about the effect of a numeric predictor is captured in the coefficient (slope) of the linear fit, (Expand the text box below to see why), and this effect is the same across the entire range of your predictor (the definition of a linear relationship).  When you have a numeric predictor in your best-specified model, you can conclude that there is evidence that it is explaining variation in your response.
 
 :::{.callout-note collapse="true" title="the math"} 
 
@@ -1506,13 +1617,11 @@ Recall that you can see the default link functions associated with each error di
 
 :::
 
-When you have a categorical predictor, the coefficient represents the intercept of the linear fit and how that intercept changes as you move from one category to another.  So if you have a categorical predictor with 3 categories (levels), you will have three coefficients that describe how the mean of your response changes as you move from category to category.
+When you have a categorical predictor, the coefficient is the intercept of the linear fit and the effect of the predictor on your response is captured in how that intercept changes as you move from one level of your category to another.  So if you have a categorical predictor with 3 categories (levels), you will have three coefficients: one coefficient that describes the mean response level for one category, and two coefficients that describe how this mean changes when you change categories. A positive coefficient for level B means that there is a higher mean response value when your predictor is level B vs. level A. A negative coefficient for level B means that there is a lower mean response value when your predictor is level B vs. level A.  A coefficient for level B that is zero means that there is no evidence of a difference in your response value when your predictor is level B vs. level A. 
 
-When you have an interaction among your predictors, you will have one coefficient for each combination in your interaction. 
+Finally, you need to report the uncertainty around your modelled effects so your peers know how much evidence there is for these modelled effects.  There are a number of ways to do this.  Two common ones are i) reporting standard errors (SE) which are a measure of uncertainty of the average modelled effect, and ii) the 95% confidence intervals around your modelled effects, which tell you the range your modelled effects would be expected to fall into (with a 95% probability) if you redid your experiment. We will focus on the 95% confidence intervals as they tend to be more generally interperable across different types of models.
 
-Finally, you need to report the uncertainty around your modelled effects so your peers know how much evidence there is for these modelled effects.  There are a number of ways to do this.  Two that we will use are i) reporting standard errors (SE) which are a measure of uncertainty of the average modelled effect, and ii) the 95% confidence intervals around your modelled effects, which tell you the range your modelled effects would be expected to fall into (with a 95% probability) if you redid your experiment.  
-
-These principles are true regardless of your model structure BUT our interpretation of what the effects mean in the real world will vary based on e.g. your error distribution assumptions (see the text box above for an explanation).  In the examples below, you will learn how to quantify your modelled effects and uncertainty estimates for models with a normal error distribution assumption.  There are sections below to show you how to do the same for models with other error distribution assumptions.
+The meaning behind your coefficients outlined above are true regardless of your model structure BUT our interpretation of what the effects mean in the real world will vary based on e.g. your error distribution assumptions (see the text box above for an explanation).  In the examples below, you will learn how to quantify your modelled effects and uncertainty estimates for models with a normal error distribution assumption.  After this, there are sections below to show you how to do the same for models with other error distribution assumptions.
 
 For a quick summary, here is how the method depends on your modelled error distribution assumption:
 
@@ -1521,12 +1630,11 @@ For a quick summary, here is how the method depends on your modelled error distr
 
   
 
-### Are the modelled effects different than one another across categorical levels? (only needed for categorical predictors)
+### Are the modelled effects different than one another across categorical levels? (only needed for categorical predictors with more than two levels)
 
-When you have a categorical predictor in your best-specified model, you know there is evidence of an effect for at least one of your levels (categories).  This step will tell you where you have evidence that the effects among your factor levels differ.  The processes outlined below are the same for any model structure. 
+When you have a categorical predictor in your best-specified model, you know there is evidence of an effect for at least one of your levels (categories).  You will also need to determine the evidence for the the effects among your factor levels, where they differ from zero and where they differ from each other. The processes for this outlined below can be applied to models of any structure. 
 
 ### Models with a normal error distribution assumption: {#sec-normalModelEffects}
-
 
 
 :::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
@@ -1541,7 +1649,7 @@ Recall that Example 1 contains only one predictor and it is categorical:
 
 **What are your modelled effects (with uncertainty)?**
 
-In the chapter on your Starting Model, you found your coefficients in the "Estimate" column of the `summary()` output of your model: 
+In the chapter on your [Starting Model](DSPPH_SM_StartingModel.qmd), you found your coefficients in the "Estimate" column of the `summary()` output of your model: 
 
 ```{r echo = FALSE}
 
@@ -1562,7 +1670,7 @@ The modelled response when Cat1 = Sp2 is (`r round(forText["Cat1Sp2","Estimate"]
 
 The modelled `Resp1` when Cat1 = Sp3 is `r round(forText["Cat1Sp3","Estimate"],1)` units **lower** than the reference level =  `r round(forText["(Intercept)","Estimate"],1)` + `r round(forText["Cat1Sp2","Estimate"],1)` = `r round(forText["Cat1Sp2","Estimate"],1) + round(forText["Cat1Sp3","Estimate"],1)` units.^[note that the p-values reported in the coefficient table are the result of a test of whether the coefficient associated with `Sp2` is different than that of `Sp1` (p = `r round(forText["Cat1Sp2","Pr(>|t|)"],3)`), and if the effect of `Sp3` is different than that of `Sp1` (p = `r round(forText["Cat1Sp3","Pr(>|t|)"],3)`)), but a comparison of effects of `Sp2` vs. `Sp3` is missing.  We will discuss this more further along in these notes.] 
 
-So all the information we need is in this `summary()` output, but not easy to see immediately.  An easier way is to use the emmeans^[emmeans stands for "estimated marginal means"] package which helps you by reporting the coefficients directly.  In our case, you use the emmeans package to get the mean value of the response at each level of the predictor.  For categorical predictors, you do this with the `emmeans()` function: 
+So all the information we need is in this `summary()` output, but not easy to see immediately. An easier way is to use the emmeans^[emmeans stands for "estimated marginal means"] package which helps you by reporting the coefficients directly^[another option is the [marginaleffects package](https://marginaleffects.com/), where marginal effects represent the average effect - the average difference in your predicted response across a change in your categorical predictor level or a unit change in your numeric predictor[@ArelBundockEtAl2024]].  In our case, you use the emmeans package to get the mean value of the response at each level of the predictor.  For categorical predictors, you do this with the `emmeans()` function: 
 
 
 ```{r}
@@ -1577,11 +1685,11 @@ emmOut
 
 ```
 
-So now you have a modelled value of your response for each level of your categorical predictor - this captures the effect of your categorical predictor on your response.  You also need to report uncertainty around this effect, and you can do this by reporting the standard error (SE) also reported by the `emmeans()` function.
+So now you have a modelled value of your response for each level of your categorical predictor - this captures the effect of your categorical predictor on your response.  You also need to report uncertainty around this effect, and you can do this by reporting the 95% confidence level (CL) also reported by the `emmeans()` function. 
 
-When Cat1 is Sp1, Resp1 is estimated to be `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$emmean[1], 1)` ± `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$SE[1],1)` units.  
-When Cat1 is Sp2, Resp1 is estimated to be `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$emmean[2], 1)` ± `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$SE[2],1)` units.  
-When Cat1 is Sp3, Resp1 is estimated to be `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$emmean[3], 1)` ± `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$SE[3],1)` units.  
+When Cat1 is Sp1, Resp1 is estimated to be `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$emmean[1], 1)` units (95% confidence level: `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$lower.CL[1],1)` to `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$upper.CL[1],1)` units).  
+When Cat1 is Sp2, Resp1 is estimated to be `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$emmean[2], 1)` units (95% confidence level: `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$lower.CL[2],1)` to `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$upper.CL[2],1)` units).  
+When Cat1 is Sp3, Resp1 is estimated to be `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$emmean[3], 1)` units (95% confidence level: `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$lower.CL[3],1)` to `r round(summary(emmeans(object = bestMod1, specs = ~ Cat1, type = "response"))$upper.CL[3],1)` units.  
 
 Note that this is the same information in the `summary()` output just easier to read.^[note that the `summary()` output becomes easier to read if you force the starting model not to have an intercept with: `startMod<-glm(formula = Resp1 ~ Cat1 - 1, data = myDat, family = gaussian(link="identity"))`. This is fine to do here where you **only** have categorical predictors but causes problems when you start having continuous predictors in your model as well.  So we won't be practicing this in class and instead will use the very flexible and helpful emmeans package to help us report coefficients from our statistical models.]
 
@@ -1591,23 +1699,24 @@ Finally, note that you can also get a quick plot of the effects by handing the `
 
 **Are the modelled effects different than one another across categorical levels? (only needed for categorical predictors with more than two levels)**
 
-Since you have a categorical predictor with more than two levels, you will ask if all levels of `Cat1` affect `Resp1` in the same way - i.e. are the coefficients across factor levels significantly different from one another?
+Since you have a categorical predictor with more than two levels, you will need to determine the magnitude and direction of the effect of each level of `Cat1` on `Resp1` - i.e. are the coefficients across factor levels significantly different from one another?
 
-To get evidence about how each level affects your response, you need to test which effects differ from one another among the categories (levels) of your categorical predictor.  This is done using multiple comparisons, i.e. you will compare the modelled effect of each level of your categorical predictor vs. each other level of your categorical predictor to determine which are different from each other (called pairwise testing).  
+To get evidence about how each level affects your response, you need to test which effects differ from one another among the categories (levels) of your categorical predictor.  This is done using multiple comparisons, i.e. you will compare the modelled effect of each level of your categorical predictor vs. every other level of your categorical predictor to determine which are different from each other (called pairwise testing).  
 
-This is done by testing the null hypothesis that the modelled effects of each pair are similar to one another, typically rejecting the null hypothesis when P < 0.05. Remember that the P-value is the probability that you observe a value at least as big as the one you observed even though our null hypothesis is true.  In this case, you are looking at the value you are observing is the difference between coefficients estimated for two levels of your predictor.  The P-value is the probability of getting a difference at least as big as the one you observed even though there is actually no difference between the coefficients (the null hypothesis is true).
+This is done by testing the null hypothesis that the modelled effects of each pair of category levels are similar to one another, typically rejecting the null hypothesis when P < 0.05. Remember that the P-value is the probability that you observe a value at least as big as the one you observed even though our null hypothesis is true.  In this case, you are looking at the value you are observing as the difference between coefficients estimated for two levels of your predictor.  The P-value is the probability of getting a difference at least as big as the one you observed even though there is actually no difference between the coefficients (the null hypothesis is true).
 
 A couple of things to note about multiple comparison testing:
 
 1) Multiple comparison testing on a categorical predictor should only be done after your hypothesis testing has given you evidence that the predictor has an effect on your response.  That is, you should only do a multiple comparison test on a predictor if that predictor is in your best-specified model.  As this is a test done after your hypothesis testing, it is called a post-hoc^["post hoc" is a Latin phrase meaning "after the event"] test.  
 
-2) Multiple comparison testing can be a problem because you are essentially repeating a hypothesis test many times on the same data (i.e. are the effects of `Sp1` different than those of `Sp2`?  are the effects of `Sp1` different than those of `Sp3`? are the effects of `Sp2` different than those of `Sp3`?...).  These repeated tests mean there is a high chance that you will find a difference in one test **purely due to random chance**, vs. due to there being an actual difference.  To account for this, the multiple comparison tests you will perform have been formulated to correct for this increased error.
+2) Multiple comparison testing can be a problem because you are essentially repeating a hypothesis test many times on the same data (i.e. are the effects of `Sp1` different than those of `Sp2`?  are the effects of `Sp1` different than those of `Sp3`? are the effects of `Sp2` different than those of `Sp3`?...).  These repeated tests mean there is a high chance that you will find a difference in one test **purely due to random chance**, vs. due to there being an actual difference.  The multiple comparison tests you will perform have been formulated to correct for this increased error.
 
 Multiple comparison testing is very simple with the emmeans package.  It just requires you to hand the output from `emmeans()` to a function called `pairs()`:
 
 ```{r}
 
-forComp <- pairs(emmOut)
+forComp <- pairs(emmOut, # your emmeans object
+                 adjust = 'fdr') # multiple comparison adjustment
 
 forComp
 
@@ -1621,7 +1730,7 @@ There is evidence that the value of `Resp1` when `Cat1` is `Sp1` is different (l
 There is a little evidence that the value of `Resp1` when `Cat1` is `Sp1` is different (higher) than that when `Cat1` is `Sp3` as P = `r round(as.data.frame(forComp)$p.value[2],4)` is less than P = 0.05 (but it is close!).
 There is some evidence that the value of `Resp1` when `Cat1` is `Sp2` is different (higher) than that when `Cat1` is `Sp3` as P < 0.0001^[when the P-value is very low, R reports is as simple <.0001] is smaller than P = 0.05.^[note that now you get to assess the difference between coefficients for `Sp2` and `Sp3` which was missing in the `summary()` output above].
 
-Note that the p-values have been adjusted via the Tukey method which adjusts the difference that the two coefficients need to have to allow for the fact that we are making multiple comparisons.^[The emmeans package is very flexible and has a lot of options as to how to make these corrections depending on your needs. Plenty more information is available 
+Note that the p-values have been adjusted via the "false discovery rate" (fdr) method [@VerhoevenEtAl2005] which adjusts the difference that the two coefficients need to have to allow for the fact that we are making multiple comparisons.^[The emmeans package is very flexible and has a lot of options as to how to make these corrections depending on your needs. Plenty more information is available 
 [here](https://cran.r-project.org/web/packages/emmeans/index.html)]
 
 Note that you can also get the results from the pairwise testing visually by handing the output of `pairs()` to `plot()`.
@@ -1678,13 +1787,13 @@ emmOut
 
 So now we have a modelled value of our response for each level of our categorical predictor.  For example:  
 
-The modelled prediction for `Resp2` when `Cat2` is `TypeA` and `Cat3` is `Treat1` is 365 +/- 25 units.
+The modelled prediction for `Resp2` when `Cat2` is `TypeA` and `Cat3` is `Treat1` is 365 units (95% confidence limit: 316-414).
 
-The modelled prediction for `Resp2` when `Cat2` is `TypeB` and `Cat3` is `Treat1` is 402 +/- 22 units.
+The modelled prediction for `Resp2` when `Cat2` is `TypeB` and `Cat3` is `Treat1` is 402 units (95% confidence limit: 359-446).
 
-The modelled prediction for `Resp2` when `Cat2` is `TypeA` and `Cat3` is `Treat2` is 321 +/- 27 units.
+The modelled prediction for `Resp2` when `Cat2` is `TypeA` and `Cat3` is `Treat2` is 321 units (95% confidence limit: 268-374).
 
-The modelled prediction for `Resp2` when `Cat2` is `TypeC` and `Cat3` is `Treat2` is 319 +/- 33 units.  
+The modelled prediction for `Resp2` when `Cat2` is `TypeC` and `Cat3` is `Treat2` is 319 units (95% confidence limit: 254-384).  
 
 Finally, note that you can also get a quick plot of the effects by handing the `emmeans()` output to `plot()`.
 
@@ -1695,7 +1804,8 @@ As with Example 1, you can also find out which combinations of predictor levels 
 
 ```{r}
 
-forComp <- pairs(emmOut)
+forComp <- pairs(emmOut, # your emmeans object
+                 adjust = 'fdr') # multiple comparison adjustment
 
 forComp
 
@@ -1705,6 +1815,7 @@ This is a hard table to navigate as every possible combination of the levels acr
 ```{r}
 
 forComp <- pairs(emmOut, # emmeans output
+                 adjust = 'fdr',  # multiple comparison adjustment
                  simple = "Cat2") # contrasts within this categorical predictor
 
 forComp
@@ -1713,15 +1824,16 @@ forComp
 
 Here you can more easily see the contrasts, and the adjustment to the P-value will be limited to what you actually need.  Based on a threshold P-value of 0.05, you can see that the effects at some combinations of your predictors are not statistically different from each other.  
 
-For example, the coefficient (predicted `Resp2`) when `Cat3` = `Treat1` and `Cat2` = `TypeA` is 365 and this is 37 lower than the coefficient when `Cat3` = `Treat1` and `Cat2` = `TypeB`, but there is no evidence that the difference has any meaning as P = 0.67 for this comparison.  
+For example, the coefficient (predicted `Resp2`) when `Cat3` = `Treat1` and `Cat2` = `TypeA` is 365 and this is 37 lower than the coefficient when `Cat3` = `Treat1` and `Cat2` = `TypeB`, but there is no evidence that the difference has any meaning as P = 0.26 for this comparison.  
 
-On the other hand, some combinations of your predictors are statistically different from each other.  For example, a comparison of modelled `Resp2` when `Cat3` = `Control` and `Cat2` = `TypeB` (548) vs. `Cat3` = `Control` and `Cat2` = `TypeD` (215) shows that they differ by 333 and that there is strong evidence that this difference is meaningful as P < 0.001.  
+On the other hand, some combinations of your predictors are statistically different from each other.  For example, a comparison of modelled `Resp2` when `Cat3` = `Control` and `Cat2` = `TypeB` (548) vs. `Cat3` = `Control` and `Cat2` = `TypeD` (215) shows that they differ by 332 and that there is strong evidence that this difference is meaningful as P < 0.0001.  
 
 Note that you could also organize this with contrasts by `Cat3` instead:
 
 ```{r}
 
 forComp <- pairs(emmOut, # emmeans output
+                 adjust = 'fdr',  # multiple comparison adjustment
                  simple = "Cat3") # contrasts within this categorical predictor
 
 forComp
@@ -1730,6 +1842,7 @@ forComp
 
 
 Note that you can also get the results from the pairwise testing visually by handing the output of `pairs()` to `plot()`.
+
 
 :::
 
@@ -1744,8 +1857,7 @@ Recall that Example 3 contains one predictor and the predictor is continuous:
 
 **What are your modelled effects (with uncertainty)?**
 
-For a continuous predictor, the effect is captured in one coefficient that describes the change in the response for a unit change in the continuous predictor.  For models with a normal error distribution assumption, this is communicated as the slope.  
-
+For a continuous predictor, the effect is captured in one coefficient that describes the change in the response for a unit change in the continuous predictor.  For models with a normal error distribution assumption, this is communicated as the slope.
 
 Let's look at the `summary()` output for Example 3:  
 
@@ -1768,6 +1880,107 @@ trendsOut <- emtrends(bestMod3,  # your model
 trendsOut
 
 ```
+:::{.callout-tip collapse="true" title="Getting a sense for coefficients - normal error distribution assumption"} 
+
+Here's a little thought experiment that will help you get a better sense for your model coefficients.
+
+First, a visual reporting of the modelled effects: 
+```{r}
+
+visreg(bestMod3, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cont4", # predictor on x-axis
+       #by = ..., # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       #overlay = TRUE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  geom_point(data = myDat3,
+             mapping = aes(x = Cont4, y = Resp3))+
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cont4, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+```
+
+If we want to quantitatively report these effects, we are looking for one number that describes how much `Resp3` changes for a unit change in `Cont4`.  We can explore this with the `predict()` function.
+
+First, pick a value of `Cont4` at which to make an estimate of `Resp3`:
+
+```{r}
+
+t1 <- 1 # put any number here
+
+
+```
+
+The `Resp3` estimated for that `t1` is:
+
+
+
+```{r}
+
+## Step One: Define the predictor values for your response prediction
+forCont4.1 <- data.frame(Cont4 = t1)
+
+## Step Two: Make your response prediction
+myPred.1 <- predict(object = bestMod3, # your model
+                  newdata = forCont4.1, # the values of the predictors at which to make the prediction
+                  type = "response", # to make the prediction on the response scale. IMPORTANT if you have a non-normal error distributions assumption
+                  se.fit = TRUE) # to include a measure of uncertainty around the prediction
+
+
+myPred.1$fit
+
+```
+
+Now let's find `Resp3` estimated for `t2 = t1 + 1` (i.e. one unit more):
+
+```{r}
+
+t2 <- t1 + 1
+
+## Step One: Define the predictor values for your response prediction
+forCont4.2 <- data.frame(Cont4 = t2)
+
+## Step Two: Make your response prediction
+myPred.2 <- predict(object = bestMod3, # your model
+                  newdata = forCont4.2, # the values of the predictors at which to make the prediction
+                  type = "response", # to make the prediction on the response scale. IMPORTANT if you have a non-normal error distributions assumption
+                  se.fit = TRUE) # to include a measure of uncertainty around the prediction
+
+
+myPred.2$fit
+
+```
+
+The effect of `Cont4` on `Resp3` can be expressed as the difference between the two numbers:
+
+```{r}
+
+# Effect of Cont4 on Resp is
+myPred.2$fit-myPred.1$fit
+
+```
+
+If you tried this for a number of different t1 values you would notice that the effect is constant.
+
+This slope describes the absolute change in `Resp3.p` from a one unit change in `Cont4`.
+
+Compare this to your modelled coefficients:
+
+```{r}
+summary(bestMod3)
+```
+::: {.alert .alert-info}
+
+So for a **normal error distribution assumption** the effect of a continuous predictor on the response is the **absolute change** in the response for a unit change in the predictor.  And this can be read directly from the model coefficients as the slope of the model fit ($\beta_1$).
+
+:::
+
+:::
+
 
 **Are the modelled effects different than one another across categorical levels? (only needed for categorical predictors with more than two levels)**
 
@@ -1882,16 +2095,18 @@ You can find out which slopes (i.e. the effect of `Cont6` on `Resp4`) are differ
 
 ```{r}
 
-forCompSlope <- pairs(trendsOut)
+forCompSlope <- pairs(trendsOut, # emmeans object
+                      adjust = "fdr") # multiple comparison adjustment
 
 forCompSlope
 
 ```
-Here you see that the slope estimates (the effect of `Cont6` on `Resp4`) for all levels of `Cat5` are significantly different from one another (0.0001 ≤ P ≤ 0.044).
+Here you see that the slope estimates (the effect of `Cont6` on `Resp4`) for all levels of `Cat5` are significantly different from one another (0.0001 ≤ P ≤ 0.017).
 
 Note that you can also get the results from the pairwise testing visually by handing the output of `pairs()` to `plot()`.
 
 Again: only if all the slopes were similar, would you want to test if the levels of your categorical predictor (`Cat4`) have significantly different coefficients (intercepts) from each other.  You would do this with `pairs()` on the output from `emmeans()` (the `emmOut` object).
+
 
 :::
 
@@ -1916,8 +2131,6 @@ For models with a normal error distribution assumption, this was simply a slope.
 For models using a log link (including many models with a poisson error distribution assumption), this is communicated as the rate ratio or the % change in the response for a unit change in your predictor.  This allows you to communicate the effect of the continuous predictor while accounting for the curve in the relationship (see visualization of model effects above).  This curve occurs because the model is not allowed to go below zero to be consistent with a poisson error distribution assumption.
 
 :::{.callout-note collapse="true" title="the math"} 
-
-<!--- could estimate it directly with prediction like in figure--->
 
 But why do we convert coefficients from the link to response scale with $e^x$^[a reminder that the number `e` that the function `exp()` uses as its base is Euler's number.  It (along with the natural logarithm, `log()`) is used to model exponential growth or decay, and can be used here when you want models where the response can not be below zero.] when `link = "log"`?
 
@@ -2154,7 +2367,8 @@ Here you can compare the effects of the levels of `Cat1` on `Resp1.p` to see if 
 
 ```{r}
 
-forComp <- pairs(emmOut)
+forComp <- pairs(emmOut, #emmeans object
+                 adjust = "fdr") # multiple testing adjustment
 
 forComp
 
@@ -2373,6 +2587,7 @@ As with Example 1, you can also find out which combinations of predictor levels 
 ```{r}
 
 forComp <- pairs(emmOut, # emmeans output
+                 adjust = "fdr", # multiple testing adjustment
                  simple = "Cat2") # contrasts within this categorical predictor
 
 forComp
@@ -2381,9 +2596,9 @@ forComp
 
 Here you can more easily see the contrasts.  Contrast ratios similar to 1 mean that the predictor levels lead to a similar value of the response. 
 
-Based on a threshold P-value of 0.05, you can see that the effects at some combinations of your predictors are not statistically different from each other.  For example, the coefficient (predicted `Resp2.p`) when `Cat3` = `Control` and `Cat2` = `TypeA` (15.2) is 1.4 times (or 40%) more than the predicted `Resp2.p` when `Cat3` = `Control` and `Cat2` = `TypeB` (10.9), but there is no evidence that the difference has any meaning as P = 0.16 for this comparison.  
+Based on a threshold P-value of 0.05, you can see that the effects at some combinations of your predictors are not statistically different from each other.  For example, the coefficient (predicted `Resp2.p`) when `Cat3` = `Control` and `Cat2` = `TypeB` (10.9) is 1.12 times (or 12%) more than the predicted `Resp2.p` when `Cat3` = `Control` and `Cat2` = `TypeC` (9.7), but there is no evidence that the difference has any meaning as P = 0.59 for this comparison.  
 
-On the other hand, some combinations of your predictors are statistically different from each other.  For example, a comparison of modelled `Resp2.p` when `Cat3` = `Control` and `Cat2` = `TypeB` (10.9) is 2.6 times (or 160%) higher than when `Cat3` = `Control` and `Cat2` = `TypeD` (4.2) and there is strong evidence that this difference is meaningful as P < 0.0027.  
+On the other hand, some combinations of your predictors are statistically different from each other.  For example, a comparison of modelled `Resp2.p` when `Cat3` = `Control` and `Cat2` = `TypeB` (10.9) is 2.6 times (or 160%) higher than when `Cat3` = `Control` and `Cat2` = `TypeD` (4.2) and there is strong evidence that this difference is meaningful as P < 0.0014.  
 
 Note that you can also get the results from the pairwise testing visually by handing the output of `pairs()` to `plot()`.
 
@@ -2602,6 +2817,134 @@ RR.low
 
 
 This tells you that for a unit change in `Cont4`, `Resp3` increases by `r round(RR,3)`x (95% confidence interval is `r round(RR.low,3)` to `r round(RR.up,3)`) which is an increase of `r round((RR -1)*100,2)`%. 
+
+:::{.callout-tip collapse="true" title="Getting a sense for coefficients - poisson error distribution assumption"} 
+
+Here's a little thought experiment that will help you get a better sense for your model coefficients when modelling with a poisson error distribution.
+
+First, a visual reporting of the modelled effects: 
+```{r}
+
+visreg(bestMod3.p, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cont4", # predictor on x-axis
+       #by = ..., # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       #overlay = TRUE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  geom_point(data = myDat3.p,
+             mapping = aes(x = Cont4, y = Resp3.p))+
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cont4, (units)")+ # change x-axis label
+  ylim(0, 20)+
+  theme_bw() # change ggplot theme
+
+```
+
+If we want to quantitatively report these effects, we are looking for one number that describes how much `Resp3` changes for a unit change in `Cont4`.  We can explore this with the `predict()` function.
+
+First, pick a value of `Cont4` at which to make an estimate of `Resp3`:
+
+```{r}
+
+t1 <- 10 # put any number here
+
+
+```
+
+The `Resp3` estimated for that `t1` is:
+
+
+
+```{r}
+
+## Step One: Define the predictor values for your response prediction
+forCont4.1 <- data.frame(Cont4 = t1)
+
+## Step Two: Make your response prediction
+myPred.1 <- predict(object = bestMod3.p, # your model
+                  newdata = forCont4.1, # the values of the predictors at which to make the prediction
+                  type = "response", # to make the prediction on the response scale. IMPORTANT if you have a non-normal error distributions assumption
+                  se.fit = TRUE) # to include a measure of uncertainty around the prediction
+
+
+myPred.1$fit
+
+```
+
+Now let's find `Resp3` estimated for `t2 = t1 + 1` (i.e. one unit more):
+
+```{r}
+
+t2 <- t1 + 1
+
+## Step One: Define the predictor values for your response prediction
+forCont4.2 <- data.frame(Cont4 = t2)
+
+## Step Two: Make your response prediction
+myPred.2 <- predict(object = bestMod3.p, # your model
+                  newdata = forCont4.2, # the values of the predictors at which to make the prediction
+                  type = "response", # to make the prediction on the response scale. IMPORTANT if you have a non-normal error distributions assumption
+                  se.fit = TRUE) # to include a measure of uncertainty around the prediction
+
+
+myPred.2$fit
+
+```
+
+The effect of `Cont4` on `Resp3` can be expressed as the difference between the two numbers:
+
+```{r}
+
+# Effect of Cont4 on Resp is
+myPred.2$fit-myPred.1$fit
+
+```
+
+If your try this for a number of different t1 values you'll notice that the number isn't stable but varies with the values of t1 and t2 we choose.  
+
+Instead, we can express the effect of `Cont4` on `Resp3` as the ratio of the two numbers (called the rate ratio):
+
+```{r}
+
+myPred.2$fit/myPred.1$fit
+
+```
+
+This rate ratio (RR) describes the % change in `Resp3.p` from a one unit change in `Cont4`, and it is stable whatever t1 and t2 values we choose.
+
+
+Compare this rate ratio to your modelled coefficients:
+
+```{r}
+summary(bestMod3.p)
+```
+
+
+```{r}
+
+coef(summary(bestMod3.p))["Cont4", "Estimate"]
+
+```
+
+and note that the rate ratio is the same as `exp(coef)`:
+
+```{r}
+
+exp(coef(summary(bestMod3.p))["Cont4", "Estimate"])
+
+```
+
+::: {.alert .alert-info}
+
+So for a **poisson error distribution assumption** (or Gamma with log link) the effect of a continuous predictor on the response is described as the rate ratio (RR).  This describes the **% change** in the response for a unit change in the predictor.  This is estimated by raising $e$ to the coefficient: $e^{\beta_1}$
+
+:::
+
+:::
+
 
 **Are the modelled effects different than one another across categorical levels? (only needed for categorical predictors with more than two levels)**
 
@@ -2893,8 +3236,9 @@ You can also find out which effects of `Cont6` on `Resp4.p` are different from o
 
 ```{r}
 
-forCompRR <- pairs(trendsOut, 
-                   simple = "Cat5")
+forCompRR <- pairs(trendsOut, # emmeans object
+                   adjust = "fdr", # multiple comparison adjustment
+                   simple = "Cat5") # contrasts within this categorical predictor
 
 forCompRR
 
@@ -2905,14 +3249,13 @@ Remember that you need to convert any predictor coefficients to the response sca
 
 The table above tells you that:
 
-* There is no evidence the effect of `Cont6` on `Resp4.p` differs when `Cat5` is `StA` vs. `StB` (P = 0.26).
+* There is no evidence the effect of `Cont6` on `Resp4.p` differs when `Cat5` is `StA` vs. `StB` (P = 0.12).
 
-* There is evidence that the effect of `Cont6` on `Resp4.p` is different when `Cat5` is `StA` vs. `StC` (P = 0.0042).  The effect of `Cont6` on `Resp4.p` is `exp(-0.0039)` = `r exp(-0.0039)` times as big when `Cat5` is `StA` vs. `StC`.
+* There is evidence that the effect of `Cont6` on `Resp4.p` is different when `Cat5` is `StA` vs. `StC` (P = 0.0022).  The effect of `Cont6` on `Resp4.p` is `exp(-0.0039)` = `r exp(-0.0039)` times as big when `Cat5` is `StA` vs. `StC`.
 
 * There is evidence that the effect of `Cont6` on `Resp4.p` is different when `Cat5` is `StB` vs. `StC` (P = 0.0004).  The effect of `Cont6` on `Resp4.p` is `exp(-0.00652)` = `r exp(-0.00652)` times as big when `Cat5` is `StB` vs. `StC`.
 
-Only if all the slopes were similar, you would want to test if the levels of your categorical predictor (`Cat5`) have significantly different coefficients (intercepts) from each other with `pairs()` on the output from `emmeans()` (the `emmOut` object).
-
+Only if all the slopes were similar: you would want to test if the levels of your categorical predictor (`Cat5`) have significantly different coefficients (intercepts) from each other with `pairs()` on the output from `emmeans()` (the `emmOut` object).
 
 
 :::
@@ -2925,7 +3268,7 @@ Only if all the slopes were similar, you would want to test if the levels of you
 
 For models with a Gamma error distribution assumption, you will typically start with a link function that is the inverse or `link = "inverse"`.  You need to take this link function into consideration when you report your modelled effects.
 
-For a model where `link = "inverse"`, the interpretation of the coefficients on the response scale is less clear. In this case, you would use your model to make predictions of your response and report the effects by describing these changes in predictions. We will cover making predictions in the next chapter.
+For a model where `link = "inverse"`, the interpretation of the coefficients on the response scale is less clear. In this case, you would use your model to make predictions of your response and report the effects by describing these changes in predictions. We will cover making predictions in the [Predicting section](DSPPH_SM_Predicting.qmd).
 
 **However**, you can also use `link = "log"` for your models with a Gamma error distribution assumption.  Using "log" will let you use the reporting methods in the section on "Models with a poisson error distribution assumption"(@sec-poissonModelEffects).  So, if you have a model with a Gamma error distribution assumption, use `link = "log"` for modelling, and follow the methods given above (@sec-poissonModelEffects).
 
@@ -2993,7 +3336,7 @@ One thing to note:
 
 The `emmeans()` function **will** convert the coefficients (intercepts) from the link to the response scale.  You can ask for this with the `type = "response"` argument.  
 
-In contrast, the `emtrends()` function **does not** convert the coefficients (slopes) to represent effects on the response scale.  This is because `emtrends()` is reporting the slope of a straight line - the trend line on the link scale.  But the line isn't straight on the response scale.  
+In contrast, the `emtrends()` function **does not** convert the coefficients (slopes) to represent effects on the response scale.  This is because `emtrends()` is reporting the slope of a straight line - the trend line on the link scale - but the line isn't straight on the response scale.  
 
 You need to convert from the link to the response by hand when we use `emtrends()`^[remember, the coefficients for categorical predictors are also being converted from the link to the response scale.  It is just that R is doing it for us in the `emmeans()` function when we add the argument `type = "response")].  How you make the conversion, and interpret the result, will depend on your error distribution assumption: 
 
@@ -3203,7 +3546,8 @@ Here you can compare the effects of the levels of `Cat1` on `Resp1.b` to see if 
 
 ```{r}
 
-forComp <- pairs(emmOut)
+forComp <- pairs(emmOut, # emmeans object
+                 adjust = "fdr") # multiple comparison adjustment
 
 forComp
 
@@ -3473,15 +3817,16 @@ As with Example 1, you can also find out which combinations of predictor levels 
 ```{r}
 
 forComp <- pairs(emmOut, # emmeans output
+                 adjust = "fdr", # multiple comparison adjustment
                  simple = "Cat2") # contrasts within this categorical predictor
 
 forComp
 
 ```
 
-Based on a threshold P-value of 0.05, you can see that the effects at some combinations of your predictors are not statistically different from each other.  For example, there is **no** evidence that the probability of `Resp2.b` being 1 when `Cat3` = `Control` and `Cat2` = `StA` (`r  round(summary(emmOut)[1,3],2)`)^[taken from the `emmOut` output above] than when `Cat3` = `Control` and `Cat2` = `StB` (`r  round(summary(emmOut)[2,3],2)`) are different from each other (P = `r round(data.frame(forComp)[1,8],2)`).
+Based on a threshold P-value of 0.05, you can see that the effects at some combinations of your predictors are not statistically different from each other.  For example, there is **no** evidence that the probability of `Resp2.b` being 1 when `Cat3` = `Control` and `Cat2` = `StA` (`r  round(summary(emmOut)[1,3],2)`)^[taken from the `emmOut` output above] than when `Cat3` = `Control` and `Cat2` = `StB` (`r  round(summary(emmOut)[2,3],2)`) is different from each other (P = `r round(data.frame(forComp)[1,8],2)`).
 
-On the other hand, some combinations of your predictors are statistically different from each other.  For example, there is strong evidence that the probability of `Resp2.b` being 1 when `Cat3` = `Treat` and `Cat2` = `StA` (`r  round(summary(emmOut)[1,3],2)`) is less than that when `Cat3` = `Treat` and `Cat2` = `StC` (`r  round(summary(emmOut)[6,3],2)`) are different from each other (P < 0.0001).
+On the other hand, some combinations of your predictors are statistically different from each other.  For example, there is strong evidence that the probability of `Resp2.b` being 1 when `Cat3` = `Treat` and `Cat2` = `StA` (`r  round(summary(emmOut)[1,3],2)`) is less than that when `Cat3` = `Treat` and `Cat2` = `StC` (`r  round(summary(emmOut)[6,3],2)`) is different from each other (P < 0.0001).
 
 Note that you can also get the results from the pairwise testing visually by handing the output of `pairs()` to `plot()`.
 
@@ -3728,7 +4073,7 @@ oddsCont4.60 <- pCont4.60/(1-pCont4.60)
 oddsCont4.60
 ```
 
-Now let's find the probability of `Resp3.b` being 1 when `Cont4` is 61: 
+Now let's find the probability of `Resp3.b` being 1 when `Cont4` is 61 (one unit more): 
 
 ```{r}
 pCont4.61 <- predict(bestMod3.b, # model
@@ -3766,6 +4111,150 @@ OR
 ```
 
 and you interpret this as a `OR - 1` or `r round((OR-1)*100,1)`% change in the odds of `Resp3.b` being 1 with a unit change of `Cont4`.
+
+:::{.callout-tip collapse="true" title="Getting a sense for coefficients - binomial error distribution assumption"} 
+
+Here's a little thought experiment that will help you get a better sense for your model coefficients.
+
+First, a visual reporting of the modelled effects: 
+```{r}
+
+visreg(bestMod3.b, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cont4", # predictor on x-axis
+       #by = ..., # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       #overlay = TRUE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  geom_point(data = myDat3.b,
+             mapping = aes(x = Cont4, y = Resp3.b))+
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cont4, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+```
+
+If we want to quantitatively report these effects, we are looking for one number that describes how much `Resp3` changes for a unit change in `Cont4`.  We can explore this with the `predict()` function.
+
+First, pick a value of `Cont4` at which to make an estimate of `Resp3.b`:
+
+```{r}
+
+t1 <- 100 # put any number here
+
+
+```
+
+The `Resp3.b` estimated for that `t1` is:
+
+
+
+```{r}
+
+## Step One: Define the predictor values for your response prediction
+forCont4.1 <- data.frame(Cont4 = t1)
+
+## Step Two: Make your response prediction
+myPred.1 <- predict(object = bestMod3.b, # your model
+                  newdata = forCont4.1, # the values of the predictors at which to make the prediction
+                  type = "response", # to make the prediction on the response scale. IMPORTANT if you have a non-normal error distributions assumption
+                  se.fit = TRUE) # to include a measure of uncertainty around the prediction
+
+
+myPred.1$fit
+
+```
+
+Now let's find `Resp3.b` estimated for `t2 = t1 + 1` (i.e. one unit more):
+
+```{r}
+
+t2 <- t1 + 1
+
+## Step One: Define the predictor values for your response prediction
+forCont4.2 <- data.frame(Cont4 = t2)
+
+## Step Two: Make your response prediction
+myPred.2 <- predict(object = bestMod3.b, # your model
+                  newdata = forCont4.2, # the values of the predictors at which to make the prediction
+                  type = "response", # to make the prediction on the response scale. IMPORTANT if you have a non-normal error distributions assumption
+                  se.fit = TRUE) # to include a measure of uncertainty around the prediction
+
+
+myPred.2$fit
+
+```
+
+How does `Resp3.b` differ when `Cont4` is t1 vs. t2?
+
+```{r}
+
+myPred.2$fit-myPred.1$fit
+
+```
+
+Try this for a number of different t1 values.  What do you notice?  The number isn't stable but varies with the values of t1 and t2 we choose.  
+
+What about if we express the effect of `Cont4` on the probability of `Resp3.` being 1 as the ratio of the two numbers:
+
+```{r}
+
+myPred.2$fit/myPred.1$fit
+
+```
+
+This number is still not stable.  Instead, we need to compare the **odds** that the `Resp3.b` is 1 when `Cont4` is `t1` vs. `t2`:
+
+```{r}
+
+
+odds1 <- myPred.1$fit/(1-myPred.1$fit)
+
+odds2 <- myPred.2$fit/(1-myPred.2$fit)
+
+```
+
+and look at the ratio of these odds (called the odds ratio, OR):
+
+```{r}
+
+odds2/odds1
+
+```
+
+
+This rate ratio (OR) describes the % change in the odds that `Resp3.p` is one when `Cont4` increases one unit.
+
+Compare this odds ratio to your modelled coefficients:
+
+```{r}
+summary(bestMod3.b)
+```
+
+
+```{r}
+
+coef(summary(bestMod3.b))["Cont4", "Estimate"]
+
+```
+
+and note that the rate ratio is the same as `exp(coef)`:
+
+```{r}
+
+exp(coef(summary(bestMod3.b))["Cont4", "Estimate"])
+
+```
+
+::: {.alert .alert-info}
+
+So for a **binomial error distribution assumption when using a logit link** the effect of a continuous predictor on the response is described as the odds ratio (OR).  This describes the **% change in the odds that the response is 1** for a unit change in the predictor.  This is estimated by raising $e$ to the coefficient: $e^{\beta_1}$
+
+:::
+
+:::
 
 :::
 
@@ -4099,8 +4588,9 @@ You can also find out which effects of `Cont6` on `Resp4.b` are different from o
 
 ```{r}
 
-forCompOR <- pairs(trendsOut, 
-                   simple = "Cat5")
+forCompOR <- pairs(trendsOut, # emmeans object
+                   adjust = "fdr",  # multiple comparison adjustment
+                   simple = "Cat5") # contrasts within this categorical predictor
 
 forCompOR
 
@@ -4117,14 +4607,15 @@ The table above tells you that:
 
 Only if all the slopes^[i.e. effects associated with the continuous predictor] were similar, you would want to test if the levels of your categorical predictor (`Cat5`) have significantly different coefficients (intercepts) from each other with `pairs()` on the output from `emmeans()` (the `emmOut` object).
 
-
+:::{.callout-caution collapse="true" title="Aside: how does this relate to the `summary()` output?"} 
 
 :::
 
+:::
 
 # Up next {.unnumbered}
 
-In the next chapter, we will discuss how you can use your model to make predictions. 
+In the next chapter, we will discuss how you can use your model to make [predictions](DSPPH_SM_Predicting.qmd). 
 
 
 
