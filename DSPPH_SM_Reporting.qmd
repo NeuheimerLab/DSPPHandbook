@@ -33,19 +33,19 @@ In an upcoming section, we will discuss [communicating your hypothesis testing (
 
 Remember that testing your hypothesis means looking for evidence of an effect of each predictor on your response.  To report your model, you want to communicate this evidence, including:  
 
-:::{.callout-tip collapse="true" title="your best-specified model(s) "} 
+:::{.callout-note collapse="true" title="your best-specified model(s) "} 
 
 You will report [your best-specified model](#sec_reportBestMod) by reporting the terms - the predictors and any interactions - that are in your model, and any from your starting model that were removed during model selection.
 
 :::
 
-:::{.callout-tip collapse="true" title="how well your model explains your response "} 
+:::{.callout-note collapse="true" title="how well your model explains your response "} 
 
 You will report [how much variability in your response your best-specified model is able to explain](#sec_reportExplainedDeviance), and the relative importance of each model term - the predictors and any interactions - in explaining that variability.
 
 :::
 
-:::{.callout-tip collapse="true" title="your modelled effects "} 
+:::{.callout-note collapse="true" title="your modelled effects "} 
 
 You will [report your modelled effects](#sec_reportEffects) - i.e. the effect of each predictor on your response.  Here you are interested in reporting:
 
@@ -625,7 +625,9 @@ Let's compare this to the traditional $R^2$:
 Note that the two estimates are similar: One nice feature of the $R^2_{LR}$ is that it is equivalent to the regular $R^2$ when our model assumes a normal error distribution assumption and linear shape assumption, so you can use $R^2_{LR}$ for a wide range of models.
 
 
-:::{.callout-caution collapse="true" title="Aside: what is a "good" `R^2`?"} 
+:::{.callout-note collapse="true" title="Aside: what is a *good* $R^2$?"} 
+
+<img src="./goodR2.png" align="right" width="300px"/>
 
 Recall that your goal in hypothesis testing is to explain the variation in your response - preferably as much variation as possible!  So it is natural to hope for a high `R^2` but this is a trap: the results of your hypothesis testing^[when done in a robust fashion] are valuable whether you are able to explain 3% or 93% of the variation in your response.  Remember:
 
@@ -635,7 +637,10 @@ Recall that your goal in hypothesis testing is to explain the variation in your 
 
 For context, here is a plot of `R^2` values from a meta-analysis of biology studies:
 
-<img src="./goodR2.png" align="right" width="300px"/>
+<br clear="right"/>
+
+
+
 
 :::
 
@@ -1195,16 +1200,16 @@ ggplot() + # start ggplot
   
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont4, y = Fit),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
     geom_line(data = forVis, # add uncertainty to your plot (upper line)
               mapping = aes(x = Cont4, y = Upper),
-              size = 0.8, # control thickness of line
+              linewidth = 0.8, # control thickness of line
               linetype = 2) + # control style of line
   
       geom_line(data = forVis, # add uncertainty to your plot (lower line)
               mapping = aes(x = Cont4, y = Lower),
-              size = 0.8, # control thickness of line
+              linewidth = 0.8, # control thickness of line
               linetype = 2) + # control style of line
   
   ylab("Resp3, (units)") + # change y-axis label
@@ -1227,7 +1232,7 @@ ggplot() + # start ggplot
 
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont4, y = Fit),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
   ylab("Resp3, (units)") + # change y-axis label
   
@@ -1365,16 +1370,16 @@ ggplot() + # start ggplot
   
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont6, y = Fit, col = Cat5),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
     geom_line(data = forVis, # add uncertainty to your plot (upper line)
               mapping = aes(x = Cont6, y = Upper, col = Cat5),
-              size = 0.4, # control thickness of line
+              linewidth = 0.4, # control thickness of line
               linetype = 2) + # control style of line
   
       geom_line(data = forVis, # add uncertainty to your plot (lower line)
               mapping = aes(x = Cont6, y = Lower, col = Cat5),
-              size = 0.4, # control thickness of line
+              linewidth = 0.4, # control thickness of line
               linetype = 2) + # control style of line
   
   ylab("Resp4, (units)") + # change y-axis label
@@ -1400,7 +1405,7 @@ ggplot() + # start ggplot
 
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont6, y = Fit, col = Cat5),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
   ylab("Resp4, (units)") + # change y-axis label
   
@@ -1435,12 +1440,15 @@ forVis<-expand.grid(Cat5 = forCat5, Cont6 = forCont6) # expand.grid() function m
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod4, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -1508,12 +1516,14 @@ forVis<-expand.grid(Cont6=forCont6, Cat5=forCat5) # expand.grid() function makes
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod4, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
 
 # create your plot
 ggplot() + # start your ggplot
@@ -2304,12 +2314,15 @@ forVis<-expand.grid(Cat1=forCat1) # expand.grid() function makes sure you have a
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod1.p, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod1.p)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 
 library(ggplot2)
@@ -2522,12 +2535,16 @@ forVis<-expand.grid(Cat2 = forCat2, Cat3 = forCat3) # expand.grid() function mak
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod2.p, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod2.p)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -2719,12 +2736,15 @@ forVis<-expand.grid(Cont4 = forCont4) # expand.grid() function makes sure you ha
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod3.p, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod3.p)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -2738,16 +2758,16 @@ ggplot() + # start ggplot
   
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont4, y = Fit),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
     geom_line(data = forVis, # add uncertainty to your plot (upper line)
               mapping = aes(x = Cont4, y = Upper),
-              size = 0.8, # control thickness of line
+              linewidth = 0.8, # control thickness of line
               linetype = 2) + # control style of line
   
       geom_line(data = forVis, # add uncertainty to your plot (lower line)
               mapping = aes(x = Cont4, y = Lower),
-              size = 0.8, # control thickness of line
+              linewidth = 0.8, # control thickness of line
               linetype = 2) + # control style of line
   
   ylab("Resp3.p, (units)") + # change y-axis label
@@ -3081,12 +3101,15 @@ forVis<-expand.grid(Cat5 = Cat5, Cont6 = forCont6) # expand.grid() function make
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod4.p, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod4.p)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -3100,16 +3123,16 @@ ggplot() + # start ggplot
   
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont6, y = Fit, col = Cat5),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
     geom_line(data = forVis, # add uncertainty to your plot (upper line)
               mapping = aes(x = Cont6, y = Upper, col = Cat5),
-              size = 0.4, # control thickness of line
+              linewidth = 0.4, # control thickness of line
               linetype = 2) + # control style of line
   
       geom_line(data = forVis, # add uncertainty to your plot (lower line)
               mapping = aes(x = Cont6, y = Lower, col = Cat5),
-              size = 0.4, # control thickness of line
+              linewidth = 0.4, # control thickness of line
               linetype = 2) + # control style of line
   
   ylab("Resp4, (units)") + # change y-axis label
@@ -3468,12 +3491,15 @@ forVis<-expand.grid(Cat1=forCat1) # expand.grid() function makes sure you have a
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod1.b, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod1.b)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 
 library(ggplot2)
@@ -3753,12 +3779,15 @@ forVis<-expand.grid(Cat2 = forCat2, Cat3 = forCat3) # expand.grid() function mak
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod2.b, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod2.b)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -3942,12 +3971,15 @@ forVis<-expand.grid(Cont4 = forCont4) # expand.grid() function makes sure you ha
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod3.b, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod3.b)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -3961,16 +3993,15 @@ ggplot() + # start ggplot
   
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont4, y = Fit),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
     geom_line(data = forVis, # add uncertainty to your plot (upper line)
               mapping = aes(x = Cont4, y = Upper),
-              size = 0.8, # control thickness of line
+              linewidth = 0.8, # control thickness of line
               linetype = 2) + # control style of line
   
       geom_line(data = forVis, # add uncertainty to your plot (lower line)
               mapping = aes(x = Cont4, y = Lower),
-              size = 0.8, # control thickness of line
               linetype = 2) + # control style of line
   
   ylab("probability Resp2.b = 1")+ # change y-axis label
@@ -4420,12 +4451,15 @@ forVis<-expand.grid(Cat5 = forCat5, Cont6 = forCont6) # expand.grid() function m
 # Get your model fit estimates at each value of your predictors
 modFit<-predict(bestMod4.b, # the model
                 newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
                 se.fit = TRUE) # include uncertainty estimate
 
-forVis$Fit<-modFit$fit # add your fit to the data frame
-forVis$Upper<-modFit$fit+modFit$se.fit # add your uncertainty to the data frame
-forVis$Lower<-modFit$fit-modFit$se.fit # add your uncertainty to the data frame
+ilink <- family(bestMod4.b)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+
 
 #### iii) use the model estimates to plot your model fit
 
@@ -4439,16 +4473,16 @@ ggplot() + # start ggplot
   
   geom_line(data = forVis, # add the modelled fit to your plot
               mapping = aes(x = Cont6, y = Fit, col = Cat5),
-              size = 1.2) + # control thickness of line
+              linewidth = 1.2) + # control thickness of line
   
     geom_line(data = forVis, # add uncertainty to your plot (upper line)
               mapping = aes(x = Cont6, y = Upper, col = Cat5),
-              size = 0.4, # control thickness of line
+              linewidth = 0.4, # control thickness of line
               linetype = 2) + # control style of line
   
       geom_line(data = forVis, # add uncertainty to your plot (lower line)
               mapping = aes(x = Cont6, y = Lower, col = Cat5),
-              size = 0.4, # control thickness of line
+              linewidth = 0.4, # control thickness of line
               linetype = 2) + # control style of line
   
   ylab("probability Resp2.b = 1")+ # change y-axis label
