@@ -991,11 +991,7 @@ As you can see, this is a bit tedious.  Another method would be to make a functi
 
 Note that your statistical model (GLM) with a binomial error distribution is:
 
-$$
-
-log_n(\frac{p}{1-p}) = \beta_0 + \beta_1 \cdot x
-
-$$
+$$ log_n(\frac{p}{1-p}) = \beta_0 + \beta_1 \cdot x $$
 
 where 
 $log_n(\frac{p}{1-p})$ is the logit function of the odds (see the [Reporting](DSPPH_SM_Reporting.qmd) section for more),
@@ -1006,7 +1002,7 @@ $\beta_1$ is your modelled slope (effect of your numeric predictor).
 
 Inverse predicting means finding the value of $x$ that gives you a particular value of $p$.  So we need to solve our equation for $x$:
 
-$$
+
 \begin{align}
 log_n(\frac{p}{1-p}) &= \beta_0 + \beta_1 \cdot x\\[1em]
 
@@ -1015,7 +1011,7 @@ log_n(\frac{p}{1-p}) - \beta_0 &= \beta_1 \cdot x\\[1em]
 \frac{log_n(\frac{p}{1-p}) - \beta_0}{\beta_1} &=  x\\[1em]
 
 \end{align}
-$$
+
 
 Then we can solve $x$ for a particular value of $p$.  For example, what value of `Cont4` will give a 75% probability of `Resp3.b` being 1, given your bestmod3.b of `Resp3.b ~ Cont4 + 1`:
 

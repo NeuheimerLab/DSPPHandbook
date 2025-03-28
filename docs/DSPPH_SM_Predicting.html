@@ -723,19 +723,17 @@ In this chapter you will learn:
 <p>The estimate of <code>Cont4</code> that leads to a 75% probability of <code>Resp3.b</code> being 1 is 0.7 units (95% confidence intervals: 0.59 to 0.76.</p>
 <p>As you can see, this is a bit tedious. Another method would be to make a function yourself based on your statistical model equation and coefficients:</p>
 <p>Note that your statistical model (GLM) with a binomial error distribution is:</p>
-<p>$$</p>
-<p>log_n() = _0 + _1 x</p>
-<p>$$</p>
+<p><span class="math display">\[ log_n(\frac{p}{1-p}) = \beta_0 + \beta_1 \cdot x \]</span></p>
 <p>where <span class="math inline">\(log_n(\frac{p}{1-p})\)</span> is the logit function of the odds (see the <a href="./DSPPH_SM_Reporting.html">Reporting</a> section for more), <span class="math inline">\(p\)</span> is the probability at which you want a value of your predictor, <span class="math inline">\(x\)</span> is the value of your predictor, <span class="math inline">\(\beta_0\)</span> is your modelled intercept, and <span class="math inline">\(\beta_1\)</span> is your modelled slope (effect of your numeric predictor).</p>
 <p>Inverse predicting means finding the value of <span class="math inline">\(x\)</span> that gives you a particular value of <span class="math inline">\(p\)</span>. So we need to solve our equation for <span class="math inline">\(x\)</span>:</p>
-<p>$$ <span class="math display">\[\begin{align}
+<p><span class="math display">\[\begin{align}
 log_n(\frac{p}{1-p}) &amp;= \beta_0 + \beta_1 \cdot x\\[1em]
 
 log_n(\frac{p}{1-p}) - \beta_0 &amp;= \beta_1 \cdot x\\[1em]
 
 \frac{log_n(\frac{p}{1-p}) - \beta_0}{\beta_1} &amp;=  x\\[1em]
 
-\end{align}\]</span> $$</p>
+\end{align}\]</span></p>
 <p>Then we can solve <span class="math inline">\(x\)</span> for a particular value of <span class="math inline">\(p\)</span>. For example, what value of <code>Cont4</code> will give a 75% probability of <code>Resp3.b</code> being 1, given your bestmod3.b of <code>Resp3.b ~ Cont4 + 1</code>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make my inverse predicting function that is specific to this model:</span></span>
