@@ -87,7 +87,7 @@ Note that each example is testing a different hypothesis by fitting a different 
 
 Note also that the examples will all involve a normal error distribution assumption.  I will point out when your process would be different for a different error distribution assumption (e.g. Gamma, poisson, and binomial)
 
-Finally, note that I am not going through all the steps that got us to these example best-specified models, but assume we went through the previous steps ([Responses](DSPPH_SM_Response.qmd), [Predictors](DSPPH_SM_Predictors.qmd), [Hypothesis](DSPPH_SM_Hypothesis.qmd), [Starting model](DSPPH_SM_StartingModel.qmd), [Model validation](DSPPH_SM_ModelValidation.qmd) and [Hypothesis testing](DSPPH_SM_HypothesisTesting.qmd)) as outlined in this Handbook to choose each best-specified model.
+Finally, note that I am not going through all the steps that got us to these example best-specified models, but assume we went through the previous steps ([Responses](DSPPH_SM_Responses.qmd), [Predictors](DSPPH_SM_Predictors.qmd), [Hypothesis](DSPPH_SM_Hypothesis.qmd), [Starting model](DSPPH_SM_StartingModel.qmd), [Model validation](DSPPH_SM_ModelValidation.qmd) and [Hypothesis testing](DSPPH_SM_HypothesisTesting.qmd)) as outlined in this Handbook to choose each best-specified model.
 
 :::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
 
