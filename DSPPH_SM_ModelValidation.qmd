@@ -133,9 +133,14 @@ This is an extreme case (where your predictors are 100% correlated with one anot
 Here is a helpful bit of code for your investigations, applied to our example model:
 
 ```{r}
-library(GGally) # loading GGally package
 
-ggpairs(data=myDat) # make a plot of your data - each column vs. another - often called a "pairs plot"
+library(dplyr) # loading the dpllyr package, for select() function
+
+myPreds <- select(myDat, Cat, Cont1, Cont2) # make a data frame with only my predictor columns
+
+library(GGally) # loading GGally package, for ggpairs() function
+
+ggpairs(data = myPreds) # make a plot of your predictors - each column vs. another - often called a "pairs plot"
 
 ```
 
@@ -143,11 +148,11 @@ ggpairs(data=myDat) # make a plot of your data - each column vs. another - often
 
 ```{r echo = FALSE}
 
-p<-ggpairs(data=myDat)
+p<-ggpairs(data = myPreds)
 
 result <- lapply(p$plots, function(x) ggplot_build(x$fn(p$data, x$mapping))$data)
 
-toRep <-round(as.numeric(substr(result[[2]][[1]]$label,7,11)),2)
+toRep <-round(as.numeric(substr(result[[6]][[1]]$label,7,11)),2)
 
 ```
 
