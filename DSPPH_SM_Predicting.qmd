@@ -158,8 +158,8 @@ modFit<-predict(bestMod1, # the model
 ilink <- family(bestMod1)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 library(ggplot2)
 
@@ -293,8 +293,8 @@ modFit<-predict(bestMod3, # the model
 ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 #### iii) use the model estimates to plot your model fit
@@ -351,8 +351,8 @@ ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the m
 
 ### This can be added to our forPred data frame as:
 forPred$Fit<-ilink(myPred$fit) # add your fit to the data frame
-forPred$Lower<-ilink(myPred$fit - 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forPred$Upper<-ilink(myPred$fit + 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Lower<-ilink(myPred$fit - 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Upper<-ilink(myPred$fit + 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
 
 
 forPred
@@ -383,8 +383,8 @@ modFit<-predict(bestMod3, # the model
 ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 library(ggplot2) # load ggplot2 library
@@ -449,8 +449,8 @@ ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the m
 
 ### This can be added to our forPred data frame as:
 forPred$Fit<-ilink(myPred$fit) # add your fit to the data frame
-forPred$Lower<-ilink(myPred$fit - 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forPred$Upper<-ilink(myPred$fit + 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Lower<-ilink(myPred$fit - 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Upper<-ilink(myPred$fit + 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
 
 
 forPred
@@ -481,8 +481,8 @@ modFit<-predict(bestMod3, # the model
 ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 library(ggplot2) # load ggplot2 library
@@ -615,8 +615,8 @@ modFit<-predict(bestMod4, # the model
 ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 #### iii) use the model estimates to plot your model fit
@@ -675,8 +675,8 @@ ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the m
 
 ### This can be added to our forPred data frame as:
 forPred$Fit<-ilink(myPred$fit) # add your fit to the data frame
-forPred$Lower<-ilink(myPred$fit - 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forPred$Upper<-ilink(myPred$fit + 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Lower<-ilink(myPred$fit - 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Upper<-ilink(myPred$fit + 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
 
 
 forPred
@@ -709,8 +709,8 @@ modFit<-predict(bestMod4, # the model
 ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 #### iii) use the model estimates to plot your model fit
@@ -787,8 +787,8 @@ ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the m
 
 ### This can be added to our forPred data frame as:
 forPred$Fit<-ilink(myPred$fit) # add your fit to the data frame
-forPred$Lower<-ilink(myPred$fit - 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forPred$Upper<-ilink(myPred$fit + 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Lower<-ilink(myPred$fit - 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Upper<-ilink(myPred$fit + 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
 
 
 forPred
@@ -825,8 +825,8 @@ modFit<-predict(bestMod4, # the model
 ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 #### iii) use the model estimates to plot your model fit
@@ -969,8 +969,8 @@ ilink <- family(bestMod3.b)$linkinv # get the conversion (inverse link) from the
 
 ### This can be added to our forPred data frame as:
 forPred$Fit<-ilink(myPred$fit) # add your fit to the data frame
-forPred$Lower<-ilink(myPred$fit - 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forPred$Upper<-ilink(myPred$fit + 2*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Lower<-ilink(myPred$fit - 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Upper<-ilink(myPred$fit + 1.96*myPred$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
 
 myPredDF <- data.frame(Cont4 = forCont4,
                        Fit = forPred$Fit,
@@ -1058,8 +1058,8 @@ modFit<-predict(bestMod3.b, # the model
 ilink <- family(bestMod3.b)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
 
 forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
-forVis$Upper<-ilink(modFit$fit + 2*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
-forVis$Lower<-ilink(modFit$fit - 2*modFit$se.fit) # add your uncertainty to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
 
 
 #### iii) use the model estimates to plot your model fit
