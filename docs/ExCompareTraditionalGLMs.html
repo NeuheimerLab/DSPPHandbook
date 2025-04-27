@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Skills Portfolio Program - How GLMs relate to other types of models</title>
+<title>Data Skills Portfolio Program - Beyond GLMs: How GLMs relate to other types of models</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -148,15 +148,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#beyond-glms" id="toc-beyond-glms" class="nav-link active" data-scroll-target="#beyond-glms">Beyond GLMs</a>
+  <li><a href="#beyond-glms" id="toc-beyond-glms" class="nav-link active" data-scroll-target="#beyond-glms"><span class="header-section-number">1</span> Beyond GLMs</a>
   <ul class="collapse">
-  <li><a href="#other-types-of-linear-models" id="toc-other-types-of-linear-models" class="nav-link" data-scroll-target="#other-types-of-linear-models">Other types of linear models</a>
+  <li><a href="#other-types-of-linear-models" id="toc-other-types-of-linear-models" class="nav-link" data-scroll-target="#other-types-of-linear-models"><span class="header-section-number">1.1</span> Other types of linear models</a>
   <ul class="collapse">
-  <li><a href="#resp-cat-where-cat-has-two-factor-levels" id="toc-resp-cat-where-cat-has-two-factor-levels" class="nav-link" data-scroll-target="#resp-cat-where-cat-has-two-factor-levels">Resp ~ Cat (where Cat has two factor levels)</a></li>
-  <li><a href="#resp-cat-where-cat-has-more-than-two-factor-levels" id="toc-resp-cat-where-cat-has-more-than-two-factor-levels" class="nav-link" data-scroll-target="#resp-cat-where-cat-has-more-than-two-factor-levels">Resp ~ Cat (where Cat has <strong>more than two</strong> factor levels)</a></li>
-  <li><a href="#resp-cont" id="toc-resp-cont" class="nav-link" data-scroll-target="#resp-cont">Resp ~ Cont</a></li>
-  <li><a href="#resp-cont-cat" id="toc-resp-cont-cat" class="nav-link" data-scroll-target="#resp-cont-cat">Resp ~ Cont + Cat</a></li>
-  <li><a href="#resp-cat-with-two-samples-and-observation-dependence" id="toc-resp-cat-with-two-samples-and-observation-dependence" class="nav-link" data-scroll-target="#resp-cat-with-two-samples-and-observation-dependence">Resp ~ Cat with two samples and observation dependence</a></li>
+  <li><a href="#resp1-cat1-1-where-cat1-has-two-factor-levels" id="toc-resp1-cat1-1-where-cat1-has-two-factor-levels" class="nav-link" data-scroll-target="#resp1-cat1-1-where-cat1-has-two-factor-levels">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels)</a></li>
+  <li><a href="#resp2-cat2-1-where-cat2-has-more-than-two-factor-levels" id="toc-resp2-cat2-1-where-cat2-has-more-than-two-factor-levels" class="nav-link" data-scroll-target="#resp2-cat2-1-where-cat2-has-more-than-two-factor-levels">Resp2 ~ Cat2 + 1 (where Cat2 has <strong>more than two</strong> factor levels)</a></li>
+  <li><a href="#resp3-num3-1" id="toc-resp3-num3-1" class="nav-link" data-scroll-target="#resp3-num3-1">Resp3 ~ Num3 + 1</a></li>
+  <li><a href="#resp4-cat4-num5-1" id="toc-resp4-cat4-num5-1" class="nav-link" data-scroll-target="#resp4-cat4-num5-1">Resp4 ~ Cat4 + Num5 + 1</a></li>
+  <li><a href="#resp5-cat6-1-where-cat6-has-two-factor-levels-and-observation-dependence" id="toc-resp5-cat6-1-where-cat6-has-two-factor-levels-and-observation-dependence" class="nav-link" data-scroll-target="#resp5-cat6-1-where-cat6-has-two-factor-levels-and-observation-dependence">Resp5 ~ Cat6 + 1 (where Cat6 has two factor levels AND observation dependence)</a></li>
   <li><a href="#resp-constant" id="toc-resp-constant" class="nav-link" data-scroll-target="#resp-constant">Resp ~ constant</a></li>
   </ul></li>
   </ul></li>
@@ -168,7 +168,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">How GLMs relate to other types of models</h1>
+<h1 class="title">Beyond GLMs: How GLMs relate to other types of models</h1>
 </div>
 
 
@@ -183,48 +183,63 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<!--- bartlett's --->
-<section id="beyond-glms" class="level1">
-<h1>Beyond GLMs</h1>
-<p>When to use GLMs (vs.&nbsp;these other methods) - when you have a linear shape assumption</p>
-<p>When to use these other methods (vs.&nbsp;a GLM) - when you need to relate to previous research (e.g.&nbsp;interpretting coefficients, comparing results across)</p>
-<p>Remember: that all models are wrong, some are useful.</p>
-<hr style="border:1px solid grey">
-<section id="other-types-of-linear-models" class="level2">
-<h2 class="anchored" data-anchor-id="other-types-of-linear-models">Other types of linear models</h2>
-<p>As we’ve discussed in class, you are testing your hypothesis by building a model of your hypothesis so that you can fit the model to data and determine the evidence for your hypothesis. Remember that models are an approximation of what is going on in the real world and that “all models are wrong, but some are useful”. It follows then that there could be more than one useful model that can represent your hypothesis.</p>
-<p>Here we’ll talk about classical models or tests<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. These are other types of models that can be used to test your hypothesis when you have a linear shape assumption. We won’t be practicing these in class, but it is important they are on your radar so that you can better communicate with those who might be using different methods than you.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+In this chapter you will learn:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<ul>
+<li>how GLMs relate to other types of models (i.e.&nbsp;classical models)</li>
+</ul>
+</div>
+</div>
+</div>
+<section id="beyond-glms" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Beyond GLMs</h1>
+<p>When to use GLMs (vs.&nbsp;these other methods): - when you have a linear shape assumption</p>
+<p>When to use these other methods (vs.&nbsp;a GLM): - when you need to relate to previous research (e.g.&nbsp;interpretting coefficients, comparing results across)</p>
+<section id="other-types-of-linear-models" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="other-types-of-linear-models"><span class="header-section-number">1.1</span> Other types of linear models</h2>
+<p>As we have discussed in class, you are testing your hypothesis by building a model of your hypothesis so that you can fit the model to data and determine the evidence for your hypothesis. Remember that models are an approximation of what is going on in the real world and that “all models are wrong, but some are useful”. It follows then that there could be more than one useful model that can represent your hypothesis.</p>
+<p>Here we will talk about classical models or tests. These are other types of models that can be used to test your hypothesis when you have a linear shape assumption. By having these other tests “on your radar” you will be better able to communicate with those who might be using different methods than you.</p>
 <p>A few things to note about these “classical” models:</p>
 <ul>
-<li><p>With classical models, assessing if your model is valid often comes <strong>before</strong> you apply the model (e.g.&nbsp;checking to see that your Response is normal before you apply the model)</p></li>
-<li><p>Classical models rely on p-values to determine the evidence for your hypothesis<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p></li>
+<li><p>With classical models, assessing if your model is valid often comes <strong>before</strong> you apply the model (e.g.&nbsp;checking to see that your response is normal before you apply the model)</p></li>
+<li><p>Classical models rely on P-values to determine the evidence for your hypothesis. <a href="./DSPPH_SM_HypothesisTesting.html##sec_PValue">Refresh how you can use P-values to test your hypothes here</a>.</p></li>
 <li><p>Some classical models are mathematically identical to a GLM, e.g.</p>
 <ul>
 <li>a simple linear model (<code>lm()</code>) is the same as a GLM when your error distribution assumption is normal</li>
-<li>an Analysis of Variance or ANOVA is the same as a GLM when your error distribution assumption is normal, and your covariates are all categorical</li>
+<li>an Analysis of Variance or ANOVA is the same as a GLM when your error distribution assumption is normal, and your predictors are all categorical</li>
 </ul></li>
 <li><p>For some types of observations, there are no equivalent “classical” models - you need a GLM. This is particularly the case when you have non-normal error distribution assumptions that are discrete, such as poisson (count data) or binomial.</p></li>
-<li><p>When the effect of your covariate on your response is big, your results from a GLM will agree with the classical model equivalent. When the effect of your covariate on your response is small, you might conclude different things about your hypothesis depending on the model you use to test it. This can be frustrating/confusing, but it is just the nature of the process: we are applying models that are only approximations of the real world.</p></li>
+<li><p>When the effect of your predictor on your response is big, your results from a GLM will agree with the classical model equivalent. When the effect of your predictor on your response is small, you might conclude different things about your hypothesis depending on the model you use to test it. This can be frustrating/confusing, but it is just the nature of the process: you are using models that are only approximations of the real world.</p></li>
 </ul>
-<p>Here we’ll compare the method we’ve been using (GLM) with a classical model for a number of situations:</p>
+<p>Here we will compare the method we have been using (GLM) with a classical model for a number of situations:</p>
 <ul>
-<li><p>Resp ~ Cat (where you have a categorical covariate with only two factor levels)</p></li>
-<li><p>Resp ~ Cat (where you have a categorical covariate with more than two factor levels)</p></li>
-<li><p>Resp ~ Cont (where you have a continuous covariate)</p></li>
-<li><p>Resp ~ Cat + Cont (where you have a categorical and a continuous covariate)</p></li>
-<li><p>Resp ~ Cat (where you have a categorical covariate with only two factor levels AND observation dependence)</p></li>
+<li><p>Resp1 ~ Cat1 + 1 (where you have a categorical predictor with only two factor levels)</p></li>
+<li><p>Resp2 ~ Cat2 + 1 (where you have a categorical predictor with more than two factor levels)</p></li>
+<li><p>Resp3 ~ Num3 + 1 (where you have a numeric predictor)</p></li>
+<li><p>Resp4 ~ Cat4 + Num5 + 1 (where you have a categorical and a numeric predictor)</p></li>
+<li><p>Resp5 ~ Cat6 + 1 (where you have a categorical predictor with only two factor levels AND observation dependence)</p></li>
 </ul>
-<p>We’ll also include one more example that we haven’t talked about yet - how you test if the mean of your response is equal to a constant value (i.e.&nbsp;a “one-sample test”): * Resp ~ constant</p>
+<p>We will also include one more example that we haven’t talked about yet - how you test if the mean of your response is equal to a constant value (i.e.&nbsp;a “one-sample test”): * Resp6 ~ constant</p>
 <p><strong>This section may seem overwhelming, but remember that you already know how to address every hypothesis discussed here (with a GLM). This section is to make you aware of the other options available to you.</strong></p>
 <hr>
-<section id="resp-cat-where-cat-has-two-factor-levels" class="level3">
-<h3 class="anchored" data-anchor-id="resp-cat-where-cat-has-two-factor-levels">Resp ~ Cat (where Cat has two factor levels)</h3>
-<section id="resp-cat-where-cat-has-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-two-sample-t-test" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cat-where-cat-has-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-two-sample-t-test">Resp ~ Cat (where Cat has two factor levels) with a normal error distribution assumption - GLM vs.&nbsp;two-sample t-test</h4>
+<section id="resp1-cat1-1-where-cat1-has-two-factor-levels" class="level3">
+<h3 class="anchored" data-anchor-id="resp1-cat1-1-where-cat1-has-two-factor-levels">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels)</h3>
+<section id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-two-sample-t-test" class="level4">
+<h4 class="anchored" data-anchor-id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-two-sample-t-test">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels) with a normal error distribution assumption - GLM vs.&nbsp;two-sample t-test</h4>
 <p>An example: monthly weight change is different between North and South populations or <code>WtChange ~ Pop</code></p>
 <p>Using our GLM method, we would set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Pop, </span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Pop <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -232,7 +247,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = WtChange ~ Pop, family = gaussian(link = "identity"), 
+glm(formula = WtChange ~ Pop + 1, family = gaussian(link = "identity"), 
     data = myDat)
 
 Coefficients:
@@ -311,15 +326,15 @@ mean of x mean of y
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">#        data = myDat, # data</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">#        var.equal = TRUE) # the variances were equal.  If they aren't equal, set to FALSE to fit a Welch's two-sample test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Notice that the two methods lead to <strong>identical</strong> results based on p-values.</p>
+<p>Notice that the two methods lead to <strong>identical</strong> results based on P-values.</p>
 <hr>
 </section>
-<section id="resp-cat-where-cat-has-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-wilcoxon-rank-sum-test" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cat-where-cat-has-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-wilcoxon-rank-sum-test">Resp ~ Cat (where Cat has two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;Wilcoxon Rank Sum test</h4>
+<section id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-wilcoxon-rank-sum-test" class="level4">
+<h4 class="anchored" data-anchor-id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-wilcoxon-rank-sum-test">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;Wilcoxon Rank Sum test</h4>
 <p>Example: tree height variation is explained by population (North vs.&nbsp;South) or <code>Height ~ Pop</code></p>
 <p>Using our GLM method we would set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Pop, <span class="co"># hypothesis</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Pop <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"inverse"</span>)) <span class="co"># error distribution assumption</span></span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -327,7 +342,7 @@ mean of x mean of y
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = Height ~ Pop, family = Gamma(link = "inverse"), 
+glm(formula = Height ~ Pop + 1, family = Gamma(link = "inverse"), 
     data = myDat)
 
 Coefficients:
@@ -347,9 +362,9 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <p>and would then go on with our statistical modelling framework.</p>
-<p>Using a classical model, we can choose the Wilcoxon Rank Sum test.<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>:</p>
+<p>Using a classical model, we can choose the Wilcoxon Rank Sum test.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Height<span class="sc">~</span>Pop, <span class="co"># hypothesis</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Height <span class="sc">~</span> Pop <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> myDat) <span class="co"># data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -364,10 +379,10 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <hr>
 </section>
 </section>
-<section id="resp-cat-where-cat-has-more-than-two-factor-levels" class="level3">
-<h3 class="anchored" data-anchor-id="resp-cat-where-cat-has-more-than-two-factor-levels">Resp ~ Cat (where Cat has <strong>more than two</strong> factor levels)</h3>
-<section id="resp-cat-where-cat-has-more-than-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-anova" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cat-where-cat-has-more-than-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-anova">Resp ~ Cat (where Cat has more than two factor levels) with a normal error distribution assumption - GLM vs.&nbsp;ANOVA</h4>
+<section id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels" class="level3">
+<h3 class="anchored" data-anchor-id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels">Resp2 ~ Cat2 + 1 (where Cat2 has <strong>more than two</strong> factor levels)</h3>
+<section id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-anova" class="level4">
+<h4 class="anchored" data-anchor-id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-anova">Resp2 ~ Cat2 + 1 (where Cat2 has more than two factor levels) with a normal error distribution assumption - GLM vs.&nbsp;ANOVA</h4>
 <p>An example: monthly weight change is explained by species (Sp1, Sp2 and Sp3) or <code>WtChange ~ Sp</code></p>
 <div class="cell">
 <div class="cell-output cell-output-stderr">
@@ -391,7 +406,7 @@ Attaching package: 'dplyr'</code></pre>
 </div>
 <p>Using our GLM method we would set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Sp, </span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -399,7 +414,7 @@ Attaching package: 'dplyr'</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = WtChange ~ Sp, family = gaussian(link = "identity"), 
+glm(formula = WtChange ~ Sp + 1, family = gaussian(link = "identity"), 
     data = myDat)
 
 Coefficients:
@@ -419,7 +434,7 @@ AIC: 232.72
 Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
-<p>and would go on with our statistical modelling framework. Here we can get a p-value associated with our covariate with:</p>
+<p>and would go on with our statistical modelling framework. Here we can get a p-value associated with our predictor with:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(startMod.glm, <span class="at">test =</span> <span class="st">"F"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -440,7 +455,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Using a classical model, we can choose an Analysis of Variance model or ANOVA:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>startMod.aov<span class="ot">&lt;-</span><span class="fu">aov</span>(WtChange <span class="sc">~</span> Sp, <span class="co">#hypothesis</span></span>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>startMod.aov<span class="ot">&lt;-</span><span class="fu">aov</span>(WtChange <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, <span class="co">#hypothesis</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> myDat) <span class="co">#data</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod.aov)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -456,17 +471,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Other notes about ANOVAs:</p>
 <ul>
 <li><p>With an ANOVA, you assess your model’s validity by inspecting residuals, i.e.&nbsp;after you fit the model (as we do with the GLM).</p></li>
-<li><p>You might see people mentioning one-way vs.&nbsp;two-way ANOVA. This just describes if you have one categorical covariate in your model (one-way ANOVA) or two (two-way ANOVA).</p></li>
-<li><p>You might see people mentioning Type I vs.&nbsp;Type II vs.&nbsp;Type III ANOVAs. These are different ANOVA methods used to handle covariate collinearity when selecting which covariates should be in your best-specified model. You can change the type of ANOVA you are fitting with the <code>Anova()</code><a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> function in the car package.</p></li>
+<li><p>You might see people mentioning one-way vs.&nbsp;two-way ANOVA. This just describes if you have one categorical predictor in your model (one-way ANOVA) or two (two-way ANOVA).</p></li>
+<li><p>You might see people mentioning Type I vs.&nbsp;Type II vs.&nbsp;Type III ANOVAs. These are different ANOVA methods used to handle predictor collinearity when selecting which predictors should be in your best-specified model. You can change the type of ANOVA you are fitting with the <code>Anova()</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> function in the car package.</p></li>
 </ul>
 <hr>
 </section>
-<section id="resp-cat-where-cat-has-more-than-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-kruskal-wallis" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cat-where-cat-has-more-than-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-kruskal-wallis">Resp ~ Cat (where Cat has more than two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;Kruskal-Wallis</h4>
-<p>Example: tree height variation is explained by species (Sp1, Sp2 and Sp3) or <code>Height ~ Sp</code></p>
+<section id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-kruskal-wallis" class="level4">
+<h4 class="anchored" data-anchor-id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-kruskal-wallis">Resp2 ~ Cat2 + 1 (where Cat2 has more than two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;Kruskal-Wallis</h4>
+<p>Example: tree height variation is explained by species (Sp1, Sp2 and Sp3) or <code>Height ~ Sp + 1</code></p>
 <p>Using our GLM method we would set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Sp, <span class="co"># hypothesis</span></span>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
 <span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"inverse"</span>)) <span class="co"># error distribution assumption</span></span>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -474,7 +489,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = Height ~ Sp, family = Gamma(link = "inverse"), 
+glm(formula = Height ~ Sp + 1, family = Gamma(link = "inverse"), 
     data = myDat)
 
 Coefficients:
@@ -511,7 +526,7 @@ Sp    2 0.077499        27     1.8098 0.5056 0.6088</code></pre>
 <p>and would then go on with our statistical modelling framework.</p>
 <p>Using a classical model, we can use the Kruskal-Wallis model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(Height <span class="sc">~</span> Sp, </span>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(Height <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
@@ -525,14 +540,14 @@ Kruskal-Wallis chi-squared = 0.90794, df = 2, p-value = 0.6351</code></pre>
 <hr>
 </section>
 </section>
-<section id="resp-cont" class="level3">
-<h3 class="anchored" data-anchor-id="resp-cont">Resp ~ Cont</h3>
-<section id="resp-cont-with-a-normal-error-distribution-assumption---glm-vs.-lm" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cont-with-a-normal-error-distribution-assumption---glm-vs.-lm">Resp ~ Cont with a normal error distribution assumption - GLM vs.&nbsp;LM</h4>
-<p>An example: monthly weight change is explained by temperature or <code>WtChange ~ Temp</code></p>
+<section id="resp3-num3-1" class="level3">
+<h3 class="anchored" data-anchor-id="resp3-num3-1">Resp3 ~ Num3 + 1</h3>
+<section id="resp3-num3-1-with-a-normal-error-distribution-assumption---glm-vs.-lm" class="level4">
+<h4 class="anchored" data-anchor-id="resp3-num3-1-with-a-normal-error-distribution-assumption---glm-vs.-lm">Resp3 ~ Num3 + 1 with a normal error distribution assumption - GLM vs.&nbsp;LM</h4>
+<p>An example: monthly weight change is explained by temperature or <code>WtChange ~ Temp + 1</code></p>
 <p>Using our GLM method we would set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Temp, </span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -540,7 +555,7 @@ Kruskal-Wallis chi-squared = 0.90794, df = 2, p-value = 0.6351</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = WtChange ~ Temp, family = gaussian(link = "identity"), 
+glm(formula = WtChange ~ Temp + 1, family = gaussian(link = "identity"), 
     data = myDat)
 
 Coefficients:
@@ -561,14 +576,14 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 <p>Using a classical model, we can choose a simple linear model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>startMod.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(WtChange <span class="sc">~</span> Temp, </span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>startMod.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat)</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod.lm)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = WtChange ~ Temp, data = myDat)
+lm(formula = WtChange ~ Temp + 1, data = myDat)
 
 Residuals:
     Min      1Q  Median      3Q     Max 
@@ -589,28 +604,28 @@ F-statistic: 263.9 on 1 and 28 DF,  p-value: 8.754e-16</code></pre>
 <p>Notice that the simple linear model and GLM methods lead to <strong>identical</strong> results.</p>
 <hr>
 </section>
-<section id="resp-cont-with-a-non-normal-error-distribution-assumption---glm" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cont-with-a-non-normal-error-distribution-assumption---glm">Resp ~ Cont with a non-normal error distribution assumption - GLM!!</h4>
+<section id="resp3-num3-1-with-a-non-normal-error-distribution-assumption---glm" class="level4">
+<h4 class="anchored" data-anchor-id="resp3-num3-1-with-a-non-normal-error-distribution-assumption---glm">Resp3 ~ Num3 + 1 with a non-normal error distribution assumption - GLM!!</h4>
 <p>An example: plant height is explained by temperature or <code>Height ~ Temp</code></p>
 <p>If your error distribution assumption is continuous, you can <strong>try</strong> a normal error distribution assumption and fit a simple linear model but you need to carefully assess your residuals.</p>
 <p>If your error distribution assumption is discrete (e.g.&nbsp;poisson, binomial), you <strong>need</strong> a GLM.</p>
 <p>e.g.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Temp, </span>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Temp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"inverse"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
 </section>
-<section id="resp-cont-cat" class="level3">
-<h3 class="anchored" data-anchor-id="resp-cont-cat">Resp ~ Cont + Cat</h3>
-<section id="resp-cont-cat-with-a-normal-error-distribution-assumption---glm-vs.-ancova" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cont-cat-with-a-normal-error-distribution-assumption---glm-vs.-ancova">Resp ~ Cont + Cat with a normal error distribution assumption - GLM vs.&nbsp;ANCOVA</h4>
+<section id="resp4-cat4-num5-1" class="level3">
+<h3 class="anchored" data-anchor-id="resp4-cat4-num5-1">Resp4 ~ Cat4 + Num5 + 1</h3>
+<section id="resp4-cat4-num5-1-with-a-normal-error-distribution-assumption---glm-vs.-ancova" class="level4">
+<h4 class="anchored" data-anchor-id="resp4-cat4-num5-1-with-a-normal-error-distribution-assumption---glm-vs.-ancova">Resp4 ~ Cat4 + Num5 + 1 with a normal error distribution assumption - GLM vs.&nbsp;ANCOVA</h4>
 <p>An example: monthly weight change is explained by temperature and location or <code>WtChange ~ Temp + Location + Temp:Location</code></p>
 <p>Using our GLM method we would set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location, </span>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>))</span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
@@ -618,8 +633,8 @@ F-statistic: 263.9 on 1 and 28 DF,  p-value: 8.754e-16</code></pre>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = WtChange ~ Temp + Location + Temp:Location, family = gaussian(link = "identity"), 
-    data = myDat)
+glm(formula = WtChange ~ Temp + Location + Temp:Location + 1, 
+    family = gaussian(link = "identity"), data = myDat)
 
 Coefficients:
                    Estimate Std. Error t value Pr(&gt;|t|)    
@@ -661,7 +676,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p>Using a classical model, we can fit an Analysis of Covariance (ANCOVA) with the <code>aov()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>startMod.ancova <span class="ot">&lt;-</span> <span class="fu">aov</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location, </span>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>startMod.ancova <span class="ot">&lt;-</span> <span class="fu">aov</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> myDat)</span>
 <span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(startMod.ancova)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -678,33 +693,33 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <p>Notice that the ANCOVA and GLM method lead to <strong>identical</strong> results. These are the same model.</p>
 <hr>
 </section>
-<section id="resp-cont-cat-with-a-non-normal-error-distribution-assumption---glm" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cont-cat-with-a-non-normal-error-distribution-assumption---glm">Resp ~ Cont + Cat with a non-normal error distribution assumption - GLM!!</h4>
-<p>An example: plant height is explained by temperature and location or <code>Height ~ Temp + Location + Temp:Location</code></p>
+<section id="resp4-cat4-num5-1-with-a-non-normal-error-distribution-assumption---glm" class="level4">
+<h4 class="anchored" data-anchor-id="resp4-cat4-num5-1-with-a-non-normal-error-distribution-assumption---glm">Resp4 ~ Cat4 + Num5 + 1 with a non-normal error distribution assumption - GLM!!</h4>
+<p>An example: plant height is explained by temperature and location or <code>Height ~ Temp + Location + Temp:Location + 1</code></p>
 <p>If your error distribution assumption is continuous, you can <strong>try</strong> a normal error distribution assumption and fit a ANCOVA to test your hypothesis but you need to carefully assess your residuals.</p>
 <p>If your error distribution assumption is discrete (e.g.&nbsp;poisson, binomial), you <strong>need</strong> a GLM.</p>
 <p>e.g.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location, </span>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
 <span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"inverse"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <hr>
 </section>
 </section>
-<section id="resp-cat-with-two-samples-and-observation-dependence" class="level3">
-<h3 class="anchored" data-anchor-id="resp-cat-with-two-samples-and-observation-dependence">Resp ~ Cat with two samples and observation dependence</h3>
-<section id="resp-cat-where-you-have-a-categorical-covariate-with-only-two-factor-levels-and-observation-dependence---glm-vs.-paired-t-test" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cat-where-you-have-a-categorical-covariate-with-only-two-factor-levels-and-observation-dependence---glm-vs.-paired-t-test">Resp ~ Cat (where you have a categorical covariate with only two factor levels AND observation dependence) - GLM vs.&nbsp;paired t-test</h4>
+<section id="resp5-cat6-1-where-cat6-has-two-factor-levels-and-observation-dependence" class="level3">
+<h3 class="anchored" data-anchor-id="resp5-cat6-1-where-cat6-has-two-factor-levels-and-observation-dependence">Resp5 ~ Cat6 + 1 (where Cat6 has two factor levels AND observation dependence)</h3>
+<section id="resp5-cat6-1-with-a-normal-error-distribution-assumption---glm-vs.-paired-t-test" class="level4">
+<h4 class="anchored" data-anchor-id="resp5-cat6-1-with-a-normal-error-distribution-assumption---glm-vs.-paired-t-test">Resp5 ~ Cat6 + 1 with a normal error distribution assumption - GLM vs.&nbsp;paired t-test</h4>
 <p>An example: monthly weight change before and after maturity or <code>WtChange ~ State</code>, but observations are dependent on one another as the weight change was measured from the same individual before and after maturity.</p>
 <p>Using our GLM method, we could set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> State <span class="sc">+</span> ID, <span class="co"># hypothesis</span></span>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> State <span class="sc">+</span> ID <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
 <span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>)) <span class="co"># error distribution assumption</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>where individual <code>ID</code> is included as a fixed effect. Note that we could also set up a mixed model including <code>ID</code> as a random effect<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>.</p>
-<p>Here we can get a p-value associated with our covariate with:</p>
+<p>where individual <code>ID</code> is included as a fixed effect. Note that we could also set up a mixed model including <code>ID</code> as a random effect<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>Here we can get a p-value associated with our predictor with:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(startMod.glm, <span class="at">test =</span> <span class="st">"F"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -786,17 +801,17 @@ mean difference
 <p>Again, results between the GLM and paired two-sample test are similar (i.e.&nbsp;both say there is evidence of an effect of <code>State</code> on <code>WtChange</code>, while accounting for observation dependence due to <code>ID</code>)</p>
 <hr>
 </section>
-<section id="resp-cat-where-you-have-a-categorical-covariate-with-only-two-factor-levels-and-observation-dependence---glm-vs.-wilcoxon-signed-rank" class="level4">
-<h4 class="anchored" data-anchor-id="resp-cat-where-you-have-a-categorical-covariate-with-only-two-factor-levels-and-observation-dependence---glm-vs.-wilcoxon-signed-rank">Resp ~ Cat (where you have a categorical covariate with only two factor levels AND observation dependence) - GLM vs.&nbsp;Wilcoxon Signed Rank</h4>
-<p>An example: Abundance is explained by treatment as before and after rewilding or <code>Abund ~ Treat</code>, but observations are dependent on one another as the abundance was measured from the same location before and after rewilding.</p>
+<section id="resp5-cat6-1-with-a-non-normal-error-distribution-assumption---glm-vs.-wilcoxon-signed-rank" class="level4">
+<h4 class="anchored" data-anchor-id="resp5-cat6-1-with-a-non-normal-error-distribution-assumption---glm-vs.-wilcoxon-signed-rank">Resp5 ~ Cat6 + 1 with a non-normal error distribution assumption - GLM vs.&nbsp;Wilcoxon Signed Rank</h4>
+<p>An example: Abundance is explained by treatment as before and after rewilding or <code>Abund ~ Treat + 1</code>, but observations are dependent on one another as the abundance was measured from the same location before and after rewilding.</p>
 <p>Using our GLM method, we could set up our starting model as:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Abund <span class="sc">~</span> Treat <span class="sc">+</span> ID, <span class="co"># hypothesis</span></span>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Abund <span class="sc">~</span> Treat <span class="sc">+</span> ID <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
 <span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)) <span class="co"># error distribution assumption </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>where location <code>ID</code> is included as a fixed effect. Note that we could also set up a mixed model including <code>ID</code> as a random effect<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
-<p>Here we can get a p-value associated with our covariate with:</p>
+<p>where location <code>ID</code> is included as a fixed effect. Note that we could also set up a mixed model including <code>ID</code> as a random effect<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>.</p>
+<p>Here we can get a p-value associated with our predictor with:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(startMod.glm, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -871,7 +886,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 </section>
 <section id="resp-constant" class="level3">
 <h3 class="anchored" data-anchor-id="resp-constant">Resp ~ constant</h3>
-<p>The formula notation may look like the null model but it is slightly different. This hypothesis states that our mean value is equal to a known value. In classical testing, this is sometimes called a “one sample” test. Note that there are no covariates here.</p>
+<p>The formula notation may look like the null model but it is slightly different. This hypothesis states that our mean value is equal to a known value. In classical testing, this is sometimes called a “one sample” test. Note that there are no predictors here.</p>
 <section id="resp-constant-with-a-normal-error-distribution-assumption---glm-vs.-one-sample-t-test" class="level4">
 <h4 class="anchored" data-anchor-id="resp-constant-with-a-normal-error-distribution-assumption---glm-vs.-one-sample-t-test">Resp ~ constant with a normal error distribution assumption - GLM vs.&nbsp;one-sample t-test</h4>
 <p>An example: monthly weight change is 50 g or WtChange ~ 50</p>
@@ -979,17 +994,6 @@ alternative hypothesis: true location is not equal to 30</code></pre>
 </div>
 <p>Notice that the two methods lead to similar results (both methods say there is evidence that the average tree height is similar to 30m)</p>
 <hr style="border:1px solid grey">
-<!--- 
-
-    - linear regression
-    - correlation
-    - one sample t-test
-    - dependent (paired) samples t-test as `RespAfter - RespBefore ~ 1`
-    - independent samples t-test
-    - one-way anova
-    - factorial anova (more than one covariate)
-    
-    --->
 
 
 </section>
@@ -1001,12 +1005,10 @@ alternative hypothesis: true location is not equal to 30</code></pre>
 <p>Copyright 2025, DSP Taskforce</p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
 
 <ol>
-<li id="fn1"><p>See Chapter 8 in our Crawley book<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p>see Week 9’s course notes for a discussion of p-values, and their limitations<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>there is also a classical model called prop.test() for binomially distributed data<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn4"><p>note the capital letter A here<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn5"><p>See Week 13’s course notes for more<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn6"><p>See Week 13’s course notes for more<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn1"><p>there is also a classical model called prop.test() for binomially distributed data<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>note the capital letter A here<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>See Week 13’s course notes for more<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>See Week 13’s course notes for more<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

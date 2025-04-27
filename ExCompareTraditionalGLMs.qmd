@@ -1,65 +1,80 @@
 ---
-title: "How GLMs relate to other types of models"
+title: "Beyond GLMs: How GLMs relate to other types of models"
+bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
 ---
 
-<!--- bartlett's --->
+
+```{r}
+#| echo: false
+library(png)
+library(grid)
+library(formatR)
+```
+
+::: {.callout-tip collapse="false"} 
+## In this chapter you will learn:
+
+- how GLMs relate to other types of models (i.e. classical models)
+
+:::
+
 
 # Beyond GLMs
 
-When to use GLMs (vs. these other methods)
+When to use GLMs (vs. these other methods):
 - when you have a linear shape assumption
 
 
-When to use these other methods (vs. a GLM)
+When to use these other methods (vs. a GLM):
 - when you need to relate to previous research (e.g. interpretting coefficients, comparing results across)
 
-Remember: that all models are wrong, some are useful.
-
-
-<hr/ style="border:1px solid grey">
 
 ## Other types of linear models
 
-As we've discussed in class, you are testing your hypothesis by building a model of your hypothesis so that you can fit the model to data and determine the evidence for your hypothesis.  Remember that models are an approximation of what is going on in the real world and that "all models are wrong, but some are useful".  It follows then that there could be more than one useful model that can represent your hypothesis.
+As we have discussed in class, you are testing your hypothesis by building a model of your hypothesis so that you can fit the model to data and determine the evidence for your hypothesis.  Remember that models are an approximation of what is going on in the real world and that "all models are wrong, but some are useful".  It follows then that there could be more than one useful model that can represent your hypothesis.
 
-Here we'll talk about classical models or tests^[See Chapter 8 in our Crawley book].  These are other types of models that can be used to test your hypothesis when you have a linear shape assumption.  We won't be practicing these in class, but it is important they are on your radar so that you can better communicate with those who might be using different methods than you.  
+Here we will talk about classical models or tests.  These are other types of models that can be used to test your hypothesis when you have a linear shape assumption.  By having these other tests "on your radar" you will be better able to communicate with those who might be using different methods than you.  
 
 A few things to note about these "classical" models:
 
-- With classical models, assessing if your model is valid often comes **before** you apply the model (e.g. checking to see that your Response is normal before you apply the model)
+- With classical models, assessing if your model is valid often comes **before** you apply the model (e.g. checking to see that your response is normal before you apply the model)
 
-- Classical models rely on p-values to determine the evidence for your hypothesis^[see Week 9's course notes for a discussion of p-values, and their limitations]
+- Classical models rely on P-values to determine the evidence for your hypothesis.  [Refresh how you can use P-values to test your hypothes here](DSPPH_SM_HypothesisTesting.qmd##sec_PValue).
 
 - Some classical models are mathematically identical to a GLM, e.g.
   - a simple linear model (`lm()`) is the same as a GLM when your error distribution assumption is normal
-  - an Analysis of Variance or ANOVA is the same as a GLM when your error distribution assumption is normal, and your covariates are all categorical
+  - an Analysis of Variance or ANOVA is the same as a GLM when your error distribution assumption is normal, and your predictors are all categorical
 
 - For some types of observations, there are no equivalent "classical" models - you need a GLM.  This is particularly the case when you have non-normal error distribution assumptions that are discrete, such as poisson (count data) or binomial.
 
-- When the effect of your covariate on your response is big, your results from a GLM will agree with the classical model equivalent.  When the effect of your covariate on your response is small, you might conclude different things about your hypothesis depending on the model you use to test it.  This can be frustrating/confusing, but it is just the nature of the process: we are applying models that are only approximations of the real world.
+- When the effect of your predictor on your response is big, your results from a GLM will agree with the classical model equivalent.  When the effect of your predictor on your response is small, you might conclude different things about your hypothesis depending on the model you use to test it.  This can be frustrating/confusing, but it is just the nature of the process: you are using models that are only approximations of the real world.
 
-Here we'll compare the method we've been using (GLM) with a classical model for a number of situations:
+Here we will compare the method we have been using (GLM) with a classical model for a number of situations:
 
-* Resp ~ Cat (where you have a categorical covariate with only two factor levels)
+* Resp1 ~ Cat1 + 1 (where you have a categorical predictor with only two factor levels)
 
-* Resp ~ Cat (where you have a categorical covariate with more than two factor levels)
+* Resp2 ~ Cat2 + 1 (where you have a categorical predictor with more than two factor levels)
 
-* Resp ~ Cont (where you have a continuous covariate)
+* Resp3 ~ Num3 + 1 (where you have a numeric predictor)
 
-* Resp ~ Cat + Cont (where you have a categorical and a continuous covariate)
+* Resp4 ~ Cat4 + Num5 + 1 (where you have a categorical and a numeric predictor)
 
-* Resp ~ Cat (where you have a categorical covariate with only two factor levels AND observation dependence)
+* Resp5 ~ Cat6 + 1 (where you have a categorical predictor with only two factor levels AND observation dependence)
 
-We'll also include one more example that we haven't talked about yet - how you test if the mean of your response is equal to a constant value (i.e. a "one-sample test"):
-* Resp ~ constant
+We will also include one more example that we haven't talked about yet - how you test if the mean of your response is equal to a constant value (i.e. a "one-sample test"):
+* Resp6 ~ constant
 
 **This section may seem overwhelming, but remember that you already know how to address every hypothesis discussed here (with a GLM).  This section is to make you aware of the other options available to you.**
 
 ---
 
-### Resp ~ Cat (where Cat has two factor levels)
+### Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels)
 
-#### Resp ~ Cat (where Cat has two factor levels) with a normal error distribution assumption - GLM vs. two-sample t-test
+#### Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels) with a normal error distribution assumption - GLM vs. two-sample t-test
 
 An example: monthly weight change is different between North and South populations or `WtChange ~ Pop`
 
@@ -78,7 +93,7 @@ myDat<-data.frame(Pop = forCat, WtChange = forResp)
 Using our GLM method, we would set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(WtChange ~ Pop, 
+startMod.glm <- glm(WtChange ~ Pop + 1, 
                 data = myDat,
                 family = gaussian(link = "identity"))
 
@@ -115,11 +130,11 @@ t.test(samp1, # one population
 
 ```
 
-Notice that the two methods lead to **identical** results based on p-values.
+Notice that the two methods lead to **identical** results based on P-values.
 
 ---
 
-#### Resp ~ Cat (where Cat has two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs. Wilcoxon Rank Sum test
+#### Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs. Wilcoxon Rank Sum test
 
 
 Example: tree height variation is explained by population (North vs. South) or `Height ~ Pop`
@@ -141,7 +156,7 @@ myDat<-data.frame(Pop = forCat, Height = Resp)
 Using our GLM method we would set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(Height ~ Pop, # hypothesis
+startMod.glm <- glm(Height ~ Pop + 1, # hypothesis
                 data = myDat, # data
                 family = Gamma(link = "inverse")) # error distribution assumption
 
@@ -155,7 +170,7 @@ Using a classical model, we can choose the Wilcoxon Rank Sum test.^[there is als
 
 ```{r}
 
-wilcox.test(Height~Pop, # hypothesis
+wilcox.test(Height ~ Pop + 1, # hypothesis
             data = myDat) # data
 
 ```
@@ -165,9 +180,9 @@ Notice that the two methods lead to similar results (both methods show evidence 
 
 ---
 
-### Resp ~ Cat (where Cat has **more than two** factor levels)
+### Resp2 ~ Cat2 + 1 (where Cat2 has **more than two** factor levels)
 
-#### Resp ~ Cat (where Cat has more than two factor levels) with a normal error distribution assumption - GLM vs. ANOVA
+#### Resp2 ~ Cat2 + 1 (where Cat2 has more than two factor levels) with a normal error distribution assumption - GLM vs. ANOVA
 
 An example: monthly weight change is explained by species (Sp1, Sp2 and Sp3) or `WtChange ~ Sp`
 
@@ -195,7 +210,7 @@ myDat<-data.frame(Sp = forCat, WtChange = forResp)
 Using our GLM method we would set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(WtChange ~ Sp, 
+startMod.glm <- glm(WtChange ~ Sp + 1, 
                 data = myDat,
                 family = gaussian(link = "identity"))
 
@@ -203,7 +218,7 @@ summary(startMod.glm)
 
 ```
 
-and would go on with our statistical modelling framework.  Here we can get a p-value associated with our covariate with:
+and would go on with our statistical modelling framework.  Here we can get a p-value associated with our predictor with:
 
 ```{r}
 
@@ -216,7 +231,7 @@ Using a classical model, we can choose an Analysis of Variance model or ANOVA:
 
 ```{r}
 
-startMod.aov<-aov(WtChange ~ Sp, #hypothesis
+startMod.aov<-aov(WtChange ~ Sp + 1, #hypothesis
                   data = myDat) #data
 
 summary(startMod.aov)
@@ -228,17 +243,17 @@ Other notes about ANOVAs:
 
 * With an ANOVA, you assess your model's validity by inspecting residuals, i.e. after you fit the model (as we do with the GLM).  
 
-* You might see people mentioning one-way vs. two-way ANOVA.  This just describes if you have one categorical covariate in your model (one-way ANOVA) or two (two-way ANOVA).
+* You might see people mentioning one-way vs. two-way ANOVA.  This just describes if you have one categorical predictor in your model (one-way ANOVA) or two (two-way ANOVA).
 
-* You might see people mentioning Type I vs. Type II vs. Type III ANOVAs.  These are different ANOVA methods used to handle covariate collinearity when selecting which covariates should be in your best-specified model.  You can change the type of ANOVA you are fitting with the `Anova()`^[note the capital letter A here] function in the car package.
+* You might see people mentioning Type I vs. Type II vs. Type III ANOVAs.  These are different ANOVA methods used to handle predictor collinearity when selecting which predictors should be in your best-specified model.  You can change the type of ANOVA you are fitting with the `Anova()`^[note the capital letter A here] function in the car package.
 
 ---
 
 
-#### Resp ~ Cat (where Cat has more than two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs. Kruskal-Wallis 
+#### Resp2 ~ Cat2 + 1 (where Cat2 has more than two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs. Kruskal-Wallis 
 
 
-Example: tree height variation is explained by species (Sp1, Sp2 and Sp3) or `Height ~ Sp`
+Example: tree height variation is explained by species (Sp1, Sp2 and Sp3) or `Height ~ Sp + 1`
 
 
 ```{r echo = FALSE}
@@ -258,7 +273,7 @@ myDat<-data.frame(Sp = forCat, Height = Resp)
 Using our GLM method we would set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(Height ~ Sp, # hypothesis
+startMod.glm <- glm(Height ~ Sp + 1, # hypothesis
                 data = myDat, # data
                 family = Gamma(link = "inverse")) # error distribution assumption
 
@@ -274,7 +289,7 @@ Using a classical model, we can use the Kruskal-Wallis model:
 
 ```{r}
 
-kruskal.test(Height ~ Sp, 
+kruskal.test(Height ~ Sp + 1, 
                 data = myDat)
 
 ```
@@ -284,11 +299,11 @@ Notice that the two methods lead to similar results (both conclude that the mean
 
 ---
 
-### Resp ~ Cont 
+### Resp3 ~ Num3 + 1 
 
-#### Resp ~ Cont with a normal error distribution assumption - GLM vs. LM
+#### Resp3 ~ Num3 + 1 with a normal error distribution assumption - GLM vs. LM
 
-An example: monthly weight change is explained by temperature or `WtChange ~ Temp`
+An example: monthly weight change is explained by temperature or `WtChange ~ Temp + 1`
 
 
 ```{r echo = FALSE}
@@ -307,7 +322,7 @@ myDat<-data.frame(Temp = forCat, WtChange = forResp)
 Using our GLM method we would set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(WtChange ~ Temp, 
+startMod.glm <- glm(WtChange ~ Temp + 1, 
                 data = myDat,
                 family = gaussian(link = "identity"))
 
@@ -320,7 +335,7 @@ Using a classical model, we can choose a simple linear model:
 
 ```{r}
 
-startMod.lm <- lm(WtChange ~ Temp, 
+startMod.lm <- lm(WtChange ~ Temp + 1, 
                 data = myDat)
 
 summary(startMod.lm)
@@ -330,7 +345,7 @@ Notice that the simple linear model and GLM methods lead to **identical** result
 
 ---
 
-#### Resp ~ Cont with a non-normal error distribution assumption  - GLM!!
+#### Resp3 ~ Num3 + 1 with a non-normal error distribution assumption  - GLM!!
 
 An example: plant height is explained by temperature or `Height ~ Temp`
 
@@ -341,7 +356,7 @@ If your error distribution assumption is discrete (e.g. poisson, binomial), you 
 e.g.
 ```{r eval = FALSE}
 
-startMod.glm <- glm(Height ~ Temp, 
+startMod.glm <- glm(Height ~ Temp + 1, 
                 data = myDat,
                 family = Gamma(link = "inverse"))
 
@@ -352,9 +367,9 @@ startMod.glm <- glm(Height ~ Temp,
 
 ---
 
-### Resp ~ Cont + Cat
+### Resp4 ~ Cat4 + Num5 + 1
 
-#### Resp ~ Cont + Cat with a normal error distribution assumption - GLM vs. ANCOVA
+#### Resp4 ~ Cat4 + Num5 + 1 with a normal error distribution assumption - GLM vs. ANCOVA
 
 An example: monthly weight change is explained by temperature and location or `WtChange ~ Temp + Location + Temp:Location`
 
@@ -374,7 +389,7 @@ myDat<-data.frame(Location = forCat2, Temp = forCat1, WtChange = forResp)
 Using our GLM method we would set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(WtChange ~ Temp + Location + Temp:Location, 
+startMod.glm <- glm(WtChange ~ Temp + Location + Temp:Location + 1, 
                 data = myDat,
                 family = gaussian(link = "identity"))
 
@@ -390,7 +405,7 @@ Using a classical model, we can fit an Analysis of Covariance (ANCOVA) with the 
 
 ```{r}
 
-startMod.ancova <- aov(WtChange ~ Temp + Location + Temp:Location, 
+startMod.ancova <- aov(WtChange ~ Temp + Location + Temp:Location + 1, 
                       data = myDat)
 
 summary(startMod.ancova)
@@ -400,9 +415,9 @@ Notice that the ANCOVA and GLM method lead to **identical** results.  These are 
 
 ---
 
-#### Resp ~ Cont + Cat with a non-normal error distribution assumption - GLM!!
+#### Resp4 ~ Cat4 + Num5 + 1 with a non-normal error distribution assumption - GLM!!
 
-An example: plant height is explained by temperature and location or `Height ~ Temp + Location + Temp:Location`
+An example: plant height is explained by temperature and location or `Height ~ Temp + Location + Temp:Location + 1`
 
 If your error distribution assumption is continuous, you can **try** a normal error distribution assumption and fit a ANCOVA to test your hypothesis but you need to carefully assess your residuals.
 
@@ -411,7 +426,7 @@ If your error distribution assumption is discrete (e.g. poisson, binomial), you 
 e.g.
 ```{r eval = FALSE}
 
-startMod.glm <- glm(Height ~ Temp + Location + Temp:Location, 
+startMod.glm <- glm(Height ~ Temp + Location + Temp:Location + 1, 
                 data = myDat,
                 family = Gamma(link = "inverse"))
 
@@ -421,9 +436,9 @@ startMod.glm <- glm(Height ~ Temp + Location + Temp:Location,
 
 ---
 
-### Resp ~ Cat with two samples and observation dependence
+### Resp5 ~ Cat6 + 1 (where Cat6 has two factor levels AND observation dependence)
 
-#### Resp ~ Cat (where you have a categorical covariate with only two factor levels AND observation dependence) - GLM vs. paired t-test
+#### Resp5 ~ Cat6 + 1 with a normal error distribution assumption - GLM vs. paired t-test
 
 An example: monthly weight change before and after maturity  or `WtChange ~ State`, but observations are dependent on one another as the weight change was measured from the same individual before and after maturity.
 
@@ -445,7 +460,7 @@ myDat<-data.frame(ID=forID, State = forCat, WtChange = forResp)
 Using our GLM method, we could set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(WtChange ~ State + ID, # hypothesis
+startMod.glm <- glm(WtChange ~ State + ID + 1, # hypothesis
                 data = myDat, # data
                 family = gaussian(link = "identity")) # error distribution assumption
 ```
@@ -453,7 +468,7 @@ startMod.glm <- glm(WtChange ~ State + ID, # hypothesis
 
 where individual `ID` is included as a fixed effect.  Note that we could also set up a mixed model including `ID` as a random effect^[See Week 13's course notes for more].
 
-Here we can get a p-value associated with our covariate with:
+Here we can get a p-value associated with our predictor with:
 
 ```{r}
 
@@ -496,9 +511,9 @@ Again, results between the GLM and paired two-sample test are similar (i.e. both
 
 ---
 
-#### Resp ~ Cat (where you have a categorical covariate with only two factor levels AND observation dependence) - GLM vs. Wilcoxon Signed Rank
+#### Resp5 ~ Cat6 + 1 with a non-normal error distribution assumption - GLM vs. Wilcoxon Signed Rank
 
-An example: Abundance is explained by treatment as before and after rewilding  or `Abund ~ Treat`, but observations are dependent on one another as the abundance was measured from the same location before and after rewilding.
+An example: Abundance is explained by treatment as before and after rewilding  or `Abund ~ Treat + 1`, but observations are dependent on one another as the abundance was measured from the same location before and after rewilding.
 
 
 ```{r echo = FALSE}
@@ -519,7 +534,7 @@ myDat<-data.frame(ID=forID, Treat=forCat, Abund=forResp)
 Using our GLM method, we could set up our starting model as:
 ```{r}
 
-startMod.glm <- glm(Abund ~ Treat + ID, # hypothesis
+startMod.glm <- glm(Abund ~ Treat + ID + 1, # hypothesis
                 data = myDat, # data
                 family = poisson(link = "log")) # error distribution assumption 
 ```
@@ -527,7 +542,7 @@ startMod.glm <- glm(Abund ~ Treat + ID, # hypothesis
 
 where location `ID` is included as a fixed effect.  Note that we could also set up a mixed model including `ID` as a random effect^[See Week 13's course notes for more].
 
-Here we can get a p-value associated with our covariate with:
+Here we can get a p-value associated with our predictor with:
 
 ```{r}
 
@@ -566,12 +581,8 @@ wilcox.test(myDat.paired$Before, # observations before
 Again, results between the GLM and paired two-sample test are similar (i.e. both say there is evidence of an effect of `Treat` on `Abund`, while accounting for observation dependence due to `ID`)
 
 
-
-
-
-
 ### Resp ~ constant
-The formula notation may look like the null model but it is slightly different.  This hypothesis states that our mean value is equal to a known value.  In classical testing, this is sometimes called a "one sample" test.  Note that there are no covariates here.  
+The formula notation may look like the null model but it is slightly different.  This hypothesis states that our mean value is equal to a known value.  In classical testing, this is sometimes called a "one sample" test.  Note that there are no predictors here.  
 
 #### Resp ~ constant with a normal error distribution assumption - GLM vs. one-sample t-test
 
@@ -653,15 +664,3 @@ Notice that the two methods lead to similar results (both methods say there is e
 
 <hr/ style="border:1px solid grey">
 
-
-<!--- 
-
-	- linear regression
-	- correlation
-	- one sample t-test
-	- dependent (paired) samples t-test as `RespAfter - RespBefore ~ 1`
-	- independent samples t-test
-	- one-way anova
-	- factorial anova (more than one covariate)
-	
-	--->

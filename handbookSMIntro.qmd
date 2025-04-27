@@ -135,46 +135,16 @@ Here you will use your model to make predictions of your response under differen
 
 To begin with, we will be discussing generalized linear models (GLMs) as models that can be useful to test many different hypotheses.  Also, understanding how GLMs can be used to test your hypothesis will help you understand other, including more advanced, statistical models (Pongpipat_et_al_PracticalExtensionStatisticsForPsychology).
 
+#### Beyond GLMs
 Remember: the model you choose is just an approximation of the real world. This means that often times alternative models would be possible (models like t-tests, ANOVAs, ANCOVAs, etc.^[Don't worry if these terms don't mean anything to you yet - more to come!]). In fact, you may be collaborating with someone who wants to model your hypothesis with a different method. In this handbook, we compare GLMs to alternative model types [here](ExCompareTraditionalGLMs.qmd). And remember: the steps in the statistical modelling framework are generally applicable. Regardless of the method you apply, you need to ground your choices in good biological and statistical theory.
 
 ## The examples
 
 Here we've gathered [TBA_examples](examples.qmd) following our statistical modelling framework structure. [You can request/contribute new examples here](feedback.qmd)
 
-## From statistical modelling to scientific report writing
+## Communicating your results: From statistical modelling to scientific report writing
 
 [Here](DSPPH_SM_Communicating.qmd) you can see how you can use the steps in the Statistical Modelling Framework to outline your communication of your hypothesis testing in reports and paper.
-
-<!--## Where to from here?
-TBA:
-- boosted regression trees
-- Bayesian
-negative bionomial regression
-mixed models
-- nested design in mixed models
-- random forest vs. GAMs
-- meta-analysis
-- complex models
-  - classification (categorical response) and regression (continous response) trees
-  - boosted regression trees - boosted regression trees iteratively fit models gradually increasing emphasis on observations that were initially poorly fit
-  - ADMB and TMB
-  
-  - multivariate statistics
-  - exploratoryordination/clustering
-  
-  - cross validation
-  
-  [[Principle Component Analysis]] linearly transforms multivariate data into a new coordinate system where the majority of the variation in the data is captured with fewer dimensions than the initial data - Li et al. 2023
-  
-  [[Principle Component Analysis|PCA]] constructs a “map” of the samples where samples that are more similar are closer together
-
-
-
-### Acknowledgements
-
-TBA
--->
-
 
 
 ::: footnotes
