@@ -2106,7 +2106,8 @@ You can find out which slopes (i.e. the effect of `Cont6` on `Resp4`) are differ
 ```{r}
 
 forCompSlope <- pairs(trendsOut, # emmeans object
-                      adjust = "fdr") # multiple comparison adjustment
+                      adjust = "fdr", # multiple comparison adjustment
+                      simple = "Cat5") # contrasts within this categorical predictor
 
 forCompSlope
 
