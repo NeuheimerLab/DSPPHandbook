@@ -310,7 +310,7 @@ kruskal.test(Height ~ Sp + 1,
 
 ```
 
-Notice that the two methods lead to similar results (both conclude that the mean height of the trees is not explained by species).    
+Notice that the two methods lead to similar results (both conclude that the mean height of the trees is NOT explained by species).    
 
 
 ---
