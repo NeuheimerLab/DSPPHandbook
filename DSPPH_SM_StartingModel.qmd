@@ -296,7 +296,7 @@ The mathematical methods involved to fit our model will vary depending on our er
 
 ### Generalized Linear Models (GLMs)
 
-Generalized Linear Models or GLMs are statistical models that have a linear shape assumption but allow for a wide range of error distribution assumptions.  The "generalized" in generalized linear model refers to the fact that the methods used to fit a GLM were developed from methods used to fit models that were restricted to a normal error distribution assumption (e.g. simple linear models and ANOVAs)^[We will discuss these other model types in upcoming classes]:
+Generalized Linear Models or GLMs are statistical models that have a linear shape assumption but allow for a wide range of error distribution assumptions.  The "generalized" in generalized linear model refers to the fact that the methods used to fit a GLM were developed from methods used to fit models that were restricted to a normal error distribution assumption (e.g. simple linear models and ANOVAs)^[See the [Beyond GLMs](ExCompareTraditionalGLMs.qmd) section]:
 
 ![](./RelationshipAmongModels.png){width=70%}
 
@@ -336,7 +336,7 @@ Fitting your GLM will produce a model object (called `startMod` above) - let's e
 
 ![](./generalGLMOutput.png){width=70%}
 
-This output includes^[note that we will be discussing this more in depth when we get to the Reporting section of the Statistical Modelling Framework]: 
+This output includes^[note that we discuss this more in depth in the [Reporting Section]()]: 
 
 - A: a description of your starting model: This gives back information on the starting model you fit.
 

@@ -279,8 +279,24 @@ startMod.glm <- glm(Height ~ Sp + 1, # hypothesis
 
 summary(startMod.glm)
 
+```
+
+Again, we can get a p-value associated with our predictor with^[note that we would need to validate our model first, see the [Model Validation section](DSPPH_SM_ModelValidation.qmd)]:
+
+```{r}
+
 anova(startMod.glm, test = "F")
 
+```
+
+or test our hypothesis^[note that we would need to validate our model first, see the [Model Validation section](DSPPH_SM_ModelValidation.qmd)] via model selection^[more in the [Hypothesis Testing section](DSPPH_SM_HypothesisTesting.qmd)] with:
+
+```{r}
+library(MuMIn)
+
+options(na.action = "na.fail")
+
+dredge(startMod.glm)
 
 ```
 and would then go on with our statistical modelling framework.  
@@ -294,7 +310,7 @@ kruskal.test(Height ~ Sp + 1,
 
 ```
 
-Notice that the two methods lead to similar results (both conclude that the mean height of the trees is explained by species).    
+Notice that the two methods lead to similar results (both conclude that the mean height of the trees is not explained by species).    
 
 
 ---
@@ -466,7 +482,7 @@ startMod.glm <- glm(WtChange ~ State + ID + 1, # hypothesis
 ```
 
 
-where individual `ID` is included as a fixed effect.  Note that we could also set up a mixed model including `ID` as a random effect^[See Week 13's course notes for more].
+where individual `ID` is included as a fixed effect.  Note that we could also set up a mixed model including `ID` as a random effect^[see the [Model Validation section](DSPPH_SM_ModelValidation.qmd) for more]
 
 Here we can get a p-value associated with our predictor with:
 
@@ -540,7 +556,7 @@ startMod.glm <- glm(Abund ~ Treat + ID + 1, # hypothesis
 ```
 
 
-where location `ID` is included as a fixed effect.  Note that we could also set up a mixed model including `ID` as a random effect^[See Week 13's course notes for more].
+where location `ID` is included as a fixed effect.  Note that we could also set up a mixed model including `ID` as a random effect^[see the [Model Validation section](DSPPH_SM_ModelValidation.qmd) for more].
 
 Here we can get a p-value associated with our predictor with:
 
