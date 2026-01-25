@@ -41,7 +41,7 @@ Here we will provide examples of how to accomplish data management tasks common 
 
 ### [... document your work](DSPPH_DA_Document.qmd)
 
-### [TBA_... get your data into R***](DSPPH_DA_Importing.qmd) 
+### [... get your data into R](DSPPH_DA_Importing.qmd) 
 
 ### [TBA_... validate and explore your data***](DSPPH_DA_Exploring.qmd)
 
@@ -50,8 +50,6 @@ Here we will provide examples of how to accomplish data management tasks common 
 ### [... deal with missing values](DSPPH_DA_MissingValues.qmd)
 
 ### [TBA_... sort your data](DSPPH_DA_Sort.qmd)
-
-### [TBA_... subset your data](DSPPH_DA_Subset.qmd) 
 
 ### [... work with dates and times](DSPPH_DA_DatesTimes.qmd)
 

@@ -1,0 +1,248 @@
+---
+title: "So you want to: get your data into R"
+---
+
+# Why you want to do it: 
+
+You need to get your data into R in order to allow for data analysis.  
+
+# How you can do it: 
+
+## Importing your data from an external file
+
+Most often, the data you will want to analyse are held in external files.  You will need to import the data into R before you can work with it.  Some things to consider:
+
+### Make your job easier with clean, understandable files
+
+Data should be kept in long format with descriptive file names and an associated readme file.  See your section on [Data Collection and Curation](https://neuheimerlab.github.io/DSPPHandbook/handbookDCIntro.html#choosing-how-you-record-it) for descriptions and tips on how to set you up for success.  
+
+### Store your data in a known folder
+
+To read in data, you first need to make sure your working directory (where R is currently "working") is set to the right folder (i.e. the folder containing the data file(s) of interest).  You can check your current working directory by typing `getwd()` at your command prompt and set your working directory with `setwd()`, e.g.  
+
+```
+ setwd("~/Desktop/StatsIntro")
+```
+
+As a starting point, keep your data file(s) in the same folder as your R script or markdown document.
+
+
+:::{.callout-tip collapse="true" title="Extra"}
+
+You can also direct R to the folder with your data file(s) by including the path to the folder when you import the file.
+
+Some users also like to use R Projects to keep all the files (data, scripts) in one place for a particular project.  [You can read more about R Projects here](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects).
+
+You can see what files are available in your current directory with `listfiles()`.  For example, if you wanted a list of all .csv files in your working directory, you could type `list.files(dir(), "*.csv")` at the command prompt.
+
+
+:::
+
+### Read your data into R
+
+R has a number of functions to help you get your data into R depending on the type and structure of your data file.
+
+For example,
+
+<img src="./Importing.png" align="center" width="400px"/>
+
+Here is an example of importing data from a `.csv` file:
+
+```{r}
+ # Reading in monthly chlorophyll data
+ # Columns are:
+ ## Station: sampling station, either Halifax (HL2) or Saint John (S27)
+ ## Year: sampling year (4 digit)
+ ## Month: sampling month (numeric)
+ ## Temperature: average temperature (degC) in upper 50m.
+ 
+TData <- read.csv("ExampleData.csv", # name of data file
+                  header=TRUE) # make sure R sees column names (this is the default)
+
+head(TData) # take a look at the top few rows of the data
+
+```
+
+Note:  
+
+- You have named the data object (`TData`).  Without this, the data would be printed on the screen but not saved in your workspace.  Note that you name (or assign) your object using an arrow `<-`. 
+
+- The `header=...` argument is TRUE by default, and allows you to consider the first row in your data file as column names.  
+
+- Quotations (`""`) are needed around the file name.
+
+- Note (as shown above) that you can break up a line of code on multiple lines so you can add comments after each argument.
+
+
+:::{.callout-caution collapse="true" title="aside: how computers store numbers"}
+
+Computers store numbers as patterns of Os and 1s ("bits").  This system approximates decimals which can introduce rounding errors.  99.99% of the time, this will not cause a problem with your analysis.  For the 0.01% of the time, it is important to understand that this precision error exists.
+
+:::
+
+
+
+## Manually entering data into R
+
+When you import your data into R, it will most often be stored as a *data table*, which is a 2-dimensional (rows and columns) structure that can handle a variety of data types.  
+
+Learning about different data types and structures can help you understand how to work with data in R, and how to make these structures manually. 
+
+:::{.callout-caution collapse="false"}
+
+Importing your data file directly into R is much safer than manually typing in your data yourself.  Humans cause errors.
+
+:::
+
+### Data types
+
+Common data types include:
+
+* numeric - this can include both numbers with decimals and integers (whole numbers)
+* character - text strings including letters or words.  You must use quotes around character data to tell R it is a character.
+* factor - categorical variables that are stored as integers (representing the category number) and labels (representing the category name)
+
+:::{.callout-tip collapse="true" title="Extra"}
+
+A fourth data type is "Logical".  This is how R stores true and false data.
+
+:::
+
+
+### Data structures
+
+Here is a tour of data structures that are common to biological data analysis tasks.  Note that you will primarily be using scalars, vectors and data frames.
+
+#### Scalar:
+
+Scalars are one dimensional and include only one value (or element).  Here are a few examples:
+
+```{r}
+
+Sc1 <- "banana" # a scalar containing a character value
+
+print(Sc1)
+
+```
+
+```{r}
+
+Sc2 <- 45 # a scalar containing a numeric integer value
+
+print(Sc2)
+
+```
+
+```{r}
+
+Sc3 <- 3.2 # a scalar containing a numeric decimal value
+
+print(Sc3)
+
+```
+
+#### Vector:
+
+Vectors are a one-dimensional series of data values.  Note that all elements (values) must be of the same data type (either numeric OR character OR factor).  
+
+The simplest way to make a vector is with the combine `c()` function.  Here are a few examples:
+
+```{r}
+
+V1 <- c("apple", "banana", "banana", "orange") # a vector containing character values
+
+print(V1)
+
+```
+
+```{r}
+
+V2 <- c(30, 45, 32, 43) # a vector containing numeric integer values
+
+print(V2)
+
+```
+
+```{r}
+
+V3 <- c(3.2, 0.9, 2.34, 5.4) # a vector containing numeric decimal values
+
+print(V3)
+
+```
+
+There are helpful functions that will let you make vectors when there is a pattern to your data.  
+
+For example, you might want a series of lengths from 1 to 10cm in 0.5cm increments.  You can do this with:
+
+
+```{r}
+
+V4 <- seq(from = 1, # sequence starts here
+          to = 10, # sequence ends here
+          by = 0.5) # sequence increments by this
+
+print(V4)
+
+# check ?seq for more options.
+
+```
+
+Another example: you might want to make a series of months repeating for four years.  You can do this with:
+
+```{r}
+
+myMonths <- c("Jan", "Feb", "Mar") # define your months
+
+V5 <- rep(x = myMonths, # what you want repeated
+          times = 4) # how many times you want it repeated
+
+print(V5)
+
+# Note: this is the same as combining the two steps with 
+## V5 <- rep(x = c("Jan", "Feb", "Mar"), times = 4)
+
+# check ?rep for more options.
+
+```
+
+
+#### Matrix: 
+
+A matrix is a two-dimensional array (think rows and columns) that can only hold one type of data (either numeric OR character OR factor). 
+
+#### Array: 
+
+An array is a n-dimensional array that can only hold one type of data (either numeric OR character OR factor). For example, you can visualize a three-dimensional array as having rows, columns and different sheets.
+
+#### Data frame: 
+
+A data frame is a two-dimensional array (think rows and columns) where each column can hold a different data type, so you can have numeric AND character AND factor data in the same sheet.  
+
+This is a very flexible data structure that you will use a lot in biology. In fact, when you import your data into R, it will most likely be automatically stored as a data frame.  
+
+Here is an example of manually creating a data frame. Note the comma `,` after each column definition:
+
+```{r}
+
+
+DF1 <- data.frame(Year = rep(x = 2021, times = 3), # define your years
+                  Month = c("Jan", "Feb", "Mar"), # define your months
+                  Abundance = c(43, 24, 5)) # abundance information
+
+print(DF1)
+
+```
+
+#### List: 
+
+A list is a n-dimensional array that can only hold multiple types of data and elements that are different lengths.
+
+:::{.callout-tip collapse="true" title="Extra"}
+
+There are many other types of data structures in R.  Some other common ones are data tables (that are great for analysis on very large data sets, e.g. with many observations) and tibbles (that are data frames with a few extra features).
+:::
+
+
+::: footnotes
+:::

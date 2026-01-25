@@ -22,10 +22,10 @@ An R Script is just a text file with a "`.R`" extension.  We can use any text ed
 
 <img src="./BlankScript.png" align="center" width="400px"/>
 
-:::{.callout-tip collapse="true"}
+:::{.callout-tip collapse="true" title="Extra"}
 
 
-*EXTRA*: It's fine to try out syntax at the command prompt (i.e. in interactive mode) before copying and pasting it into your script.  Just be sure not to copy over the command prompt ("`>`") itself as then you'll get an error when you try to run commands from your script.  
+It's fine to try out syntax at the command prompt (i.e. in interactive mode) before copying and pasting it into your script.  Just be sure not to copy over the command prompt ("`>`") itself as then you'll get an error when you try to run commands from your script.  
 
 :::
 
@@ -34,9 +34,9 @@ Make sure you are **saving your script often**.
 ### Running code from a script
 We can run one or multiple lines of code in our script by copying and pasting it at the command prompt ("`>`").  Alternatively, we can highlight the code we want to run and hit Command + Enter (on a Mac) or Ctrl + Enter (on a PC) to send it right to the command prompt.  
 
-:::{.callout-tip collapse="true"}
+:::{.callout-tip collapse="true" title="Extra"}
 
-*EXTRA*: You can also send the entire script to be executed all at once with `source("ScriptName.R")` at the command prompt in R, or `R CMD ScriptName.R` at the system shell command. 
+You can also send the entire script to be executed all at once with `source("ScriptName.R")` at the command prompt in R, or `R CMD ScriptName.R` at the system shell command. 
 
 :::
 
@@ -50,7 +50,7 @@ It is also important to get in the habit of **commenting** your script. Comments
 
 ## R Markdown and Quarto files
 
-R markdown and Quarto files can be used to present your R code (sections of script), results from your data analysis (including plots and tables) and written commentary into a single nicely formatted and reproducible document (like a report, publication, thesis chapter or a web page like this one). Both types of files allow you to document not only your analysis steps (like with plain scripts) but also your results and interpretations.  
+R markdown (extension .rmd) and Quarto (extension .qmd) files can be used to present your R code (sections of script), results from your data analysis (including plots and tables) and written commentary into a single nicely formatted and reproducible document (like a report, publication, thesis chapter or a web page like this one). Both types of files allow you to document not only your analysis steps (like with plain scripts) but also your results and interpretations.  
 
 Both file types allow you to analyze and report analysis using the R programming language.  Quarto allows you to also use other programming languages (e.g. Python or Julia)
 
