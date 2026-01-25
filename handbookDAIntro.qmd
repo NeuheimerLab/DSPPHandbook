@@ -32,30 +32,18 @@ A bit on strategy when learning any programming language (we'll also cover more 
 
 **Don't worry about memorizing** the details of this document or our discussions in class.   You will always have reference material available to you (e.g. this document, the class notes, R's help files, the internet). You can let memorization happen organically: Depending on your individual research adventures, you will use some of these tools more often than others and they will likely become committed to memory.  Other tools will prove less useful to you.  Memorizing this latter group would be a waste of time.
 
-## The basics
-
-[TBA_Here we will go over essential topics when you're first learning a programming language.](DSPPH_DA_RBasics.qmd). Here we cover:
-
-* installing R 
-
-* scripts 
-
-* basic syntax
-
-* getting help in R (how to read help files!)
-
-* objects and data structures
-
-* etc.
-
 
 ## So you want to...
 
-Here we will provide examples of how to accomplish common data management tasks.
+Here we will provide examples of how to accomplish data management tasks common to biology. These are meant to quickly connect you with programming strategies and code to handle your tasks as a biologist (and beyond). 
 
-### [TBA_... load your data into R](DSPPH_DA_Import.qmd) 
+### [TBA_... install R on your computer](DSPPH_DA_Install.qmd)
 
-### [TBA_... validate and explore your data](DSPPH_DA_Validate.qmd)
+### [... document your work](DSPPH_DA_Document.qmd)
+
+### [TBA_... get your data into R***](DSPPH_DA_Importing.qmd) 
+
+### [TBA_... validate and explore your data***](DSPPH_DA_Exploring.qmd)
 
 ### [TBA_... visualize your data (make a plot!)](DSPPH_DA_Visualization.qmd)
 
