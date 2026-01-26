@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Data Skills Portfolio Program - Data Management Handbook</title>
+<title>Data Skills Portfolio Program - Aside: Functions in R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -65,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
 <link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="nav-sidebar docked nav-fixed">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -91,7 +125,7 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">What is the DSP Program?</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./handbookIntro.html" rel="" target="" aria-current="page">
+    <a class="nav-link" href="./handbookIntro.html" rel="" target="">
  <span class="menu-text">The DSP Program Handbook</span></a>
   </li>  
   <li class="nav-item">
@@ -104,84 +138,23 @@ ul.task-list li input[type="checkbox"] {
           </div> <!-- /navcollapse -->
       </div> <!-- /container-fluid -->
     </nav>
-  <nav class="quarto-secondary-nav">
-    <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-        <i class="bi bi-layout-text-sidebar-reverse"></i>
-      </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./handbookDAIntro.html">Data Management Handbook</a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-    </div>
-  </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation docked overflow-auto">
-    <div class="sidebar-menu-container"> 
-    <ul class="list-unstyled mt-1">
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./handbookIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Introduction to the Handbook</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./handbookDCIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Data Collection &amp; Curation Handbook</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./handbookDAIntro.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Data Management Handbook</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./handbookSMIntro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Statistical Modelling Handbook</span></a>
-  </div>
-</li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./FAQ.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Frequently Asked Questions</span></a>
-  </div>
-</li>
-    </ul>
-    </div>
-</nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-dsp-program-handbook-for-data-management" id="toc-the-dsp-program-handbook-for-data-management" class="nav-link active" data-scroll-target="#the-dsp-program-handbook-for-data-management">The DSP Program Handbook for Data Management</a>
+  <li><a href="#why-you-want-to-do-it" id="toc-why-you-want-to-do-it" class="nav-link active" data-scroll-target="#why-you-want-to-do-it">Why you want to do it:</a></li>
+  <li><a href="#how-you-can-do-it" id="toc-how-you-can-do-it" class="nav-link" data-scroll-target="#how-you-can-do-it">How you can do it:</a>
   <ul class="collapse">
-  <li><a href="#a-note-on-tools" id="toc-a-note-on-tools" class="nav-link" data-scroll-target="#a-note-on-tools">A note on tools:</a></li>
-  <li><a href="#a-note-on-learning-your-first-programming-language" id="toc-a-note-on-learning-your-first-programming-language" class="nav-link" data-scroll-target="#a-note-on-learning-your-first-programming-language">A note on learning your first programming language:</a></li>
-  <li><a href="#so-you-want-to" id="toc-so-you-want-to" class="nav-link" data-scroll-target="#so-you-want-to">So you want to…</a>
-  <ul class="collapse">
-  <li><a href="#tba_-install-r-on-your-computer" id="toc-tba_-install-r-on-your-computer" class="nav-link" data-scroll-target="#tba_-install-r-on-your-computer">TBA_… install R on your computer</a></li>
-  <li><a href="#document-your-work" id="toc-document-your-work" class="nav-link" data-scroll-target="#document-your-work">… document your work</a></li>
-  <li><a href="#get-your-data-into-r" id="toc-get-your-data-into-r" class="nav-link" data-scroll-target="#get-your-data-into-r">… get your data into R</a></li>
-  <li><a href="#tba_-validate-and-explore-your-data" id="toc-tba_-validate-and-explore-your-data" class="nav-link" data-scroll-target="#tba_-validate-and-explore-your-data">TBA_… validate and explore your data***</a></li>
-  <li><a href="#tba_-visualize-your-data-make-a-plot" id="toc-tba_-visualize-your-data-make-a-plot" class="nav-link" data-scroll-target="#tba_-visualize-your-data-make-a-plot">TBA_… visualize your data (make a plot!)</a></li>
-  <li><a href="#deal-with-missing-values" id="toc-deal-with-missing-values" class="nav-link" data-scroll-target="#deal-with-missing-values">… deal with missing values</a></li>
-  <li><a href="#tba_-sort-your-data" id="toc-tba_-sort-your-data" class="nav-link" data-scroll-target="#tba_-sort-your-data">TBA_… sort your data</a></li>
-  <li><a href="#work-with-dates-and-times" id="toc-work-with-dates-and-times" class="nav-link" data-scroll-target="#work-with-dates-and-times">… work with dates and times</a></li>
-  <li><a href="#tba_-manipulate-rows-or-columns-in-your-data" id="toc-tba_-manipulate-rows-or-columns-in-your-data" class="nav-link" data-scroll-target="#tba_-manipulate-rows-or-columns-in-your-data">TBA_… manipulate rows or columns in your data</a></li>
-  <li><a href="#tba_-manipulate-subsets-of-rows-or-columns" id="toc-tba_-manipulate-subsets-of-rows-or-columns" class="nav-link" data-scroll-target="#tba_-manipulate-subsets-of-rows-or-columns">TBA_… manipulate subsets of rows or columns</a></li>
-  <li><a href="#merge-your-data-with-another-data-set" id="toc-merge-your-data-with-another-data-set" class="nav-link" data-scroll-target="#merge-your-data-with-another-data-set">… merge your data with another data set</a></li>
-  <li><a href="#tba_-control-the-flow-of-your-program" id="toc-tba_-control-the-flow-of-your-program" class="nav-link" data-scroll-target="#tba_-control-the-flow-of-your-program">TBA_… control the flow of your program</a></li>
-  <li><a href="#tba_export-your-data-back-out-of-r" id="toc-tba_export-your-data-back-out-of-r" class="nav-link" data-scroll-target="#tba_export-your-data-back-out-of-r">TBA_…export your data back out of R</a></li>
-  </ul></li>
-  <li><a href="#tba_best-practices" id="toc-tba_best-practices" class="nav-link" data-scroll-target="#tba_best-practices">TBA_Best practices</a></li>
+  <li><a href="#anatomy-of-a-function" id="toc-anatomy-of-a-function" class="nav-link" data-scroll-target="#anatomy-of-a-function">Anatomy of a function</a></li>
+  <li><a href="#arithmetic-operators" id="toc-arithmetic-operators" class="nav-link" data-scroll-target="#arithmetic-operators">Arithmetic operators</a></li>
+  <li><a href="#packages-in-r" id="toc-packages-in-r" class="nav-link" data-scroll-target="#packages-in-r">Packages in R</a></li>
+  <li><a href="#making-your-own-function" id="toc-making-your-own-function" class="nav-link" data-scroll-target="#making-your-own-function">Making your own function</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -191,7 +164,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Data Management Handbook</h1>
+<h1 class="title">Aside: Functions in R</h1>
 </div>
 
 
@@ -206,76 +179,98 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="the-dsp-program-handbook-for-data-management" class="level1 unnumbered">
-<h1 class="unnumbered">The DSP Program Handbook for Data Management</h1>
-<section id="a-note-on-tools" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-tools">A note on tools:</h2>
-<p><strong>In general</strong> we will be encouraging you to do all data management skills using a scripted programming language like R. See <a href="./handbookIntro.html#dsp-program-tools">more here</a> here for more discussion about this, but in short, a scripted program language will allow you to:</p>
+<section id="why-you-want-to-do-it" class="level1">
+<h1>Why you want to do it:</h1>
+<p>Functions are at the core of all tasks in R. Every time you ask R to do something, you will be using a function. They allow you to apply a command or set of commands to an object, e.g.&nbsp;data structure, file, etc. Think of a function in R like a laboratory protocol – you give it specific inputs (reagents/samples), it follows a defined procedure, and returns a result (your measurement or analysis).</p>
+</section>
+<section id="how-you-can-do-it" class="level1">
+<h1>How you can do it:</h1>
+<section id="anatomy-of-a-function" class="level2">
+<h2 class="anchored" data-anchor-id="anatomy-of-a-function">Anatomy of a function</h2>
+<p>Let’s explore the anatomy of the function using the following example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5</code></pre>
+</div>
+</div>
+<p>Parts of a function:</p>
 <ul>
-<li><p>keep your management separate from the data (and thereby safeguard the data),</p></li>
-<li><p>keep a record of all your management steps (and thereby more easily find errors, make your methods reproducible and transparent), and</p></li>
-<li><p>allow you to use powerful tools to accomplish your management tasks.</p></li>
+<li><p>Function name (e.g.&nbsp;<code>sum</code>): This is like the name of your protocol (e.g., “DNA extraction”, “calculate_diversity”). It tells R which operation to perform. <em>Function names are always followed by parentheses <code>()</code></em>.</p></li>
+<li><p>Arguments (e.g.&nbsp;<code>c(2, 3)</code>): These are the inputs you provide to the function. Like the materials you need for a lab protocol: sample size, reagent volumes, temperature settings. Arguments go inside the parentheses <code>( )</code>. Multiple arguments are separated by commas (,). Arguments can be numbers, data objects, options in the function. Note that arguments will often have a name. You can see the available arguments in the help file.</p></li>
+<li><p>Output (<code>[1] 5</code>): This is the result the function returns. Like the final measurement from your experiment. [1] means this is the first element of the output The function processed the inputs and gave you <code>5</code>.</p></li>
 </ul>
-<p>That said, there may be times where you need to do management in a spreadsheet editor, like Excel. You will find the ideas presented below are still relevant. And if you do need to analyse data in a program like Excel, remember to:</p>
-<ul>
-<li><p>keep your management separate from your data (e.g.&nbsp;in a separate sheet), and</p></li>
-<li><p>keep a record of all your management steps. This is done by:</p>
-<ul>
-<li><p>carefully and completely adding comments explaining your steps,</p></li>
-<li><p>and ensuring each cell contains only one step/piece of information.</p></li>
-</ul></li>
-</ul>
 </section>
-<section id="a-note-on-learning-your-first-programming-language" class="level2">
-<h2 class="anchored" data-anchor-id="a-note-on-learning-your-first-programming-language">A note on learning your first programming language:</h2>
-<p>A bit on strategy when learning any programming language (we’ll also cover more strategies in class): <strong>it’s important to struggle but not for too long</strong>. Learning programming means learning computational thinking, or the logic behind breaking a problem down for a computer to solve. Struggling helps us learn this logic (ensuring we truly see the patterns in the code) but struggling too long can be an energy- and time-waster and may make us lose motivation for the process. The most successful path forward is a middle way: Read through this document, try to reproduce the examples and try the exercises, but if you’ve been staring at a problem for hours, it’s time to ask for help. Ask google, ask another R user, ask me, and if you don’t understand the answers you are given, ask again.</p>
-<p><strong>Don’t worry about memorizing</strong> the details of this document or our discussions in class. You will always have reference material available to you (e.g.&nbsp;this document, the class notes, R’s help files, the internet). You can let memorization happen organically: Depending on your individual research adventures, you will use some of these tools more often than others and they will likely become committed to memory. Other tools will prove less useful to you. Memorizing this latter group would be a waste of time.</p>
+<section id="arithmetic-operators" class="level2">
+<h2 class="anchored" data-anchor-id="arithmetic-operators">Arithmetic operators</h2>
+<p>Most functions will take the form described above. Exceptions to this include very common arithmetic operators.</p>
+<p><strong>Arithmetic Operators include:</strong></p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Operator</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">+</td>
+<td style="text-align: left;">addition</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">-</td>
+<td style="text-align: left;">subtraction</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">*</td>
+<td style="text-align: left;">multiplication</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">/</td>
+<td style="text-align: left;">division</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">^</td>
+<td style="text-align: left;">or ** exponentiation</td>
+</tr>
+</tbody>
+</table>
+<div class="callout callout-style-default callout-caution callout-titled" title="Remember order of operations!">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Remember order of operations!
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>It is important to remember the order of operations when using arithmetic operators in R.</p>
+<p>R will evaluate your code following PEMDAS:</p>
+<p>Parentheses &gt; Exponents &gt; Multiplication/Division &gt; Addition/Subtraction</p>
+</div>
+</div>
+</div>
 </section>
-<section id="so-you-want-to" class="level2">
-<h2 class="anchored" data-anchor-id="so-you-want-to">So you want to…</h2>
-<p>Here we will provide examples of how to accomplish data management tasks common to biology. These are meant to quickly connect you with programming strategies and code to handle your tasks as a biologist (and beyond).</p>
-<section id="tba_-install-r-on-your-computer" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-install-r-on-your-computer"><a href="DSPPH_DA_Install.qmd">TBA_… install R on your computer</a></h3>
+<section id="packages-in-r" class="level2">
+<h2 class="anchored" data-anchor-id="packages-in-r">Packages in R</h2>
+<p>Some functions come “preloaded” with R, while others you will have to load into R when you need them from a package. Think of these as things you can do with a basic game, and those you can do with an “expansion pack”.</p>
+<p>Packages consist of collections of functions, etc. that help us accomplish various tasks in R. Currently (d.&nbsp;26/01/2026), <a href="https://cran.r-project.org/web/packages/available_packages_by_name.html">there are 23058 contributed packages available</a> and many others are listed outside this official list.</p>
+<p>Installing packages in base R is a 2-step process. First, you need to install the package from the web (you need internet access for this first step). This is done with</p>
+<p><code>install.packages("PackageName")</code></p>
+<p>where PackageName is the name of the package. Note the quotations around the package name! The first step only needs to be done once for a current version of R.</p>
+<p>The second step, loading the package, needs to be done each time you have a new R session (open R) and want to use a package (internet access not needed for this 2nd step). Loading the package is done with:</p>
+<p><code>library(PackageName)</code></p>
+<p>Note that there are no quotes on the package name with the library function.</p>
 </section>
-<section id="document-your-work" class="level3">
-<h3 class="anchored" data-anchor-id="document-your-work"><a href="./DSPPH_DA_Document.html">… document your work</a></h3>
-</section>
-<section id="get-your-data-into-r" class="level3">
-<h3 class="anchored" data-anchor-id="get-your-data-into-r"><a href="./DSPPH_DA_Importing.html">… get your data into R</a></h3>
-</section>
-<section id="tba_-validate-and-explore-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-validate-and-explore-your-data"><a href="./DSPPH_DA_Exploring.html">TBA_… validate and explore your data***</a></h3>
-</section>
-<section id="tba_-visualize-your-data-make-a-plot" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-visualize-your-data-make-a-plot"><a href="DSPPH_DA_Visualization.qmd">TBA_… visualize your data (make a plot!)</a></h3>
-</section>
-<section id="deal-with-missing-values" class="level3">
-<h3 class="anchored" data-anchor-id="deal-with-missing-values"><a href="./DSPPH_DA_MissingValues.html">… deal with missing values</a></h3>
-</section>
-<section id="tba_-sort-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-sort-your-data"><a href="DSPPH_DA_Sort.qmd">TBA_… sort your data</a></h3>
-</section>
-<section id="work-with-dates-and-times" class="level3">
-<h3 class="anchored" data-anchor-id="work-with-dates-and-times"><a href="./DSPPH_DA_DatesTimes.html">… work with dates and times</a></h3>
-</section>
-<section id="tba_-manipulate-rows-or-columns-in-your-data" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-manipulate-rows-or-columns-in-your-data"><a href="DSPPH_DA_ManipulateRowsColumns.qmd">TBA_… manipulate rows or columns in your data</a></h3>
-</section>
-<section id="tba_-manipulate-subsets-of-rows-or-columns" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-manipulate-subsets-of-rows-or-columns"><a href="DSPPH_DA_ManipulateSubsets.qmd">TBA_… manipulate subsets of rows or columns</a></h3>
-</section>
-<section id="merge-your-data-with-another-data-set" class="level3">
-<h3 class="anchored" data-anchor-id="merge-your-data-with-another-data-set"><a href="./DSPPH_DA_Merge.html">… merge your data with another data set</a></h3>
-</section>
-<section id="tba_-control-the-flow-of-your-program" class="level3">
-<h3 class="anchored" data-anchor-id="tba_-control-the-flow-of-your-program"><a href="DSPPH_DA_Control.qmd">TBA_… control the flow of your program</a></h3>
-</section>
-<section id="tba_export-your-data-back-out-of-r" class="level3">
-<h3 class="anchored" data-anchor-id="tba_export-your-data-back-out-of-r"><a href="DSPPH_DA_Export.qmd">TBA_…export your data back out of R</a></h3>
-</section>
-</section>
-<section id="tba_best-practices" class="level2">
-<h2 class="anchored" data-anchor-id="tba_best-practices"><a href="DSPPH_DA_BestPractices.qmd">TBA_Best practices</a></h2>
+<section id="making-your-own-function" class="level2">
+<h2 class="anchored" data-anchor-id="making-your-own-function">Making your own function</h2>
+<p>To be added.</p>
+<div class="footnotes">
+
+</div>
 
 
 </section>

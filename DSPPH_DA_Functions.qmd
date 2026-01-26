@@ -1,0 +1,83 @@
+---
+title: "Aside: Functions in R"
+---
+
+# Why you want to do it: 
+
+Functions are at the core of all tasks in R.  Every time you ask R to do something, you will be using a function. They allow you to apply a command or set of commands to an object, e.g. data structure, file, etc.  Think of a function in R like a laboratory protocol – you give it specific inputs (reagents/samples), it follows a defined procedure, and returns a result (your measurement or analysis).
+
+
+# How you can do it: 
+
+
+
+## Anatomy of a function
+
+Let's explore the anatomy of the function using the following example:
+
+```{r}
+
+sum(c(2,3))
+
+```
+
+Parts of a function:
+
+* Function name (e.g. `sum`): This is like the name of your protocol (e.g., “DNA extraction”, “calculate_diversity”). It tells R which operation to perform. *Function names are always followed by parentheses `()`*.
+
+* Arguments (e.g. `c(2, 3)`): These are the inputs you provide to the function. Like the materials you need for a lab protocol: sample size, reagent volumes, temperature settings. Arguments go inside the parentheses `( )`. Multiple arguments are separated by commas (,). Arguments can be numbers, data objects, options in the function.  Note that arguments will often have a name.  You can see the available arguments in the help file.
+
+* Output (`[1] 5`): This is the result the function returns. Like the final measurement from your experiment. [1] means this is the first element of the output The function processed the inputs and gave you `5`.
+
+
+## Arithmetic operators
+
+Most functions will take the form described above.  Exceptions to this include very common arithmetic operators.
+
+**Arithmetic Operators include:**
+
+| Operator | Description            |
+|---------:|:-----------------------|
+|       \+ | addition               |
+|       \- | subtraction            |
+|       \* | multiplication         |
+|        / | division               |
+|       \^ | or \*\* exponentiation |
+
+:::{.callout-caution collapse="false" title="Remember order of operations!"}
+
+It is important to remember the order of operations when using arithmetic operators in R.  
+
+R will evaluate your code following PEMDAS:
+
+Parentheses > Exponents > Multiplication/Division > Addition/Subtraction
+
+:::
+
+
+## Packages in R
+
+Some functions come “preloaded” with R, while others you will have to load into R when you need them from a package. Think of these as things you can do with a basic game, and those you can do with an “expansion pack”.
+
+Packages consist of collections of functions, etc. that help us accomplish various tasks in R.  Currently (d. 26/01/2026), [there are 23058 contributed packages available](https://cran.r-project.org/web/packages/available_packages_by_name.html) and many others are listed outside this official list.
+
+Installing packages in base R is a 2-step process.  First, you need to install the package from the web (you need internet access for this first step).  This is done with 
+
+`install.packages("PackageName")`
+
+where PackageName is the name of the package.  Note the quotations around the package name!  The first step only needs to be done once for a current version of R.  
+
+The second step, loading the package, needs to be done each time you have a new R session (open R) and want to use a package (internet access not needed for this 2nd step).  Loading the package is done with:
+
+`library(PackageName)`
+
+Note that there are no quotes on the package name with the library function.
+
+## Making your own function
+
+To be added.
+
+
+
+::: footnotes
+:::

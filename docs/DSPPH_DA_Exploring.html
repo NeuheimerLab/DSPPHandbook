@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Data Skills Portfolio Program - So you want to: explore your data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./data_skills_logo_2.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Data Skills Portfolio Program</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./intro.html" rel="" target="">
+ <span class="menu-text">What is the DSP Program?</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./handbookIntro.html" rel="" target="">
+ <span class="menu-text">The DSP Program Handbook</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./feedback.html" rel="" target="">
+ <span class="menu-text">Feedback</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#why-you-want-to-do-it" id="toc-why-you-want-to-do-it" class="nav-link active" data-scroll-target="#why-you-want-to-do-it">Why you want to do it:</a></li>
+  <li><a href="#how-you-can-do-it" id="toc-how-you-can-do-it" class="nav-link" data-scroll-target="#how-you-can-do-it">How you can do it:</a>
+  <ul class="collapse">
+  <li><a href="#does-it-exist" id="toc-does-it-exist" class="nav-link" data-scroll-target="#does-it-exist">Does it exist?</a></li>
+  <li><a href="#how-big-is-it" id="toc-how-big-is-it" class="nav-link" data-scroll-target="#how-big-is-it">How big is it?</a></li>
+  <li><a href="#viewing-your-data-object" id="toc-viewing-your-data-object" class="nav-link" data-scroll-target="#viewing-your-data-object">Viewing your data object</a></li>
+  <li><a href="#viewing-part-of-your-data-object" id="toc-viewing-part-of-your-data-object" class="nav-link" data-scroll-target="#viewing-part-of-your-data-object">Viewing part of your data object</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">So you want to: explore your data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="why-you-want-to-do-it" class="level1">
+<h1>Why you want to do it:</h1>
+<p>A first step to data analysis is exploring your data. Here you will have a first look at the data and identify any errors.</p>
+</section>
+<section id="how-you-can-do-it" class="level1">
+<h1>How you can do it:</h1>
+<p>You can run through a series of checks to have a first look at your data. Here is TData as an example data set:</p>
+<section id="does-it-exist" class="level2">
+<h2 class="anchored" data-anchor-id="does-it-exist">Does it exist?</h2>
+<p>First thing to do when we read in data is to check that it was read correctly. One of the simplest things to do is to see if it exists in our workspace (this goes for any object, not only imported data). We can see what’s in our workspace with <code>ls()</code> and get a little more information with <code>ls.str()</code>.</p>
+</section>
+<section id="how-big-is-it" class="level2">
+<h2 class="anchored" data-anchor-id="how-big-is-it">How big is it?</h2>
+<p>For example, <code>dim()</code> gives us the dimensions (number of rows and number of columns) of our data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">dim</span>(TData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 184   4</code></pre>
+</div>
+</div>
+</section>
+<section id="viewing-your-data-object" class="level2">
+<h2 class="anchored" data-anchor-id="viewing-your-data-object">Viewing your data object</h2>
+<p>Typing the object name will have R trying to print the entire object to your screen, but there are some useful functions to get a look at our objects, without having to see everything.</p>
+<p>Try <code>head()</code> and <code>tail()</code> to give you a look at the first and last (respectively) few rows of the data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">head</span>(TData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Station Year Month      Temp
+1     S27 2000    11  6.184429
+2     HL2 2004     3 -1.155200
+3     HL2 2000     2  1.524000
+4     S27 2005     9 12.681000
+5     HL2 2005     6  6.208400
+6     S27 2003     8 11.737000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">tail</span>(TData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Station Year Month      Temp
+179     S27 2003    12  3.923000
+180     HL2 2005     3  0.189400
+181     HL2 2007    10 13.511505
+182     S27 2002     6  5.227500
+183     S27 2005     3 -1.014667
+184     HL2 2007    11  9.963482</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Extra">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Extra
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The default number of rows <code>head()</code> or <code>tail()</code> display is 6, but you can change this by providing a second argument (<code>n = ...</code>), e.g.:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a> <span class="fu">head</span>(TData, <span class="at">n =</span> <span class="dv">3</span>) <span class="co"># Show first 3 rows of ChlData</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Station Year Month      Temp
+1     S27 2000    11  6.184429
+2     HL2 2004     3 -1.155200
+3     HL2 2000     2  1.524000</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>You can also get a quick look at your data by asking for the summary and/or structure.</p>
+<p>The <code>summary()</code> function gives you a summary of each column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(TData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Station               Year          Month             Temp       
+ Length:184         Min.   :1999   Min.   : 1.000   Min.   :-1.551  
+ Class :character   1st Qu.:2001   1st Qu.: 3.000   1st Qu.: 1.014  
+ Mode  :character   Median :2003   Median : 6.000   Median : 5.167  
+                    Mean   :2003   Mean   : 6.457   Mean   : 5.811  
+                    3rd Qu.:2005   3rd Qu.: 9.250   3rd Qu.:10.028  
+                    Max.   :2007   Max.   :12.000   Max.   :16.472  </code></pre>
+</div>
+</div>
+<p>The <code>str()</code> function describes the data types in each column:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(TData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>'data.frame':   184 obs. of  4 variables:
+ $ Station: chr  "S27" "HL2" "HL2" "S27" ...
+ $ Year   : int  2000 2004 2000 2005 2005 2003 2006 2003 2005 2001 ...
+ $ Month  : int  11 3 2 9 6 8 8 4 4 6 ...
+ $ Temp   : num  6.18 -1.16 1.52 12.68 6.21 ...</code></pre>
+</div>
+</div>
+</section>
+<section id="viewing-part-of-your-data-object" class="level2">
+<h2 class="anchored" data-anchor-id="viewing-part-of-your-data-object">Viewing part of your data object</h2>
+<section id="viewing-a-specific-element-of-a-vector-or-data-frame" class="level4">
+<h4 class="anchored" data-anchor-id="viewing-a-specific-element-of-a-vector-or-data-frame">Viewing a specific element of a vector or data frame</h4>
+<p>An element is one data point. You can view an element by using the element’s position in the object. You do this using the object name and square brackets <code>[ ]</code>.</p>
+<p>Since a vector is a <em>one-dimensional</em> object (<a href="importing.qmd">see also the section on Importing</a>), you will only need to give the position of the element.</p>
+<p>For example, to get the 3rd element of vector <code>V3</code>:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.20 0.90 2.34 5.40</code></pre>
+</div>
+</div>
+<p>you would use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>V3[<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.34</code></pre>
+</div>
+</div>
+<p>Since a data frame is a <em>2-dimensional</em> object, you need to give two positions representing the element’s row and column. You do this again with the square brackets <code>[ ]</code> as well as a comma <code>,</code> separating the row and column numbers.</p>
+<p>For example, with the data frame <code>DF1</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(DF1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year Month Abundance
+1 2021   Jan        43
+2 2021   Feb        24
+3 2021   Mar         5</code></pre>
+</div>
+</div>
+<p>The Abundance value <code>24</code> is in row #2 and column #3, so you access it with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>DF1[<span class="dv">2</span>,<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+</div>
+<p>Note that you can also access the whole 2nd row with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>DF1[<span class="dv">2</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year Month Abundance
+2 2021   Feb        24</code></pre>
+</div>
+</div>
+<p>and the whole 3rd column with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>DF1[,<span class="dv">3</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 43 24  5</code></pre>
+</div>
+</div>
+<p>Note that in data frames, you can also indicate the column by the column name. You do this using the <code>$</code> symbol. You can also get the 3rd (Abundance) column with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DF1<span class="sc">$</span>Abundance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 43 24  5</code></pre>
+</div>
+</div>
+<p>and the abundance value 24 is located with</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>DF1<span class="sc">$</span>Abundance[<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 24</code></pre>
+</div>
+</div>
+</section>
+<section id="a-conditional-view-of-your-data" class="level4">
+<h4 class="anchored" data-anchor-id="a-conditional-view-of-your-data">A conditional view of your data</h4>
+<p>Sometimes you do not know the location (row and column) of the data you want to find. Instead you have a condition for the data you want, e.g.&nbsp;which observations include plant height greater than 10cm?</p>
+<p>Let’s look at some example data to answer this question:</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>   PlotID PlantHeight
+1       F         8.3
+2       F         6.7
+3       B        10.2
+4       D         8.2
+5       D        11.4
+6       F         6.8
+7       F        10.7
+8       C        10.4
+9       F         9.8
+10      F        11.2</code></pre>
+</div>
+</div>
+<p>There are two ways of finding the obcervations with plant heights greater than 10cm. The first is to locate the row numbers where the condition is true (plant heights are greater than 10cm). You can do this with the <code>which()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>inds <span class="ot">&lt;-</span> <span class="fu">which</span>(myDat<span class="sc">$</span>PlantHeight <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="co"># the row numbers that fulfill the condition</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>myDat[inds,] <span class="co"># rows meeting the condition</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PlotID PlantHeight
+3       B        10.2
+5       D        11.4
+7       F        10.7
+8       C        10.4
+10      F        11.2</code></pre>
+</div>
+</div>
+<p>Another way to find observations with plant heights greater than 10cm is to use the <code>subset()</code> function. This subsets the data directly to only give you the observations meeting the condition.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(myDat, PlantHeight <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PlotID PlantHeight
+3       B        10.2
+5       D        11.4
+7       F        10.7
+8       C        10.4
+10      F        11.2</code></pre>
+</div>
+</div>
+<p><strong>Useful Logical Functions (operators):</strong></p>
+<p>These functions will help you make conditional statements. Note that these functions do not look like <a href="functions.qmd">“regular” functions in R</a>. They are some times called operators instead.</p>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: right;">Operator</th>
+<th style="text-align: left;">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">&gt;</td>
+<td style="text-align: left;">greater than</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">&gt;=</td>
+<td style="text-align: left;">greater than or equal to</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">&lt;</td>
+<td style="text-align: left;">less than</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">&lt;=</td>
+<td style="text-align: left;">less than or equal to</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">==</td>
+<td style="text-align: left;">exactly equal to</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">!=</td>
+<td style="text-align: left;">not equal to</td>
+</tr>
+</tbody>
+</table>
+<p>Note that you can include more than one condition by joining them with either <code>&amp;</code> (representing AND) or <code>|</code> (representing OR).</p>
+<p>For example, you might want to find observations from plant heights greater than 10 cm and only from Plot F. This can be done with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(myDat, PlantHeight <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">&amp;</span> PlotID <span class="sc">==</span> <span class="st">"F"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PlotID PlantHeight
+7       F        10.7
+10      F        11.2</code></pre>
+</div>
+</div>
+<p>Another example, you might want to find observations with large plants (greater than 10 cm) and small plants (less than 7 cm). You can do this by finding observations of either one OR the other condition:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(myDat, PlantHeight <span class="sc">&gt;</span> <span class="dv">10</span> <span class="sc">|</span> PlantHeight <span class="sc">&lt;</span> <span class="dv">7</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   PlotID PlantHeight
+2       F         6.7
+3       B        10.2
+5       D        11.4
+6       F         6.8
+7       F        10.7
+8       C        10.4
+10      F        11.2</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled" title="Extra">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Extra
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Another helpful function is <code>%in%</code>. This function checks for membership. For example, I might want to know which observations are in Plot B, D or C:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(myDat, PlotID <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PlotID PlantHeight
+3      B        10.2
+4      D         8.2
+5      D        11.4
+8      C        10.4</code></pre>
+</div>
+</div>
+<p>Note that this would be the same as using multiple OR (<code>|</code>) operators.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(myDat, PlotID <span class="sc">==</span> <span class="st">"B"</span> <span class="sc">|</span> PlotID <span class="sc">==</span> <span class="st">"C"</span> <span class="sc">|</span> PlotID <span class="sc">==</span> <span class="st">"D"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  PlotID PlantHeight
+3      B        10.2
+4      D         8.2
+5      D        11.4
+8      C        10.4</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="footnotes">
+
+</div>
+
+
+</section>
+</section>
+</section>
+
+<p>Copyright 2025, DSP Taskforce</p></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">Copyright 2025, DSP Taskforce</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
