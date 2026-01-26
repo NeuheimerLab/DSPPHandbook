@@ -89,7 +89,7 @@ str(TData)
 
 An element is one data point.  You can view an element by using the element's position in the object.  You do this using the object name and square brackets `[ ]`.
 
-Since a vector is a *one-dimensional* object ([see also the section on Importing](importing.qmd)), you will only need to give the position of the element.
+Since a vector is a *one-dimensional* object ([see also the section on Importing](DSPPH_DA_Importing.qmd)), you will only need to give the position of the element.
 
 For example, to get the 3rd element of vector `V3`:
 

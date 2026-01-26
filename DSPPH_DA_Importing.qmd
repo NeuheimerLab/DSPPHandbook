@@ -14,7 +14,7 @@ Most often, the data you will want to analyse are held in external files.  You w
 
 ### Make your job easier with clean, understandable files
 
-Data should be kept in long format with descriptive file names and an associated readme file.  See your section on [Data Collection and Curation](https://neuheimerlab.github.io/DSPPHandbook/handbookDCIntro.html#choosing-how-you-record-it) for descriptions and tips on how to set you up for success.  
+Data should be kept in long format with descriptive file names and an associated readme file.  See your section on [Data Collection and Curation](handbookDCIntro.qmd) for descriptions and tips on how to set you up for success.  
 
 ### Store your data in a known folder
 
