@@ -43,7 +43,7 @@ Here we will provide examples of how to accomplish data management tasks common 
 
 ### [... get your data into R](DSPPH_DA_Importing.qmd) 
 
-### [TBA_... validate and explore your data***](DSPPH_DA_Exploring.qmd)
+### [... validate and explore your data](DSPPH_DA_Exploring.qmd)
 
 ### [TBA_... visualize your data (make a plot!)](DSPPH_DA_Visualization.qmd)
 
