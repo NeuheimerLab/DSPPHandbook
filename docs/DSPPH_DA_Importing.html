@@ -437,6 +437,18 @@ Extra
 3 2021   Mar         5</code></pre>
 </div>
 </div>
+<p>Note that you can also add new columns to an existing data frame by giving the column a new name (one that is not already in the data frame):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>DF1<span class="sc">$</span>Site <span class="ot">&lt;-</span> <span class="st">"Mountain"</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(DF1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Year Month Abundance     Site
+1 2021   Jan        43 Mountain
+2 2021   Feb        24 Mountain
+3 2021   Mar         5 Mountain</code></pre>
+</div>
+</div>
 </section>
 <section id="list" class="level4">
 <h4 class="anchored" data-anchor-id="list">List:</h4>

@@ -234,6 +234,17 @@ print(DF1)
 
 ```
 
+Note that you can also add new columns to an existing data frame by giving the column a new name (one that is not already in the data frame):
+
+```{r}
+
+DF1$Site <- "Mountain"
+
+print(DF1)
+
+```
+
+
 #### List: 
 
 A list is a n-dimensional array that can only hold multiple types of data and elements that are different lengths.
