@@ -27,11 +27,22 @@ First thing to do when we read in data is to check that it was read correctly.  
 
 ## How big is it?
 
-For example, `dim()` gives us the dimensions (number of rows and number of columns) of our data frame:  
+For example, `dim()` gives us the dimensions (number of rows and number of columns) of your **data frame**:  
 
 ```{r}
  dim(TData)
 ```
+
+You can also get the number of elements in a **vector** with the `length()` function:
+
+```{r}
+
+V3 <- c(3.2, 0.9, 2.34, 5.4) # a vector containing numeric decimal values
+
+length(V3)
+
+```
+
 
 ## Viewing your data object
 
