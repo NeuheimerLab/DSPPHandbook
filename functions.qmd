@@ -4,14 +4,19 @@ title: "Aside: Functions in R"
 
 # Why you want to do it: 
 
-Functions are at the core of all tasks in R.  Every time you ask R to do something, you will be using a function. They allow you to apply a command or set of commands to an object, e.g. data structure, file, etc.  Think of a function in R like a laboratory protocol – you give it specific inputs (reagents/samples), it follows a defined procedure, and returns a result (your measurement or analysis).
+Functions are at the core of all tasks in R.  Functions are an object that takes an action.
 
 
 # How you can do it: 
 
-
-
 ## Anatomy of a function
+
+
+
+<img src="./genFunction.png" align="center" width="600px"/>
+
+
+
 
 Let's explore the anatomy of the function using the following example:
 
@@ -23,11 +28,16 @@ sum(c(2,3))
 
 Parts of a function:
 
-* Function name (e.g. `sum`): This is like the name of your protocol (e.g., “DNA extraction”, “calculate_diversity”). It tells R which operation to perform. *Function names are always followed by parentheses `()`*.
+* Function name (e.g. `sum`): This is like the name of your protocol (e.g., “DNA extraction”, “calculate_diversity”). It tells R which operation to perform. *Function names are always followed by curved brackets (parentheses) `()`*.
 
 * Arguments (e.g. `c(2, 3)`): These are the inputs you provide to the function. Like the materials you need for a lab protocol: sample size, reagent volumes, temperature settings. Arguments go inside the parentheses `( )`. Multiple arguments are separated by commas (,). Arguments can be numbers, data objects, options in the function.  Note that arguments will often have a name.  You can see the available arguments in the help file.
 
 * Output (`[1] 5`): This is the result the function returns. Like the final measurement from your experiment. [1] means this is the first element of the output The function processed the inputs and gave you `5`.
+
+Another example:
+
+<img src="./logFunc.png" align="center" width="400px"/>
+
 
 
 ## Arithmetic operators
@@ -38,11 +48,16 @@ Most functions will take the form described above.  Exceptions to this include v
 
 | Operator | Description            |
 |---------:|:-----------------------|
-|       \+ | addition               |
-|       \- | subtraction            |
-|       \* | multiplication         |
-|        / | division               |
-|       \^ | or \*\* exponentiation |
+|       `+` | addition               |
+|       `-` | subtraction            |
+|       `*` | multiplication         |
+|        `/` | division               |
+|       `^` | exponentiation         |
+| `sqrt()` | square-root            |
+| `abs()` | absolute value |
+| `sin()`, `cos()`, `tan()` | trigonometric functions |
+| `exp()` | exponential |
+| `log()` | logarithm (default is base *e*, see help file for more) |
 
 :::{.callout-caution collapse="false" title="Remember order of operations!"}
 

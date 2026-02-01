@@ -181,12 +181,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="why-you-want-to-do-it" class="level1">
 <h1>Why you want to do it:</h1>
-<p>Functions are at the core of all tasks in R. Every time you ask R to do something, you will be using a function. They allow you to apply a command or set of commands to an object, e.g.&nbsp;data structure, file, etc. Think of a function in R like a laboratory protocol – you give it specific inputs (reagents/samples), it follows a defined procedure, and returns a result (your measurement or analysis).</p>
+<p>Functions are at the core of all tasks in R. Functions are an object that takes an action.</p>
 </section>
 <section id="how-you-can-do-it" class="level1">
 <h1>How you can do it:</h1>
 <section id="anatomy-of-a-function" class="level2">
 <h2 class="anchored" data-anchor-id="anatomy-of-a-function">Anatomy of a function</h2>
+<p><img src="./genFunction.png" align="center" width="600px"></p>
 <p>Let’s explore the anatomy of the function using the following example:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -196,10 +197,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>Parts of a function:</p>
 <ul>
-<li><p>Function name (e.g.&nbsp;<code>sum</code>): This is like the name of your protocol (e.g., “DNA extraction”, “calculate_diversity”). It tells R which operation to perform. <em>Function names are always followed by parentheses <code>()</code></em>.</p></li>
+<li><p>Function name (e.g.&nbsp;<code>sum</code>): This is like the name of your protocol (e.g., “DNA extraction”, “calculate_diversity”). It tells R which operation to perform. <em>Function names are always followed by curved brackets (parentheses) <code>()</code></em>.</p></li>
 <li><p>Arguments (e.g.&nbsp;<code>c(2, 3)</code>): These are the inputs you provide to the function. Like the materials you need for a lab protocol: sample size, reagent volumes, temperature settings. Arguments go inside the parentheses <code>( )</code>. Multiple arguments are separated by commas (,). Arguments can be numbers, data objects, options in the function. Note that arguments will often have a name. You can see the available arguments in the help file.</p></li>
 <li><p>Output (<code>[1] 5</code>): This is the result the function returns. Like the final measurement from your experiment. [1] means this is the first element of the output The function processed the inputs and gave you <code>5</code>.</p></li>
 </ul>
+<p>Another example:</p>
+<p><img src="./logFunc.png" align="center" width="400px"></p>
 </section>
 <section id="arithmetic-operators" class="level2">
 <h2 class="anchored" data-anchor-id="arithmetic-operators">Arithmetic operators</h2>
@@ -214,24 +217,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">+</td>
+<td style="text-align: right;"><code>+</code></td>
 <td style="text-align: left;">addition</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">-</td>
+<td style="text-align: right;"><code>-</code></td>
 <td style="text-align: left;">subtraction</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">*</td>
+<td style="text-align: right;"><code>*</code></td>
 <td style="text-align: left;">multiplication</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">/</td>
+<td style="text-align: right;"><code>/</code></td>
 <td style="text-align: left;">division</td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">^</td>
-<td style="text-align: left;">or ** exponentiation</td>
+<td style="text-align: right;"><code>^</code></td>
+<td style="text-align: left;">exponentiation</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>sqrt()</code></td>
+<td style="text-align: left;">square-root</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>abs()</code></td>
+<td style="text-align: left;">absolute value</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>sin()</code>, <code>cos()</code>, <code>tan()</code></td>
+<td style="text-align: left;">trigonometric functions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><code>exp()</code></td>
+<td style="text-align: left;">exponential</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><code>log()</code></td>
+<td style="text-align: left;">logarithm (default is base <em>e</em>, see help file for more)</td>
 </tr>
 </tbody>
 </table>

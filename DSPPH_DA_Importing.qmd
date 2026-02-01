@@ -76,7 +76,26 @@ Note:
 
 :::{.callout-caution collapse="true" title="aside: how computers store numbers"}
 
-Computers store numbers as patterns of Os and 1s ("bits").  This system approximates decimals which can introduce rounding errors.  99.99% of the time, this will not cause a problem with your analysis.  For the 0.01% of the time, it is important to understand that this precision error exists.
+Computers store numbers as patterns of Os and 1s ("bits").  This system approximates decimals which can introduce rounding errors.  
+
+For example, $\frac{1}{10}$ should be equal to 0.1:
+
+```{r}
+
+1/10 # is 0.1
+
+```
+
+but if you look at more decimal places, you can see 0.1 is not *exactly* 0.1 in R:
+
+```{r}
+
+print(1/10, digits = 20) # is not quite 0.1
+
+```
+
+
+The vast majority of time (99.99%) of the time, this will not cause a problem with your analysis.  For the 0.01% of the time, it is important to understand that this precision error exists.
 
 :::
 
@@ -96,7 +115,7 @@ Importing your data file directly into R is much safer than manually typing in y
 
 ### Data types
 
-Common data types include:
+Common data types or variables include:
 
 * numeric - this can include both numbers with decimals and integers (whole numbers)
 * character - text strings including letters or words.  You must use quotes around character data to tell R it is a character.
@@ -107,6 +126,9 @@ Common data types include:
 A fourth data type is "Logical".  This is how R stores true and false data.
 
 :::
+
+
+
 
 
 ### Data structures
@@ -125,6 +147,8 @@ print(Sc1)
 
 ```
 
+
+
 ```{r}
 
 Sc2 <- 45 # a scalar containing a numeric integer value
@@ -140,6 +164,37 @@ Sc3 <- 3.2 # a scalar containing a numeric decimal value
 print(Sc3)
 
 ```
+
+
+
+##### Forcing the data type
+
+R will normally guess the correct data type when you input or import data.
+
+But sometimes R will get it wrong.  
+
+You can force R to see your data as a certain type (e.g. convert characters to factors) with:
+
+* `factor()` - to force data type factor
+* `numeric()` - to force data type numeric
+* `character()` - to force data type character
+
+For example, the character scalar `Sc1`, can be converted to a factor with:
+
+```{r}
+
+print(Sc1) # as character
+
+```
+
+```{r}
+
+Sc1 <- factor(Sc1) # convert to factor
+
+print(Sc1) # now converted to factor
+
+```
+
 
 #### Vector:
 
@@ -171,6 +226,18 @@ print(V3)
 
 ```
 
+
+Note that you can also combine vector objects with the `c()` function:
+
+```{r}
+
+V2_3 <- c(V2, V3) # a vector containing numeric decimal values
+
+print(V2_3)
+
+```
+
+
 There are helpful functions that will let you make vectors when there is a pattern to your data.  
 
 For example, you might want a series of lengths from 1 to 10cm in 0.5cm increments.  You can do this with:
@@ -188,7 +255,7 @@ print(V4)
 
 ```
 
-Another example: you might want to make a series of months repeating for four years.  You can do this with:
+Another example: you might want to make a series of months repeating for four years.  You can do this with the `rep()` function:
 
 ```{r}
 
@@ -253,6 +320,63 @@ A list is a n-dimensional array that can only hold multiple types of data and el
 
 There are many other types of data structures in R.  Some other common ones are data tables (that are great for analysis on very large data sets, e.g. with many observations) and tibbles (that are data frames with a few extra features).
 :::
+
+
+
+### Naming your R objects
+
+Naming (or "assigning") your R objects should be done with the assignment symbol:
+
+  `<-`
+
+as shown above.
+
+The equals symbol `=` is used for defining arguments within a function ([see more about this here](functions.qmd)).
+
+The double-equals symbol `==` is used for testing to see if two objects are identical.  [You can read more about this here](DSPPH_DA_Exploring.qmd#A conditional view of your data )
+
+**But what to name your object?**
+
+Object names should be concise and meaningful - this will help with the readability of your code.
+
+Official style guides urge users to use only combinations of lowercase letters, numbers when underscores ('_') when naming objects. *Note: you can not start your object name with a number*
+
+Use nouns (substantiver) to name data objects, and verbs (verber) to name functions^[more about making your own function soon!]
+
+Where possible, avoid using names of existing functions and variables. Doing so may cause confusion for the readers of your code.
+
+For example, useful names:
+
+* `wombat_data <- ...`
+* `day_1 <- ...`
+* `day_one <- ...`
+
+Avoid names like:
+
+* `first_day_of_the_third_month <- ...` (too long)
+* `dayOne <- ...` (Words are not separated by an underscore)^[This style is called camelcase.  Note that Anna has a habit of using this style... she's working on it...)]
+* `9school <- ...` (Can not start object name with a number)
+* `dttjmc1 <- ...` (Object name is not meaningful)
+* `mean <- ...` (reusing the name of an existing function)
+
+
+### Viewing your R objects
+
+Note that you can print your object to the screen with the `print()` function or just by typing the object's name.
+
+To see all objects currently in your workspace, use `ls()`.
+
+You can also view data frames as a spreadsheet in R Studio using the `View()` function.
+
+### Removing your objects
+
+You can remove a single object from your workspace with the `rm()` function.  For example:
+
+  `rm(V3)` 
+  
+will remove the `V3` object from the workspace.
+
+You can remove all objects in your workspace (clear your workspace) with `rm(list = ls())`.
 
 
 ::: footnotes

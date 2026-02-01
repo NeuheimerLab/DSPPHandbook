@@ -680,7 +680,7 @@ The remaining unexplained deviance may be due to other factors affecting growth 
 
 ## PREDICTING
 #### The task:
-Here you *may* use your model to make predictions (remembering prediction limits).  For the assignments and exam, we will explicitly ask you to make a prediction if we want to see one.
+Here you *may* use your model to make predictions (remembering prediction limits).  
 
 If you want to make a prediction (e.g. "based on your best-specified model, what is your predicted mean annual growth of a female moose living in Sicily, Italy?"), in this section you want to report your prediction results and give any limitations to the prediction.
 

@@ -29,6 +29,20 @@ It's fine to try out syntax at the command prompt (i.e. in interactive mode) bef
 
 :::
 
+## Naming your script
+
+File names should be meaningful. Use a dash to separate words within a name.
+
+For example:
+
+* fit-models.R
+
+If files need to be run in sequence, prefix them with numbers.
+
+* 0-download.R
+* 1-parse.R
+* 2-explore.R
+
 Make sure you are **saving your script often**. 
 
 ### Running code from a script
