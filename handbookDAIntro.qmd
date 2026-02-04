@@ -63,6 +63,10 @@ Here we will provide examples of how to accomplish data management tasks common 
 
 ### [TBA_...export your data back out of R](DSPPH_DA_Export.qmd)
 
+## Aside: other tips and tools
+
+### [Functions in R](functions.qmd)
+
 ## [TBA_Best practices](DSPPH_DA_BestPractices.qmd)
 
 

@@ -276,6 +276,48 @@ Remember order of operations!
 </div>
 </div>
 </div>
+<p>Note: An important feature in <code>R</code> is element-wise operations. When you add two vectors, R adds corresponding elements together:</p>
+<p><code>c(1, 2, 3) + c(4, 5, 6)</code></p>
+<p><code>c(1 + 4, 2 + 5, 3 + 6)</code></p>
+<p><code>c(5, 7, 9)</code></p>
+<p>You can also use variables that store vectors:</p>
+<p><code>V1 &lt;- c(1, 2, 3)</code></p>
+<p><code>V2 &lt;- c(4, 5, 6)</code></p>
+<p><code>V3 &lt;- V1 + V2</code></p>
+<p>where <code>V3</code> will then be a vector containing 5, 7, 9.</p>
+<div class="callout callout-style-default callout-caution callout-titled" title="Objects of different lengths!">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Objects of different lengths!
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>BE CAREFUL THOUGH: R will allow you to do an element-wise operation even if the two vectors do not match in length. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>V4 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(V4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3 4</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>V5 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(V5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>V4 <span class="sc">+</span> V5</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 4 4 6</code></pre>
+</div>
+</div>
+<p>Notice how the values in <code>V5</code> were repeated until they matched the length of <code>V4</code>. This is often <strong>not</strong> what you want. Another reason that it is important to take a look at your objects.</p>
+</div>
+</div>
+</div>
 </section>
 <section id="packages-in-r" class="level2">
 <h2 class="anchored" data-anchor-id="packages-in-r">Packages in R</h2>

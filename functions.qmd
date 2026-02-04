@@ -59,6 +59,8 @@ Most functions will take the form described above.  Exceptions to this include v
 | `exp()` | exponential |
 | `log()` | logarithm (default is base *e*, see help file for more) |
 
+
+
 :::{.callout-caution collapse="false" title="Remember order of operations!"}
 
 It is important to remember the order of operations when using arithmetic operators in R.  
@@ -68,6 +70,46 @@ R will evaluate your code following PEMDAS:
 Parentheses > Exponents > Multiplication/Division > Addition/Subtraction
 
 :::
+
+
+Note: An important feature in `R` is element-wise operations. When you add two vectors, R adds corresponding elements together:
+
+`c(1, 2, 3) + c(4, 5, 6)`
+
+`c(1 + 4, 2 + 5, 3 + 6)`
+
+`c(5, 7, 9)`
+
+You can also use variables that store vectors:
+
+`V1 <- c(1, 2, 3)`
+
+`V2 <- c(4, 5, 6)`
+
+`V3 <- V1 + V2`
+
+where `V3` will then be a vector containing 5, 7, 9.
+
+:::{.callout-caution collapse="false" title="Objects of different lengths!"}
+
+BE CAREFUL THOUGH: R will allow you to do an element-wise operation even if the two vectors do not match in length.  For example:
+
+```{r}
+V4 <- c(1, 2, 3, 4)
+print(V4)
+
+V5 <- c(1, 2)
+print(V5)
+
+V4 + V5
+
+```
+
+Notice how the values in `V5` were repeated until they matched the length of `V4`.  This is often **not** what you want.  Another reason that it is important to take a look at your objects.
+
+:::
+
+
 
 
 ## Packages in R
