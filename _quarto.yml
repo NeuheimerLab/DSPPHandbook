@@ -6,8 +6,8 @@ project:
 website:
   title: "Data Skills Portfolio Program"
   favicon: data_skills_logo_2.png
-  body-footer: "Copyright 2025, DSP Taskforce"
-  page-footer: "Copyright 2025, DSP Taskforce"
+  body-footer: "Copyright 2026, DSP Taskforce"
+  page-footer: "Copyright 2026, DSP Taskforce"
   navbar: 
     background: primary
     search: true
