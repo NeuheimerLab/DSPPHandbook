@@ -16,7 +16,7 @@ You need your explanations of variability to be **quantitative** in order to:
 -   communicate how much variability still remains unexplained, and
 -   make useful predictions about the biological world.
 
-Statistics provides the mathematical tools[^handbooksmintro-2] to accomplish these tasks. Statistics help you determine the evidence for causal[^handbooksmintro-3] mechanisms. And statistics help you make useful predictions[^handbooksmintro-4] about how a biological system might behave at a different time or location.
+Statistics provides the mathematical tools[^handbooksmintro-2] to accomplish these tasks. It allows you to use a data sample to test your hypothesis about a population or system. Statistics help you determine the evidence for causal[^handbooksmintro-3] mechanisms. And statistics help you make useful predictions[^handbooksmintro-4] about how a biological system might behave at a different time or location.
 
 [^handbooksmintro-2]: Math skills have often been underemphasized in many Biology educations. This has not been helpful or necessary. Biologists need math and are very capable at applying math to solve problems, but the math needs to be useful; that is, math that you can apply to your own needs as you research biology. The DSP Program aims at providing statistical modelling tools that will be useful to you as a biologist. It is a happy coincidence that the same skills can be applied to a lot of other situations as well. The programming and statistics skills you are learning here will be useful to you in the future - in your future courses, thesis-writing and a wide range of careers.
 

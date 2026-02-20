@@ -4,9 +4,13 @@ title: "Statistical modelling: Responses"
 ::: {.callout-note collapse="false"} 
 ## In this section you will:
 
-* Define your research question and response variable (what variability are you trying to explain?)
+* Define your research question and identify your response variable (what variability are you trying to explain?)
 
-* Present the motivation for your research question (why is it worth explaining?)
+* Present the motivation for your research question (why is this question worth exploring?)
+
+* Describe the nature of your response variable
+
+* Explore your response variable observations
 
 :::
 
@@ -26,7 +30,37 @@ Before you can proceed with your hypothesis making and testing, you need to be c
 
 These questions are called "research questions" and they identify your response variable (contrast this with your research hypothesis in an upcoming section). 
 
+- update building a research question
+	- something observable
+	- something varying
+	- always a why
+
+# Motivating your response
+
 Though it is not necessary to be able to proceed with statistical modelling, it is useful at this point to stop and think about **why** you want to explain the variation in your response.^[To expand on this idea, research questions should follow the FINER criteria: your research question should be Feasible, Interesting, Novel, Ethical, and Relevant @HulleyEtAl2007] Why is it important to explain different tree heights? Or fish abundance? Or hormone level? Being clear about what variation you are trying to explain (your response variable) and why it is important to explain that variation will make up a good portion of your introduction section to a report or paper - and help shape your discussion section as well.
+
+# Describing your (expected) response variability
+
+Even before you have collected your response data, you can begin to describe how you expect your response to vary.  This will allow you to start planning how you will form and test your hypothesis, find potential errors in your response data, and best communicate your study to others. 
+
+## What is the nature of your response?
+
+The first step is describing the **nature** of your response variable.  This will allow you to choose a data distribution (mathematical representation) to define the types of values you expect your response variable to be. 
+To describe the nature of your response variable, you will communicate whether your response variable is numeric or categorical, and if numeric, what values you expect it to take. 
+
+Here is a chart to help you describe the nature of your response distribution:
+
+<img src="./pic_ResponseNatureChart_NoDistributions.png" align="center" width="250"/>
+
+And here is a [link to a chapter on Data Distributions](DSPPH_SM_DataDistributions.qmd).  More on this soon.
+
+# Exploring your response variable
+
+Once you have your data, you should explore the range and any missing values.  [Here are some tools for working with missing values](DSPPH_DA_MissingValues.qmd)
+
+Does everything meet your expectations?  Are you missing data?
+
+This is also a good time to plot your data, e.g. with a histogram.  
 
 
 ::: footnotes
