@@ -110,7 +110,15 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-search-for-mechanistic-explanations" id="toc-the-search-for-mechanistic-explanations" class="nav-link active" data-scroll-target="#the-search-for-mechanistic-explanations">The search for mechanistic explanations</a></li>
+  <li><a href="#measuring-your-predictors" id="toc-measuring-your-predictors" class="nav-link" data-scroll-target="#measuring-your-predictors">Measuring your predictors</a></li>
+  <li><a href="#blue-sky-thinking" id="toc-blue-sky-thinking" class="nav-link" data-scroll-target="#blue-sky-thinking">“Blue-sky” thinking</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -145,27 +153,45 @@ In this section you will:
 <div id="callout-1" class="callout-1-contents callout-collapse collapse show">
 <div class="callout-body-container callout-body">
 <ul>
-<li><p>Define your predictor variables (what could explain the variability in your response?)</p></li>
-<li><p>Present possible mechanisms behind your argument (why might your predictor variables explain variability in your response?</p></li>
+<li><p>Identify variables that might mechanistically be causing variability in your response (what could explain the variability in your response?).</p></li>
+<li><p>Consider how to measure these predictor variables.</p></li>
 </ul>
 </div>
 </div>
 </div>
 <p><img src="./statsModFramework.png" align="right" width="150"></p>
-<p>Often very quickly, you will start to have ideas about what mechanistically might be responsible for the variation in your response. This is exciting! This is where you can apply biological theory to form your research hypothesis of why observations are as they appear. This step needs you to be curious, creative, and tap into your foundation of biological theory. And this step is where you identify the predictors in your statistical model.</p>
-<p>Here your focus is on the biological mechanisms (or processes) that you expect affect change in your response variable. An example of a mechanism affecting plant height might be temperature-dependent growth as temperature controls the rate of enzymatic reactions involved in plant growth.</p>
+<section id="the-search-for-mechanistic-explanations" class="level1">
+<h1>The search for mechanistic explanations</h1>
+<p>Often very quickly, you will start to have ideas about what mechanistically might be responsible for the variation in your response, i.e.&nbsp;what is causing the variability in your response. This is exciting! This is where you can apply biological theory to form your research hypothesis explaining the variability you see in the world. This step needs you to be curious, creative, and tap into your foundation of biological theory. And this step is where you identify the predictors in your statistical model.</p>
+<p>Here your focus is on the biological mechanisms (or processes) that you expect affect your response variable. An example of a mechanism affecting plant height might be temperature-dependent growth as temperature controls the rate of enzymatic reactions involved in plant growth.</p>
+<p>So your response variable is the variability you are trying to explain, and your predictor(s) is what you think is causing the variability. We will use the term “predictors” but note that they are also known as “covariates”, “factors”, “independent variables”, “explanatory variables”, or “x variables”.</p>
+</section>
+<section id="measuring-your-predictors" class="level1">
+<h1>Measuring your predictors</h1>
 <p>Once you have identified a possible mechanism, you can identify a measurable factor that can be used to quantify that mechanism. This is a predictor. To follow our example, a corresponding predictor to measure an effect of temperature-dependent growth is ambient temperature.</p>
-<p>It is necessary also to spend some time thinking about <em>how</em> you measure your predictor - what measure is relevant to your response variable? Here think about how measures of your predictor can be relevant to the time and space resolution of your response variable. To complete our example, you will want to measure ambient temperature quite close to each plant, and need to consider not just the temperature on the day the plant height was measured, but throughout the growing period of the plant (e.g.&nbsp;by considering average or integrated temperature measures).</p>
-<p>So your response variable is the variability you are trying to explain, and your predictor(s) is what you think is causing the variability. In this course, we will use the term “predictors” but note that they are also known as “covariates”, “factors”, “independent variables”, “explanatory variables”, or “x variables”.</p>
-<p>It is important that you let yourself think freely when you are considering what might by causing the variability in your response variable. At this early stage, do not restrict yourself to what you will be able to measure and test - let your curiosity and ideas range freely (called “blue-sky thinking”). Think first about all the mechanisms that may be responsible for the response variability. Then think about all the ways observations may be limited (e.g.&nbsp;limitations in our ability to measure certain variables or access data from certain places or times). And take lots of notes! As you move on in the framework, you will quickly simplify your hypothesis into what is measured and what is testable, but all your exciting ideas will be used in to communicate the scope of your study, motivate your predictor choice (in your Introduction and Methods), to put your results into context of greater biological theory, as well as direct future study efforts to focus on variation in your response that remains unexplained (in your Discussion section). Spending some time allowing yourself to brainstorm at this point is time well spent.</p>
-<p>Finally, notice that throughout this section, we emphasized mechanisms. You want to develop and test a hypothesis that is grounded in biological mechanisms.</p>
+<p>It is necessary also to spend some time thinking about <em>how</em> you will measure your predictor. Here, you will want to measure the mechanism as directly as possible. Think about how measures of your predictor can be made as relevant as possible to your response variable. Put another way: how would the mechanism appear in the observation?</p>
+<p>To complete our example, you will want to measure ambient temperature quite close to each plant, and need to consider not just the temperature on the day the plant height was measured, but throughout the growing period of the plant (e.g.&nbsp;by considering average or integrated temperature measures).</p>
+<p>It is also useful to consider the nature of your predictors. This will help you start to picture your research hypothesis and build your statistical model to test this hypothesis ([more on this here][DSPPH_SM_StartingModel.qmd]). In particular, you want to consider if you will measure your predictor as categorical (e.g.&nbsp;treatment vs.&nbsp;control) or numeric (e.g.&nbsp;amount of fertilizer).</p>
+<p><img src="./pic_PredictorNature.png" align="right" width="550"></p>
+</section>
+<section id="blue-sky-thinking" class="level1">
+<h1>“Blue-sky” thinking</h1>
+<p>It is important that you let yourself think freely when you are considering what might by causing the variability in your response variable. At this early stage, do not restrict yourself to what you will be able to measure and test - let your curiosity and ideas range freely (called “blue-sky thinking”). Think first about all the mechanisms that may be responsible for the response variability. Then think about all the ways observations may be limited (e.g.&nbsp;limitations in our ability to measure certain variables or access data from certain places or times). And take lots of notes! As you move on in the framework, you will quickly simplify your hypothesis into what is measured and what is testable, but all your exciting ideas will be used to communicate the scope of your study, motivate your predictor choice<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, to put your results into context of greater biological theory, as well as direct future study efforts to focus on variation in your response that remains unexplained<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. Spending some time allowing yourself to brainstorm at this point is time well spent.</p>
 <div class="footnotes">
 
 </div>
 
 
+</section>
 
-<p>Copyright 2026, DSP Taskforce</p></main> <!-- /main -->
+
+<p>Copyright 2026, DSP Taskforce</p><div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>for example, when you communicate your work in your Introduction and Methods<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>in your Discussion section<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

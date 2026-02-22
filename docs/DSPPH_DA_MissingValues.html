@@ -151,8 +151,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#why-you-want-to-do-it" id="toc-why-you-want-to-do-it" class="nav-link active" data-scroll-target="#why-you-want-to-do-it">Why you want to do it:</a></li>
   <li><a href="#how-you-can-do-it" id="toc-how-you-can-do-it" class="nav-link" data-scroll-target="#how-you-can-do-it">How you can do it:</a>
   <ul class="collapse">
-  <li><a href="#apply-functions-to-data-containing-missing-values" id="toc-apply-functions-to-data-containing-missing-values" class="nav-link" data-scroll-target="#apply-functions-to-data-containing-missing-values">Apply functions to data containing missing values</a></li>
-  <li><a href="#locating-missing-values" id="toc-locating-missing-values" class="nav-link" data-scroll-target="#locating-missing-values">Locating missing values</a></li>
+  <li><a href="#finding-missing-values" id="toc-finding-missing-values" class="nav-link" data-scroll-target="#finding-missing-values">Finding missing values</a></li>
+  <li><a href="#working-around-missing-values" id="toc-working-around-missing-values" class="nav-link" data-scroll-target="#working-around-missing-values">Working around missing values</a></li>
   <li><a href="#removing-missing-values" id="toc-removing-missing-values" class="nav-link" data-scroll-target="#removing-missing-values">Removing missing values</a></li>
   </ul></li>
   </ul>
@@ -181,9 +181,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="why-you-want-to-do-it" class="level1">
 <h1>Why you want to do it:</h1>
 <p>Missing values are important and interesting, and they can affect how functions can be used on your data.</p>
-</section>
-<section id="how-you-can-do-it" class="level1">
-<h1>How you can do it:</h1>
 <p>Note that R uses <code>NA</code> (i.e.&nbsp;‘not available’) to indicate missing values of any class (numeric, character, factor):</p>
 <p><img src="MissingValues.png" class="img-fluid"></p>
 <div class="callout callout-style-default callout-tip callout-titled">
@@ -202,29 +199,14 @@ Tip
 </div>
 </div>
 </div>
-<section id="apply-functions-to-data-containing-missing-values" class="level2">
-<h2 class="anchored" data-anchor-id="apply-functions-to-data-containing-missing-values">Apply functions to data containing missing values</h2>
-<p>We can apply functions to objects or their components when missing values are present by letting R know what we want to do with the missing values. For example, getting the overall mean of the chlorophyll column without telling R how to handle missing values:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ChlData<span class="sc">$</span>Chl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] NA</code></pre>
-</div>
-</div>
-<p>vs.&nbsp;telling R to remove them with the <code>na.rm = ...</code> argument:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ChlData<span class="sc">$</span>Chl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 32.42375</code></pre>
-</div>
-</div>
-<p>Note that the data frame itself remains unchanged, but R ignores the NAs when calculating the mean. We can find out more about how a particular function handles missing values by looking at the function’s help file (e.g.&nbsp;<code>?mean</code>).</p>
 </section>
-<section id="locating-missing-values" class="level2">
-<h2 class="anchored" data-anchor-id="locating-missing-values">Locating missing values</h2>
-<p>We can also find missing values using the <code>is.na()</code> function:</p>
+<section id="how-you-can-do-it" class="level1">
+<h1>How you can do it:</h1>
+<section id="finding-missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="finding-missing-values">Finding missing values</h2>
+<p>You can also find missing values in a vector (e.g.&nbsp;column) using the <code>is.na()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(ChlData<span class="sc">$</span>Chl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.na</span>(ChlData<span class="sc">$</span>Chl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE
 [13] FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
@@ -232,17 +214,44 @@ Tip
 </div>
 <p>and identify locations of missing values with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(ChlData<span class="sc">$</span>Chl) <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">which</span>(<span class="fu">is.na</span>(ChlData<span class="sc">$</span>Chl) <span class="sc">==</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5 8 9</code></pre>
 </div>
 </div>
+<p>You can count how many missing values you have with the <code>length()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>myNA <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">is.na</span>(ChlData<span class="sc">$</span>Chl) <span class="sc">==</span> <span class="cn">TRUE</span>) <span class="co"># locate the missing values</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(myNA) <span class="co"># count the missing values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</section>
+<section id="working-around-missing-values" class="level2">
+<h2 class="anchored" data-anchor-id="working-around-missing-values">Working around missing values</h2>
+<p>You can apply functions to objects or their components when missing values are present by letting R know what you want R to do with the missing values. For example, getting the overall mean of the chlorophyll column without telling R how to handle missing values:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ChlData<span class="sc">$</span>Chl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] NA</code></pre>
+</div>
+</div>
+<p>vs.&nbsp;telling R to remove them with the <code>na.rm = ...</code> argument:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(ChlData<span class="sc">$</span>Chl, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 32.42375</code></pre>
+</div>
+</div>
+<p>Note that the data frame itself remains unchanged (the missing values are still there), but R ignores the NAs when calculating the mean. You can find out more about how a particular function handles missing values by looking at the function’s help file (e.g.&nbsp;<code>?mean</code>).</p>
 </section>
 <section id="removing-missing-values" class="level2">
 <h2 class="anchored" data-anchor-id="removing-missing-values">Removing missing values</h2>
-<p>Finally, we can remove all rows that are incomplete (i.e.&nbsp;containing <strong>any</strong> missing values) with the <code>na.omit()</code> function:</p>
+<p>You can remove rows containing a missing value in a <strong>particular</strong> column with the <code>subset()</code> function. For example, you can remove any row with missing <code>Month</code> data with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData) <span class="co"># Original data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData) <span class="co"># Original data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Station Year Month   Chl
 1     HL2 2007     2 16.07
@@ -252,9 +261,46 @@ Tip
 5     HL2 2001    10    NA
 6     S27 2007    10 29.71</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ChlData <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ChlData) <span class="co"># Remove the NAs</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData) <span class="co"># Data frame without NAs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(ChlData, <span class="fu">is.na</span>(Month) <span class="sc">==</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Station Year Month   Chl
+1      HL2 2007     2 16.07
+2      S27 2005    10 31.31
+4      HL2 2001     2 32.00
+5      HL2 2001    10    NA
+6      S27 2007    10 29.71
+7      S27 2006     7 59.20
+8      HL2 2007     4    NA
+9      S27 2004     4    NA
+10     HL2 2003     5 26.00
+11     HL2 1999     9 37.00
+12     S27 2000     2 38.88
+13     S27 2002     1 21.35
+14     HL2 2004     5 28.95
+15     S27 2006     6 17.77
+16     S27 2003     3 55.35
+17     S27 2004     1 16.69
+18     HL2 2007     7 23.26
+19     HL2 2005     9 44.86</code></pre>
+</div>
+</div>
+<p>Note that you use <code>is.na(Month) == FALSE</code> here as you want to keep all rows where <code>Month</code> is <em>not</em> NA.</p>
+<p>Also, note that there are rows with NA remaining in the <code>Chl</code> column.</p>
+<p>Finally, you can remove all rows that are incomplete (i.e.&nbsp;containing <strong>any</strong> missing values) with the <code>na.omit()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData) <span class="co"># Original data frame</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Station Year Month   Chl
+1     HL2 2007     2 16.07
+2     S27 2005    10 31.31
+3     HL2 2002    NA 40.38
+4     HL2 2001     2 32.00
+5     HL2 2001    10    NA
+6     S27 2007    10 29.71</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ChlData <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ChlData) <span class="co"># Remove the NAs</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData) <span class="co"># Data frame without NAs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Station Year Month   Chl
 1      HL2 2007     2 16.07
@@ -265,7 +311,7 @@ Tip
 10     HL2 2003     5 26.00</code></pre>
 </div>
 </div>
-<p>Note that above I reassign the output of the <code>na.omit()</code> function back to the name <code>ChlData</code>. This replaces the original data frame with the new data frame without missing values. I could also save it as a new object (with a new name) so the original is not overwritten.</p>
+<p>Note that the above code reassigns the output of the <code>na.omit()</code> function back to the name <code>ChlData</code>. This replaces the original data frame with the new data frame without missing values. Instead, you could save it as a new object (with a new name) so the original is not overwritten.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -280,7 +326,7 @@ Tip
 <div class="callout-body-container callout-body">
 <p>Take a look at the numbers that print out to the left of the data frame:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ChlData)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Station Year Month   Chl
 1      HL2 2007     2 16.07
@@ -291,9 +337,9 @@ Tip
 10     HL2 2003     5 26.00</code></pre>
 </div>
 </div>
-<p>These are row names that were assigned when the data were read in. We can ignore row names but I wanted to to explain them as they can be distracting when one starts manipulating data frames. Unless we specify otherwise, rows are named by their original position when the data are read in to R, e.g.&nbsp;initially row #3 was assigned the name “3”, and row #4 was assigned the name “4”, etc. Since we’ve removed some rows with <code>na.omit()</code> above, the row names now skip from e.g.&nbsp;2 to 4 (row 3 has been removed), but note that the 3rd row in the data frame can still be accessed with:</p>
+<p>These are row names that were assigned when the data were read in. You can ignore row names but I wanted to to explain them as they can be distracting when one starts manipulating data frames. Unless you specify otherwise, rows are named by their original position when the data are read in to R, e.g.&nbsp;initially row #3 was assigned the name “3”, and row #4 was assigned the name “4”, etc. Since you have removed some rows with <code>na.omit()</code> above, the row names now skip from e.g.&nbsp;2 to 4 (row 3 has been removed), but note that the 3rd row in the data frame can still be accessed with:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ChlData[<span class="dv">3</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>ChlData[<span class="dv">3</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Station Year Month Chl
 4     HL2 2001     2  32</code></pre>

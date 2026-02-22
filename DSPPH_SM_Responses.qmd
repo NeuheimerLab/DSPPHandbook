@@ -43,7 +43,8 @@ Even before you have collected your response data, you can begin to describe how
 ## What is the nature of your response?
 
 The first step is describing the **nature** of your response variable.  This will allow you to choose a data distribution (mathematical representation) to define the types of values you expect your response variable to be. 
-To describe the nature of your response variable, you will communicate whether your response variable is numeric or categorical, and if numeric, what values you expect it to take. 
+
+To describe the nature of your response variable, you will communicate whether your response variable is numeric or categorical, and if numeric, what values you expect it to take (e.g. can your response be negative? can it be zero? can it include a decimal?)
 
 Here is a chart to help you describe the nature of your response distribution:
 

@@ -44,7 +44,7 @@ head(myDat) # examine the first few rows
 
 You can learn more about the formatting syntax with `?strptime`.  Note that the code above replaces the `myDat$Time` column with the new, formatted date and time information.
 
-2) You can extract parts of the date and time column with functions like `months()` for months, `years()` for years, etc.
+2) You can extract parts of the date and time column with functions like `months()` for months, `years()` for years, etc.  More generally, you can use the `format()` function.
 
 For example:
 
@@ -53,6 +53,10 @@ For example:
 myDat$Months <- months(myDat$Time) # extract only the months
 
 str(myDat) # structure of the data frame
+
+# another way to extract month from your date:
+format(myDat$Time, # date object
+       "%B") # what you want to extract, %B gives you the month
 
 ```
 

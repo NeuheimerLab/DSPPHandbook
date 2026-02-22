@@ -47,7 +47,7 @@ your hypothesis in R syntax would be:
 
 If your research hypothesis states that
 
-> Variability in the response (`Resp`) is explained by effects of two predictors (`Pred1` and `Pred2`) with the effect of Pred1 depending on the value of Pred2)
+> Variability in the response (`Resp`) is explained by effects of two predictors (`Pred1` and `Pred2`) with the effect of Pred1 depending on the value of Pred2
 
 your hypothesis in R syntax would be:
 

@@ -228,7 +228,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <p>You can learn more about the formatting syntax with <code>?strptime</code>. Note that the code above replaces the <code>myDat$Time</code> column with the new, formatted date and time information.</p>
 <ol start="2" type="1">
-<li>You can extract parts of the date and time column with functions like <code>months()</code> for months, <code>years()</code> for years, etc.</li>
+<li>You can extract parts of the date and time column with functions like <code>months()</code> for months, <code>years()</code> for years, etc. More generally, you can use the <code>format()</code> function.</li>
 </ol>
 <p>For example:</p>
 <div class="cell">
@@ -241,6 +241,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  $ Value : int  36 35 57 43 44 36 47 39 38 50 ...
  $ Months: chr  "October" "June" "October" "October" ...</code></pre>
 </div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># another way to extract month from your date:</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">format</span>(myDat<span class="sc">$</span>Time, <span class="co"># date object</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>       <span class="st">"%B"</span>) <span class="co"># what you want to extract, %B gives you the month</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "October"  "June"     "October"  "October"  "June"     "December"
+ [7] "March"    "April"    "November" "November" "March"    "July"    
+[13] "March"    "February" "July"    </code></pre>
+</div>
 </div>
 </section>
 <section id="using-the-lubridate-package" class="level2">
@@ -248,9 +256,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The lubridate package was created to make working with dates and times easier. There are still two steps to the process. You can repeat the steps above but now with the lubridate package.</p>
 <p>Again, consider the data:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>myDat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"DTData.csv"</span>) <span class="co"># load in the data</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myDat) <span class="co"># examine the first few rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>myDat <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"DTData.csv"</span>) <span class="co"># load in the data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myDat) <span class="co"># examine the first few rows</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>             Time Value
 1 2024/10/3 10:32    36
@@ -266,7 +274,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>You can format the <code>Dat$Time</code> column as a date and time with:</li>
 </ol>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate) <span class="co"># load the lubridate package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate) <span class="co"># load the lubridate package</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>
 Attaching package: 'lubridate'</code></pre>
@@ -276,9 +284,9 @@ Attaching package: 'lubridate'</code></pre>
 
     date, intersect, setdiff, union</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Time <span class="ot">&lt;-</span> <span class="fu">ymd_hm</span>(myDat<span class="sc">$</span>Time) <span class="co"># the date and time column</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># examine the structure of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Time <span class="ot">&lt;-</span> <span class="fu">ymd_hm</span>(myDat<span class="sc">$</span>Time) <span class="co"># the date and time column</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># examine the structure of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   15 obs. of  2 variables:
  $ Time : POSIXct, format: "2024-10-03 10:32:00" "2020-06-09 00:17:00" ...
@@ -290,9 +298,9 @@ Attaching package: 'lubridate'</code></pre>
 </ol>
 <p>For example:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Months <span class="ot">&lt;-</span> <span class="fu">month</span>(myDat<span class="sc">$</span>Time) <span class="co"># extract only the months</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># examine the structure of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>myDat<span class="sc">$</span>Months <span class="ot">&lt;-</span> <span class="fu">month</span>(myDat<span class="sc">$</span>Time) <span class="co"># extract only the months</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(myDat) <span class="co"># examine the structure of the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   15 obs. of  3 variables:
  $ Time  : POSIXct, format: "2024-10-03 10:32:00" "2020-06-09 00:17:00" ...

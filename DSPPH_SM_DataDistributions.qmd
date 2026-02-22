@@ -20,7 +20,7 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 
 ## What is a data distribution?
 
-A data distribution is a math function that specifies all possible values a variable can take and the relative frequency of those values^[i.e. the rate at which a value occurs].  Data distributions can be continuous (any real value) or discrete (only integer values) values over a defined range.  
+A data distribution is a math function that specifies all possible values a variable can take and the relative frequency of those values^[i.e. the rate at which a value occurs].  Data distributions can be continuous (i.e. real value) or discrete (only integer values) values over a defined range.  
 
 ## Why are data distributions useful?
 
@@ -30,7 +30,76 @@ We can use properties of data distributions to describe our observations and ide
 
 * Probability density function (PDF): The PDF describes the probability that a particular value will occur. It can be approximated in R with `density()`. The PDF is approximated by the frequency histogram of your variable.  You can make a histogram in R with `hist()` or in ggplot with `geom_hist()`.
 
-* Quantiles: Quantiles break the observations into groups.  It is common to define the 25%, 50% and 75% quantiles.  The 25% quantile is the value of the variable where 25% of the values are below this value.  The 50% quantile is the value of the variable where 50% of the values are below this value.  This is also called the median.  You can get the quantiles of your variables with R's `quantile()` function.
+* Quantiles: Quantiles break the observations into groups.  It is common to define the 25%, 50% and 75% quantiles - also called Q1, Q2 and Q3.  The 25% quantile (Q1) is the value of the variable where 25% of the values are below this value.  The 50% quantile (Q2) is the value of the variable where 50% of the values are below this value.  This is also called the median.  The 75% quantile (Q3) is the value of the variable where 75% of the values are below this value. You can get the quantiles of your variables with R's `quantile()` function.
+
+```{r echo=FALSE}
+
+
+library(ggplot2)
+
+# parameters
+mu  <- 0
+sig <- 10   # broad spread
+
+# keep only central quantiles
+probs <- c(0.25, 0.5, 0.75)
+qs    <- qnorm(probs, mean = mu, sd = sig)
+
+# density curve data
+x <- seq(mu - 4*sig, mu + 4*sig, length.out = 400)
+df <- data.frame(
+  x = x,
+  density = dnorm(x, mean = mu, sd = sig)
+)
+
+# shading regions between quantiles
+shade_df <- data.frame(
+  x = x,
+  density = dnorm(x, mu, sig),
+  region = cut(
+    x,
+    breaks = c(-Inf, qs, Inf),
+    labels = paste0("Region ", 1:4)
+  )
+)
+
+# quantile label positions (below x-axis)
+label_df <- data.frame(
+  x = qs,
+  y = -0.005,
+  label = paste0(round(probs*100), "%")
+)
+
+ggplot() +
+  # shaded regions
+  geom_ribbon(
+    data = shade_df,
+    aes(x = x, ymin = 0, ymax = density, fill = region),
+    alpha = 0.3,
+    show.legend = FALSE
+  ) +
+  # density curve
+  geom_line(data = df, aes(x, density), linewidth = 1) +
+  # vertical quantile lines
+  geom_vline(xintercept = qs, linetype = "dashed", color = "grey40") +
+  # labels below axis
+  geom_text(
+    data = label_df,
+    aes(x = x, y = y, label = label),
+    vjust = -1,
+    size = 3,
+    hjust = c(1.2, 0.5, -0.2) # left, centered, right
+  ) +
+  labs(
+   # title = "Normal Density with Shaded Central Quantiles",
+    x = "x",
+    y = "f(x)"
+  ) +
+  coord_cartesian(ylim = c(-0.003, max(df$density))) +
+  theme_minimal()
+
+```
+
  
 * Cumulative distribution function (CDF): The CDF visualizes a similar idea to quantiles: The CDF gives the probability that your variable is less than or equal to a particular value.  
 
@@ -202,7 +271,7 @@ ggplot()+ # start a ggplot
 
 ### The poisson distribution
 
-The poisson distribution describes random variables that are only discrete, positive integers, also including 0.  Here is an example simulating poisson distributed data: 
+The poisson distribution describes random variables that are only discrete, positive integers, also including 0^[sometimes called non-negative].  Here is an example simulating poisson distributed data: 
 
 ```{r}
 # Simulating data
@@ -266,6 +335,11 @@ ggplot()+ # start a ggplot
 
 ```
 
+#### Too many zeros in your count data??
+
+Note that some count observations in biology (e.g. abundance observations) can be challenging to describe with the poisson distribution if you have a lot of zeros in your data.  
+
+In these cases, biologists can divide data into presence/absence data (see the binomial distribution below) and count data for non-zero observations. You can read more about how you know you have a problem in the [model validation](DSPPH_SM_ModelValidation.qmd) chapter. 
 
 
 
