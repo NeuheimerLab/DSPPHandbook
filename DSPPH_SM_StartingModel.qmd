@@ -29,14 +29,13 @@ library(formatR)
 
 # Your Starting Model
 
-To test your hypothesis, you first need to build an appropriate model of your hypothesis in mathematical form.  The model gives you a structure to which you can fit your data so that you can assess what the evidence (data) is saying about your hypothesis.  This is called a statistical model as the model is fit by estimating parameters from the data (your observations).   
+To test your hypothesis, you first need to build an appropriate model of your hypothesis in mathematical form.  The model gives you a structure to which you can fit your data so that you can assess what the evidence (data) is saying about your hypothesis.  This is called a statistical model.  Statistical models are models that are fit by estimating parameters from the data (your observations).   
 
 
 ::: {.callout-tip collapse="false" title="Some useful terms"} 
-* Response - the variable you are trying to explain. 
+* [Response](DSPPH_SM_Responses.qmd) - the variable you are trying to explain. 
 
-* Predictor(s) - the variable(s) you believe are explaining the variation in your response. 
-
+* [Predictor(s)](DSPPH_SM_Predictors.qmd) - the variable(s) that you believe are explaining the variation in your response. 
 * Parameters - values needed to be estimated when you fit your model (e.g. slope, intercept). These represent the effects of your predictors on your response.
 
 * Coefficients - the estimates of your parameters made when you fit your model. 
@@ -51,7 +50,7 @@ To test your hypothesis, you first need to build an appropriate model of your hy
 ## Why do you need a starting model? {#sec-whyNeed}
 <img src="./statsModFramework.png" align="right" width="150"/>
 
-Imagine your research hypothesis is:
+Imagine your research [hypothesis](DSPPH_SM_Hypothesis.qmd) is:
 
 > `Response ~ Predictor + 1`
 
@@ -59,9 +58,10 @@ where you are hypothesizing that
 
 > variability in `Response` is explained by variability in `Predictor`.
 
-This can be tested by determining the evidence for an **effect** of `Predictor` on your `Response`.  An effect means that we get a change in `Response` when we observe a change in `Predictor`.  
+This can be tested by determining the evidence for an **effect** of `Predictor` on your `Response`.  An effect describes the change in `Response` observed when you have a change in your `Predictor`.  
 
-In fitting your model, you will be estimating the effect of `Predictor` on `Response` - the magnitude and direction of the effect, as well as an estimate of the uncertainty (error) in the effect. 
+In fitting your model, you will be estimating the effect of your `Predictor` on `Response`.  You will estimate the magnitude and direction of the effect, as well as the uncertainty (error) in the effect. With these estimates, you can [test your hypothesis](DSPPH_SM_HypothesisTesting.qmd) by determining if the estimate of the effect is different than zero.
+
 
 ::: {.callout-tip collapse="true" title="Effects are coefficients"} 
 
@@ -69,7 +69,7 @@ When we say that a predictor has "an effect" on a response, we are saying that a
 
 This change in the response that comes from a unit change in the predictor is estimated as a coefficient.
 
-The coefficient of a **continuous predictor** is a slope.  The slope describes the change in response that you get from a unit change in the predictor.  For example, if your hypothesis is `Growth ~ Temperature + 1`, (and `Temperature` is continuous and in units of ˚C), the slope (coefficient) for `Temperature` will tell you the change in `Growth` you expect for a 1˚C change in `Temperature`.
+The coefficient of a **numeric predictor** is a slope.  The slope describes the change in response that you get from a unit change in the predictor.  For example, if your hypothesis is `Growth ~ Temperature + 1`, (and `Temperature` is continuous and in units of ˚C), the slope (coefficient) for `Temperature` will tell you the change in `Growth` you expect for a 1˚C change in `Temperature`.
 
 The coefficient of a **categorical predictor** tells you how much the response will change when the categorical predictor changes from one category (level) to another.  For example, if your hypothesis is `Growth ~ Species + 1`, (and `Species` is categorical with "Species A" and "Species B"), the coefficient for `Species` will tell you the change in Growth you expect when you change from one `Species` to another (e.g. from "Species A" to "Species B").
 
@@ -92,7 +92,7 @@ A statistical model is a model that include both a *deterministic* part and a *s
 
 * The deterministic part represents your research hypothesis in math form - this describes how the predictors and response are related.  
 
-* The stochastic part represents the error in your model.  This includes error due to all the other possible factors or predictors that have not been included in your hypothesis (called "process error") as well as any error made when you made your observations (called "measurement error").
+* The stochastic part represents the error in your model.  This includes error due to all the other possible predictors that have not been included in your hypothesis (called "process error") as well as any error made when you made your observations (called "measurement error").
 
 ::: {.callout-tip collapse="true" title="More on statistical model form"} 
 We can represent a general statistical model as
@@ -103,7 +103,7 @@ $Resp_i \sim Distribution(E(Y_i)) \tag{Stochastic part}$
 
 where $Resp_i$ is your response, $Pred1_i, Pred2_i$ are your predictors for observation $i$, and $E(Y_i)$ is the expected value of your response.
 
-Here is an example for a case where variability in your response is explained by a continuous predictor: 
+Here is an example for a case where variability in your response is explained by a numeric predictor: 
 
 ![](./residPlotReview.png){width=90%}
 
@@ -116,7 +116,7 @@ So to choose (and eventually) fit your starting model, you need to choose both d
 
 ## Choosing your starting model
 
-It is important to note that **there is more than one model** you could use to test your hypothesis.  This is because each model is a simplification and approximation of the real world, and there are a number of mathematical ways one can simplify and approximate the processes involved in your research hypothesis.  In this Handbook, you will learn about some very useful models, and how to choose among them.  We will also discuss alternatives - this will give you other options, but will also help you communicate to other researchers that may choose different methods for their hypothesis testing.
+It is important to note that **there is more than one model** you could use to test your hypothesis.  This is because every model is a simplification and approximation of the real world, and there are a number of mathematical ways one can simplify and approximate the processes involved in your research hypothesis.  In this Handbook, you will learn about some very useful models, and how to choose among them.  We will also discuss [alternatives](ExCompareTraditionalGLMs.qmd) - this will give you other options, but will also help you communicate to other researchers that may choose different methods (and models) for their hypothesis testing.
 
 Despite the fact that there is more than one valid starting model, not all models are **useful** starting models.  Here we will focus on finding a useful starting model. 
 
@@ -126,35 +126,35 @@ Note: you will first be able to [assess if your starting model is a useful one](
 
 ### 1. Choosing your error distribution assumption:
 
-To choose your starting model, start by choosing the stochastic part of your model by choosing an **error distribution assumption**.  
+To choose your starting model, start by choosing the stochastic part of your model by choosing an **error distribution assumption**^[also called the conditional distribution].  
 
-This describes how the data should be assumed to be distributed around your model fit (e.g. how to model the scatter of the data around the line in the figure above).   Note I use the word "assumption" here - we are picking an existing mathematical form ([data distribution](DSPPH_SM_DataDistributions.qmd)) that can approximate the behaviour of your observations.  This is an assumption that you will test in the [model validation section](DSPPH_SM_ModelValidation.qmd) to come.
+This describes how the data should be assumed to be distributed around your model fit (e.g. how to model the scatter of the data around the line in the figure above).   Note I use the word "assumption" here - we are picking an existing mathematical form (a [data distribution](DSPPH_SM_DataDistributions.qmd)) that can approximate the behaviour of your observations.  This is an assumption that you will learn to assess in the [model validation section](DSPPH_SM_ModelValidation.qmd) to come.
 
-Here are some [common data distributions](DSPPH_SM_DataDistributions.qmd) that can be used to build your models.
+Here again are some [common data distributions](DSPPH_SM_DataDistributions.qmd) that can be used to build your models.
 
 
 **How do you choose?**\
 
 *Think about theory:* Note that the error in your statistical model (scatter in the plot above) is error around the response variable (i.e. on the y-axis).  The key to choosing an error distribution assumption is then to **look at your response variable**.\
 
-- Can your response be a decimal (continuous) and positive or negative?  Choose a normal error distribution assumption.\
+- Can your response be a decimal (continuous) and positive or negative?  Choose a **normal** error distribution assumption.\
 
-- Can your response be a decimal (continuous) but only positive?  Start by using a Gamma error distribution assumption.\
+- Can your response be a decimal (continuous) but only positive?  Start by using a **Gamma** error distribution assumption.\
 
-- Can your response only be a positive integer (discrete)?  Try a poisson error distribution assumption.\
+- Can your response only be a positive integer (discrete)?  Try a **poisson** error distribution assumption.\
 
-- Can your response only be one of two values? Start with a binomial error distribution assumption.
+- Can your response only be one of two values? You will need a **binomial** error distribution assumption.
 
 <img src="./describeResponseWithFamilies.png" align="left" width="650"/>
 
-*Plot your data:* Plotting your response variable can also help you determine the data distribution that would be the best starting point for your error distribution assumption. 
+*Plot your data:* Plotting your response variable can also help you determine the data distribution that would be the best starting point for your error distribution assumption. Plot your data and consider the flowchart above.
 
 
 ##### Choosing a link function:  {#sec-chooseLink}
 
 Once you have chosen your error distribution assumption, you will choose a link function that will allow R to mathematically "link" your error distribution assumption to the function underlying the GLM.  
 
-There are many link functions you can use, but there is one specific link function identified for each different error distribution assumption that is called the default or canonical link function.  This is the link function that is your best first choice as this link function will align the math underlying your model fit to the specific error distribution assumption.  
+There are many link functions you can use, but there is one specific link function identified for each different error distribution assumption that is called the default or canonical link function.  This is the link function that is (almost always) your best first choice as this link function will align the math underlying your model to the specific error distribution assumption.  
 
 You can find the canonical link functions in R with `?family` which will open up the help window to show: 
 
@@ -162,19 +162,19 @@ You can find the canonical link functions in R with `?family` which will open up
 
 So in general, start with the canonical link function that matches the error distribution assumption you chose for your starting model.  You will assess this choice when you [validate your model](DSPPH_SM_ModelValidation.qmd).  
 
-One exception: the coefficients for models with a Gamma error distribution are easier to understand when you use a log link instead of the default inverse link.  
+*One exception*: the coefficients for models with a Gamma error distribution are easier to understand when you use a log link instead of the default inverse link. I recommend you start with a log link function when you choose a Gamma error distribution function. 
 
 ::: {.callout-tip collapse="true" title="Visualizing the link functions"} 
 
 Let's take a look at the effect of the link functions for a number of common error distribution assumptions.  Here we will consider a simple hypothesis of 
 
-`Resp ~ Cont + 1`
+`Resp ~ Pred + 1`
 
-with the nature of the `Resp` changing with each example.  In each example, the data are given on the response scale on the lefthand side, and the linked scale (mathematical world) on the right hand side.  
+where `Pred` is a continuous predictor and the nature of `Resp` changing with each example.  In each example, the data are given on the response scale on the lefthand side, and the linked scale (mathematical world) on the right hand side.  
 
 Notice how the shape of the relationship on the response scale changes depending on how the response is distributed (error distribution assumption), but the relationship on the linked scale is linear in each case.
 
-Also notice that the figures on the response vs. link scale look the same for a normal error distribution assumption.  This is because the GLM math was originally developed for a normal error distribution assumption and then *generalized* for other error distribution assumption.  The link function "identity" that is the canonical link function when you have a normal error distribution assumption tells R that no link is needed.
+Also notice that the figures on the response vs. link scale look the same for a normal error distribution assumption.  This is because the GLM math was originally developed for a normal error distribution assumption and then *generalized* for the other error distribution assumptions.  The link function "identity" that is the canonical link function when you have a normal error distribution assumption tells R that no link is actually needed!
 
 ![](./FiguresResponseVsLink.001.png){width=100%}
 
@@ -186,7 +186,7 @@ Also notice that the figures on the response vs. link scale look the same for a 
 
 ::: {.callout-tip collapse="true" title="Transformations vs. GLMs"} 
 
-You may be familiar with the idea of transforming your response variable to be normally distributed for use in linear model^[if this is not familiar to you, don't worry.  You will be using a more robust method for modelling your hypotheses].  This idea stems from a time when methods were limited to those requiring a normal error distribution assumption. GLMs mean transformations are often no longer necessary as you can now choose an error distribution that reflects the nature of your data instead.  
+You may be familiar with the idea of transforming your response variable to be normally distributed for use in linear model^[if this is not familiar to you, don't worry.  You will be using a more robust method for modelling your hypotheses].  This idea stems from a time when methods were limited to those requiring a normal error distribution assumption. GLMs mean transformations are often no longer necessary as you can now choose an error distribution that actually reflects the nature of your data instead.  
 
 While the idea of transformations is similar to the GLM's link function, they are not the same.  Transformations transform the response variable itself in order to try to constrain the variability to that of a normal error distribution assumption.  In contrast, link functions "transform" the expected (fitted) value of the model while also indicating an error distribution that matches the original data.
 
@@ -206,29 +206,30 @@ That said, there may be times when you want to use a transformation of your resp
 
 
 
-### 2. Choosing your shape assumption:
+### 2. Choosing your shape assumptions:
 
-The next step in choosing your starting model is to choose your **shape assumption**.  Your shape assumption specifies how your predictor(s) and your response are related to one another.  This represents the deterministic part of your model and answers the question "what shape do I expect the relationship between my response and predictor to be?".  
+The next step in choosing your starting model is to choose your **shape assumptions**.  Your shape assumptions specify how each of your predictors is related to your response.  This represents the deterministic part of your model and answers the question "what shape do I expect the relationship between my response and predictor to be?".  
 
-Your choices are linear (where a unit change in the predictor always leads to the same change in the response^[also called "monotonic"]) or non-linear (where the effect of the predictor on the response depends on the value of the predictor).  Note that you need to make a shape assumption choice for each of your predictors in your research hypothesis.
+
+Your choices are linear (where a unit change in the predictor always leads to the same change in the response^[also called "monotonic"]) or non-linear (where the effect of the predictor on the response depends on the value of the predictor).  **Note that you need to make a shape assumption choice for each of your predictors in your research hypothesis.**
 
 **How do you choose?**
 
-*Think about theory*: The first thing to consider is the nature of your predictor variable.  Is it categorical?  If yes, choose a linear shape assumption, as a non-linear shape assumption does not make sense for a categorical predictor (e.g. species).
+*Think about theory*: The first thing to consider is the nature of your predictor variable.  Is it categorical?  If yes, choose a linear shape assumption. With a categorical predictor, your model will estimate the effect of moving from one category (level) of your predictor to another.  The shape of this effect is linear.  We also discuss interpreting effects for categorical predictors [here](#sec-whyNeed).  
 
 <img src="./describePredictors.png" align="left" width="450"/>
 
 
-Is your predictor continuous?  Then you need to think a bit more about the relationship between your predictor and response.  Do you expect the predictor to always affect your response in the same way (i.e. a unit change in your response for a unit change in your predictor is expected to be the same over the range in your predictor)?  Or do you expect that relationship to change as your predictor changes?  
+Is your predictor continuous?  Then you need to think a bit more about the relationship between your predictor and response.  Do you expect the predictor to always affect your response in the same way (i.e. a unit change in your response for a unit change in your predictor is expected to be the same over the range in your predictor)? If so, you should choose a linear shape assumption. Or do you expect that relationship to change as your predictor changes?  If so, you will need a non-linear shape assumption.^[Note that ]
 
-Revist the ["Choose a link function" section](#sec-chooseLink). GLMs can handle situations that appear non-linear in a simple way.  
-
-<!--- include figure of nonlinear vs. linear--->
-
-<!--- also binomial linBinom.png, nonlinBinom.png --->
+Note that some appearances of non-linearity are handled by GLMs through the error distribution assumption.  Revisit the ["Choose a link function" section](#sec-chooseLink).   
 
 
-*Plot your data*: Plotting your response vs. your predictor is another good exercise to get you thinking about what shape assumption will be appropriate. When you make this plot, remember to keep in mind your error distribution assumption choice (choice #1 above).  This will help you understand when you need a linear vs. non-linear model. [We'll look at an example of this when we choose our link function.](#sec-chooseLink).   The GGally package has some good options for quickly plotting your data: 
+*Plot your data*: Plotting your response vs. your predictor is another good exercise to get you thinking about what shape assumption will be appropriate. 
+
+Again, when you make this plot, remember to keep in mind your [error distribution assumption choice](#sec-chooseLink) (choice #1 above).  This will help you understand when you need a linear vs. non-linear model. 
+
+The GGally package has some good options for quickly plotting your data: 
 
 
 ```{r}
@@ -244,23 +245,24 @@ ggpairs(data=myDat, # your data
         )
 ```
 
-**In PSB,** we will primarily focus on statistical models assuming a linear shape assumption.  You will see how flexible these can be, but we will also discuss what you should do if you want to assume non-linear^[which might be non-linear of known shape, or non-linear of unknown shape] relationships between your response and predictors. 
+**In PSB,** we will primarily focus on statistical models assuming a linear shape assumption.  You will see how flexible these can be, but we will also discuss what you should do if you want to assume non-linear relationships between your response and predictors. 
 
 
 
 ### Communicating your starting model
 To communicate your starting model, report your research hypothesis, your response and predictors (main effects and interactions) along with descriptions of your error distribution and shape assumptions.  
 
-For each, describe how you arrived at your choices (e.g. "a poisson error distribution assumption was chosen as the response variable is count data...").  We will go over examples of all this in class.
+For each, describe how you arrived at your choices (e.g. "a poisson error distribution assumption was chosen as the response variable is count data..."). 
 
 ## Fitting your starting model {#sec-fitting}
 Once you have chosen your starting model, you will fit the model to your data so that it can be used to test your hypothesis.  
 
-<img src="./coefParam.png" align="right" width="350"/>
+<img src="./coefParam.png" align="right" width="150"/>
+
 As mentioned [above](#sec-WhatMeanFitModel), fitting your model means that you are going to use your data to estimate the value of the coefficients in your model (e.g. slope, intercept). 
 
 
-::: {.callout-tip collapse="true" title="What are model coefficients"} 
+::: {.callout-tip collapse="true" title="A reminder: What are model coefficients"} 
 
 
 Your model coefficients capture your modelled effects; the effect of the predictor on your response.  
@@ -275,18 +277,18 @@ When you have a *categorical* predictor, the coefficient is the modelled change 
 
 The best choices for the coefficient values are the coefficient values that give you the highest probability of observing your data.  In other words, the best choices for the coefficients are values that are most **likely** given the data you have^[Paraphrased from Crawley 2013 pg. 451].  Fitting models this way is done using a method called *maximum likelihood*.  
 
-For example, think about how we would draw a "best-fit" linear line through this relationship:
+For example, think about how you would draw a "best-fit" linear line to describe the effect of this predictor on this response:
 
 <img src="./FitModelToData.gif" align="center" width="350"/>
 
 
 What we do intuitively is to find a line that minimizes the error^[here shown as Root Mean Square Error which is a method used when one has a normal error distribution assumption and linear shape assumption] in the model (i.e. the average difference between each observation and the fitted line). The coefficient values of this "best-fit" line have the maximum likelihood given our data.
 
-The math involved when fitting your model follows the same logic to find the most likely values for your model coefficients.  The actual math used will vary based on the type of model you are fitting (i.e. based on your error and shape assumptions), but in general, finding the right coefficients can be illustrated like this "gradient descent" illustration:
+The math involved when fitting your model follows the same logic to find the most likely values for your model coefficients.  The actual math used will vary based on the type of model you are fitting (i.e. based on your error and shape assumptions), but in general, finding the right coefficients can be illustrated like this "gradient descent" illustration [@YanEtAl2022]:
 
 <img src="./gradientDescent.png" align="center" width="450"/>
 
-The most likely coefficient values are found by choosing a starting point for coefficient values and fitting the model.  Then, the coefficient values are changed slightly and a new fit is made.  The new fit is compared to the old fit to determine if the fit improved (i.e. the average error around the model decreased).  This procedure is repeated^[each repetition is called "an iteration"] until the error is reduced as much as possible.  The resulting coefficient values are the most likely coefficient values for your model given your data. 
+The most likely coefficient values are found by choosing a starting point for coefficient values and then, using those first coefficient estimates, fitting the model.  Then, the coefficient values are changed slightly and a new fit is made.  The new fit is compared to the old fit to determine if the fit improved (i.e. the average error around the model decreased).  This procedure is repeated^[each repetition is called "an iteration"] until the error is reduced as much as possible.  The resulting coefficient values are the most likely coefficient values for your model given your data. 
 
 Here is another illustration showing gradient descent for two coefficients (e.g. two slopes):
 
@@ -300,7 +302,7 @@ Generalized Linear Models or GLMs are statistical models that have a linear shap
 
 ![](./RelationshipAmongModels.png){width=70%}
 
-So we can use a GLM as our starting model when we have a shape assumption that is linear, and one of a variety of error distribution assumptions - see a little further along to find out which error distribution assumptions are supported by GLMs^[Note that **generalized** linear models are different than **general** linear model. General linear models include simple linear regression, ANOVA and a few others. Generalized linear models include these but more - they allow us to build models to test many, many different biological hypotheses.  More on this below!] 
+So you can use a GLM as our starting model when you have a shape assumption that is linear, and one of a variety of error distribution assumptions.^[Note that **generalized** linear models are different than **general** linear model. General linear models include simple linear regression, ANOVA and a few others. Generalized linear models include these but more - they allow you to build models to test many, many different biological hypotheses.] 
 
 
 #### How to fit a GLM to data in R
@@ -316,11 +318,11 @@ startMod <- glm(formula = Resp ~ Pred + 1, # your hypothesis
                 family = ...) # your error distribution assumption
 ```
 
-For example, a GLM fit with a Gamma error distribution assumption would be:
+For example, a GLM fit with a poisson error distribution assumption would be:
 ```{r, eval=FALSE}
 startMod <- glm(formula = Resp ~ Pred + 1, # your hypothesis
                 data = myDat, # your data
-                family = Gamma(link="inverse")) # your error distribution assumption, with the canonical link 
+                family = poisson(link="log")) # your error distribution assumption, with the canonical link 
 ```
 
 And that's it!  You are now ready to fit a GLM as a starting model on the road to testing your research hypothesis!
@@ -328,7 +330,7 @@ And that's it!  You are now ready to fit a GLM as a starting model on the road t
 
 ### Your GLM model object
 
-Before you can use your model to test your hypothesis, you need to validate your starting model.  This will be the focus of the next section of your statistical modelling framework.
+Before you can use your model to test your hypothesis, you need to validate your starting model.  This will be the focus of the [next section](DSPPH_SM_ModelValidation.qmd) of your statistical modelling framework.
 
 For now though, let's take a first look at your starting model.
 
@@ -336,7 +338,7 @@ Fitting your GLM will produce a model object (called `startMod` above) - let's e
 
 ![](./generalGLMOutput.png){width=70%}
 
-This output includes^[note that we discuss this more in depth in the [Reporting Section]()]: 
+This output includes^[note that we discuss this more in depth in the [Reporting Section](DSPPH_SM_Reporting.qmd)]: 
 
 - A: a description of your starting model: This gives back information on the starting model you fit.
 
@@ -346,7 +348,7 @@ This output includes^[note that we discuss this more in depth in the [Reporting 
 
   * degrees of freedom for the null model ("Total" or "Null", assuming no effects of your predictors on your response) and your starting model ("Residual").  Degrees of freedom are a measure of how complicated your model is and how much data you have.  
 
-  * deviance for the null model (assuming no effects of your predictors on your response) and remaining deviance after your starting model is applied.  Deviance represents the variability in your response variable.  It is this variability we are trying to explain.  Comparing the Residual Deviance (remaining variability in your response after starting model is applied) with Null Deviance (original variability in your response that you were trying to explain) tells you how your model performs (i.e. how much variability in your response did you manage to explain).
+  * deviance for the null model (assuming no effects of your predictors on your response) and remaining deviance after your starting model is applied.  Deviance represents the variability in your response variable.  It is this variability you are trying to explain.  Comparing the Residual Deviance (remaining variability in your response after starting model is applied) with Null Deviance (original variability in your response that you were trying to explain) tells you how your model performs (i.e. how much variability in your response did you manage to explain).
 
   * AIC stands for Akaike Information Criterion.  AIC is another way of indicating model performance.  It balances the explained variation with how complicated your starting model is.  Your model complexity relates to how many predictors (and individual terms) are in your model as well as the shape of your model.  We will talk much more about AIC in the Hypothesis Testing section of your model framework.
 
@@ -358,12 +360,12 @@ Similar to the output above, there are three sections produced:
 
 - A: a description of your starting model
 
-- B: estimates of the coefficients of your model:  Notice that here you get more information about your coefficients.  The `summary()` output also gives you information about the error around your coefficients as well as a test of significance of the coefficient.  This test is a *kind* of hypothesis test, but the meaning behind the test and result will vary with your starting model structure.  We will discuss this more in the Hypothesis Testing section coming up.    
+- B: estimates of the coefficients of your model:  Notice that here you get more information about your coefficients.  The `summary()` output also gives you information about the error around your coefficients as well as a test of significance of the coefficient.  This test is a *kind* of hypothesis test, but the meaning behind the test and result will vary with your starting model structure.  We will discuss this more in the [Hypothesis Testing](DSPPH_SM_HypothesisTesting.qmd) section coming up.    
 
 - C: Measures of how well your model performs: This section gives you similar information to the output above, but also includes the "Number of Fisher iterations".  This relates to how the model was fit.  [See the section on "Fitting your starting model"](#sec-fitting).
 
 
-If you're interested, here are some examples of GLM model objects.  And if you're not, skip to [A first look at your starting model](#sec-firstLookModel).  As mentioned above, we will come back to coefficients again in the Reporting section of the Statistical Modelling Framework.
+If you're interested, here are some examples of GLM model objects.  And if you're not, skip to [A first look at your starting model](#sec-firstLookModel).  As mentioned above, we will come back to coefficients again in the [Reporting](DSPPH_SM_Reporting.qmd) section of the Statistical Modelling Framework.
 
 
 ::: {.callout-tip collapse="true" title="GLM model object examples"} 
@@ -395,7 +397,7 @@ where
 
 - `Resp` is your response variable,
 
-- `ContPred` is a continuous predictor,
+- `ContPred` is a numeric, continuous predictor,
 
 - and your error distribution assumption is normal.
 
@@ -437,7 +439,7 @@ summary(startMod.1)$coefficients
 
 ```
 
-The t-statistic is used to test the null hypothesis that an estimate (a coefficient in this case) is not different than 0.  The probability gives us the probability that you would get a t-statistic at least as large as you did even though the null hypothesis is in fact true.  If the probability is very low, it is more likely our estimate is different than 0.
+The t-statistic is used to test the null hypothesis that an estimate (a coefficient in this case) is not different than 0.  The probability gives you the probability that you would get a t-statistic at least as large as you did even though the null hypothesis is in fact true.  If the probability is very low, it is more likely our estimate is different than 0.
 
 
 
@@ -478,7 +480,7 @@ ggsave("pNow1.png", p)
 
 Note that you have **two** coefficient estimates (rows) in the table above:
 
-* The first row of the coefficient table gives us the coefficient estimates associated with the intercept (`r round(summary(startMod.1)$coefficients["(Intercept)", "Estimate"],2)`) 
+* The first row of the coefficient table gives you the coefficient estimates associated with the intercept (`r format(round(summary(startMod.1)$coefficients["(Intercept)", "Estimate"],2), scientific = FALSE)`) 
 
 * The second row is the coefficient estimate associated with `ContPred`.  Note that as `ContPred` is a continuous variable, this estimate represents the slope of the linear effect of `ContPred` on `Resp`, i.e. for every unit change in `ContPred`, you get a `r round(summary(startMod.1)$coefficients["ContPred", "Estimate"],2)` change in `Resp`.
 
@@ -544,15 +546,15 @@ ggsave("pNow2.png", p)
 
 <img src="./pNow2.png" align="right" width="450"/>
 
-Note that we now have **three** coefficients in the table above. Recall from the [Why do you need a starting model](#sec-whyNeed) section that, with a categorical Predictor, fitting a model finds the mean predicted value of the Response at each category (level) of the categorical Predictor. The three coefficients are:
+Note that you now have **three** coefficients in the table above. Recall from the [Why do you need a starting model](#sec-whyNeed) section that, with a categorical Predictor, fitting a model finds the mean predicted value of the Response at each category (level) of the categorical Predictor. The three coefficients are:
 
-* The coefficient labelled `(Intercept)` gives us the fitted value of our `Resp` when `CatPred` is "North" (`r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2)`).  When you have a categorical predictor, R uses the Intercept coefficient to represent the predicted value of the response at one of the categories (levels).^[This is called "dummy level coding".  You can avoid this with "level means coding".]  By default it chooses the first of the categories (levels) of your predictor (in this case, "North")^[Note that you can control this if needed.] 
+* The coefficient labelled `(Intercept)` gives you the fitted value of our `Resp` when `CatPred` is "North" (`r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2)`).  When you have a categorical predictor, R uses the Intercept coefficient to represent the predicted value of the response at one of the categories (levels).^[This is called "dummy level coding".  You can avoid this with "level means coding".]  By default it chooses the first of the categories (levels) of your predictor (in this case, "North")^[Note that you can control this if needed.] 
 
-* The coefficient labelled `CatPredSouth` gives you the difference between the predicted value of the response when `CatPred = "South"` and when `CatPred = "North"`.  So if you want to know the predicted value of `Resp` when `CatPred = "South"` you need to calculate  `r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2)` + `r round(summary(startMod.2)$coefficients["CatPredSouth", "Estimate"],2)` = `r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.2)$coefficients["CatPredSouth", "Estimate"],2)`.
+* The coefficient labelled `CatPredSouth` gives you the difference between the predicted value of the response when `CatPred = "South"` and when `CatPred = "North"`.  So if you want to know the predicted value of `Resp` when `CatPred = "South"` you need to calculate  `r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2)` + `r round(summary(startMod.2)$coefficients["CatPredSouth", "Estimate"],2)` = `r format(round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.2)$coefficients["CatPredSouth", "Estimate"],2), scientific = FALSE)`.
 
-* The coefficient labelled `CatPredCentral` gives you the difference between the predicted value of the response when `CatPred = "Central"` and when `CatPred = "North"`.  So if you want to know the predicted value of `Resp` when `CatPred = "Central"` you need to calculate `r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2)` + `r round(summary(startMod.2)$coefficients["CatPredCentral", "Estimate"],2)` = `r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.2)$coefficients["CatPredCentral", "Estimate"],2)`.
+* The coefficient labelled `CatPredCentral` gives you the difference between the predicted value of the response when `CatPred = "Central"` and when `CatPred = "North"`.  So if you want to know the predicted value of `Resp` when `CatPred = "Central"` you need to calculate `r round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2)` + `r round(summary(startMod.2)$coefficients["CatPredCentral", "Estimate"],2)` = `r format(round(summary(startMod.2)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.2)$coefficients["CatPredCentral", "Estimate"],2), scientific = FALSE)`.
 
-Yes, this is tedious way to calculate the coefficients in your model!  And that is why use a different way when we come to the Reporting section of the Statistical Modelling Framework. 
+Yes, this is tedious way to calculate the coefficients in your model!  And that is why we will use a different way when we come to the [Reporting](DSPPH_SM_Reporting.qmd) section of the Statistical Modelling Framework. 
 
 
 ##### Example 3: `Resp ~ ContPred + CatPred + ContPred:CatPred + 1`
@@ -565,7 +567,7 @@ where
 
 - `Resp` is your response variable,
 
-- `ContPred` is a continuous predictor,
+- `ContPred` is a numeric, continuous predictor,
 
 - `CatPred` is a categorical predictor with three levels ("North", "South", "Central"),
 
@@ -640,19 +642,19 @@ ggsave("pNow3.png", p)
 
 <img src="./pNow.png" align="right" width="450"/>
 
-Note that we now have **six** coefficients in the table above:
+Note that you now have **six** coefficients in the table above:
 
-* The coefficient labelled `(Intercept)` gives us the fitted value of our `Resp` when `CatPred` is "North" and `ContPred` is set to the mean value of `ContPred`.
+* The coefficient labelled `(Intercept)` gives you the fitted value of our `Resp` when `CatPred` is "North" and `ContPred` is set to the mean value of `ContPred`.
 
-* The coefficient labelled `ContPred` gives us the coefficient (slope) associated with `ContPred` when `CatPred = "North"`.
+* The coefficient labelled `ContPred` gives you the coefficient (slope) associated with `ContPred` when `CatPred = "North"`.
 
-* The coefficient labelled `CatPredSouth` gives you the difference between the predicted value of the response when `CatPred = "South"` and when `CatPred = "North"` (with `ContPred` is set to the mean value of `ContPred`).  So, when `CatPred = "Central"`, the coefficient (intercept) for `CatPred` is `r round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2)` + `r round(summary(startMod.3)$coefficients["CatPredSouth", "Estimate"],2)` = `r round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.3)$coefficients["CatPredSouth", "Estimate"],2)`.
+* The coefficient labelled `CatPredSouth` gives you the difference between the predicted value of the response when `CatPred = "South"` and when `CatPred = "North"` (with `ContPred` is set to the mean value of `ContPred`).  So, when `CatPred = "Central"`, the coefficient (intercept) for `CatPred` is `r format(round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2), scientific = FALSE)`  `r round(summary(startMod.3)$coefficients["CatPredSouth", "Estimate"],2)` = `r format(round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.3)$coefficients["CatPredSouth", "Estimate"],2), scientific = FALSE)`.
 
-* The coefficient labelled `CatPredCentral` gives you the difference between the predicted value of the response when `CatPred = "Central"` and when `CatPred = "North"` (with `ContPred` is set to the mean value of `ContPred`). So, when `CatPred = "Central"`, the coefficient (intercept) for `CatPred` is `r round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2)` + `r round(summary(startMod.3)$coefficients["CatPredCentral", "Estimate"],2)` = `r round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.3)$coefficients["CatPredCentral", "Estimate"],2)`.
+* The coefficient labelled `CatPredCentral` gives you the difference between the predicted value of the response when `CatPred = "Central"` and when `CatPred = "North"` (with `ContPred` is set to the mean value of `ContPred`). So, when `CatPred = "Central"`, the coefficient (intercept) for `CatPred` is `r format(round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2), scientific = FALSE)`  `r round(summary(startMod.3)$coefficients["CatPredCentral", "Estimate"],2)` = `r format(round(summary(startMod.3)$coefficients["(Intercept)", "Estimate"],2) + round(summary(startMod.3)$coefficients["CatPredCentral", "Estimate"],2), scientific = FALSE)`.
 
-* The coefficient labelled `ContPred:CatPredSouth` gives us the difference between coefficient (slope) associated with `ContPred` when `CatPred = "South"` vs. the `ContPred` slope when `CatPred = "North"`. So, when `CatPred = "South"`, the coefficient (slope) for `ContPred` is `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2)` + `r round(summary(startMod.3)$coefficients["ContPred:CatPredSouth", "Estimate"],2)` = `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2) + round(summary(startMod.3)$coefficients["ContPred:CatPredSouth", "Estimate"],2)`.
+* The coefficient labelled `ContPred:CatPredSouth` gives you the difference between coefficient (slope) associated with `ContPred` when `CatPred = "South"` vs. the `ContPred` slope when `CatPred = "North"`. So, when `CatPred = "South"`, the coefficient (slope) for `ContPred` is `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2)` + `r round(summary(startMod.3)$coefficients["ContPred:CatPredSouth", "Estimate"],2)` = `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2) + round(summary(startMod.3)$coefficients["ContPred:CatPredSouth", "Estimate"],2)`.
 
-* The coefficient labelled `ContPred:CatPredCentral` gives us the difference between coefficient (slope) associated with `ContPred` when `CatPred = "Central"` vs. the `ContPred` slope when `CatPred = "North"`. So, when `CatPred = "Central"`, the coefficient (slope) for `ContPred` is `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2)` + `r round(summary(startMod.3)$coefficients["ContPred:CatPredCentral", "Estimate"],2)` = `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2) + round(summary(startMod.3)$coefficients["ContPred:CatPredCentral", "Estimate"],2)`.
+* The coefficient labelled `ContPred:CatPredCentral` gives you the difference between coefficient (slope) associated with `ContPred` when `CatPred = "Central"` vs. the `ContPred` slope when `CatPred = "North"`. So, when `CatPred = "Central"`, the coefficient (slope) for `ContPred` is `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2)` + `r round(summary(startMod.3)$coefficients["ContPred:CatPredCentral", "Estimate"],2)` = `r round(summary(startMod.3)$coefficients["ContPred", "Estimate"],2) + round(summary(startMod.3)$coefficients["ContPred:CatPredCentral", "Estimate"],2)`.
 
 Yes, this is tedious way to calculate the coefficients in your model!  And that is why use a different way when we come to the Reporting section of the Statistical Modelling Framework. 
 
@@ -684,12 +686,12 @@ visreg(startMod.3, # model to visualize
 
 ```
 
-Remember though: before you explore these modelled effects too closely, you have to validate your model.
+Remember though: before you explore these modelled effects too closely, you have to [validate your model](DSPPH_SM_ModelValidation.qmd).
 
 
 ## Up next
 
-Next we will discuss how you can make validate your model (make sure your starting model can be used to test your hypothesis), and then test your hypothesis.
+Next we will discuss how you can make [validate](DSPPH_SM_ModelValidation.qmd) your model (make sure your starting model can be used to [test your hypothesis](DSPPH_SM_HypothesisTesting.qmd)), and then test your hypothesis.
 
 
 
