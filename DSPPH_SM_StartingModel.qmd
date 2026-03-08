@@ -1,5 +1,5 @@
 ---
-title: "Statistical Modelling: Starting Model"
+title: "Statistical Modelling: Starting Model - q"
 ---
 
 ```{r setup, include=FALSE} 
