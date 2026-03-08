@@ -191,8 +191,9 @@ div.csl-indent {
   </ul></li>
   <li><a href="#sec_errorDist" id="toc-sec_errorDist" class="nav-link" data-scroll-target="#sec_errorDist"><span class="header-section-number">6</span> Considering your error distribution assumption</a></li>
   <li><a href="#sec_shape" id="toc-sec_shape" class="nav-link" data-scroll-target="#sec_shape"><span class="header-section-number">7</span> Considering your shape assumption</a></li>
-  <li><a href="#a-final-thought" id="toc-a-final-thought" class="nav-link" data-scroll-target="#a-final-thought"><span class="header-section-number">8</span> A final thought</a></li>
-  <li><a href="#up-next" id="toc-up-next" class="nav-link" data-scroll-target="#up-next"><span class="header-section-number">9</span> Up next</a></li>
+  <li><a href="#summary---things-to-try-when-you-have-a-problem-with-your-residuals" id="toc-summary---things-to-try-when-you-have-a-problem-with-your-residuals" class="nav-link" data-scroll-target="#summary---things-to-try-when-you-have-a-problem-with-your-residuals"><span class="header-section-number">8</span> Summary - things to try when you have a problem with your residuals:</a></li>
+  <li><a href="#a-final-thought" id="toc-a-final-thought" class="nav-link" data-scroll-target="#a-final-thought"><span class="header-section-number">9</span> A final thought</a></li>
+  <li><a href="#up-next" id="toc-up-next" class="nav-link" data-scroll-target="#up-next"><span class="header-section-number">10</span> Up next</a></li>
   </ul>
 </nav>
     </div>
@@ -786,10 +787,10 @@ group   4  0.1112 0.9785
 <section id="sec_errorDist" class="level1" data-number="6">
 <h1 data-number="6"><span class="header-section-number">6</span> Considering your error distribution assumption</h1>
 <p><strong>What it is:</strong></p>
-<p>The error distribution (i.e.&nbsp;distribution of your residuals) needs to match the assumption you made when you chose your starting model. If this assumption is violated, the estimates of your coefficients will be less accurate, limiting your ability to use the model to test your hypothesis and make predictions.</p>
+<p>The error distribution (i.e.&nbsp;distribution of your residuals) needs to match the assumption<a href="#fn29" class="footnote-ref" id="fnref29" role="doc-noteref"><sup>29</sup></a> you made when you chose your starting model. If this assumption is violated, the estimates of your coefficients will be less accurate, limiting your ability to use the model to test your hypothesis and make predictions.</p>
 <p><img src="./QQPlot.png" align="right" width="300px"></p>
 <p><strong>How do you know if you have a problem:</strong></p>
-<p>You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot. A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles<a href="#fn29" class="footnote-ref" id="fnref29" role="doc-noteref"><sup>29</sup></a>. When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line). You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).</p>
+<p>You can compare the error distribution of your residuals with the distribution you expect given your error distribution assumption through something called a Q-Q plot. A Q-Q plot - or quantile-quantile plot - plots the two data distributions against each other via their quantiles<a href="#fn30" class="footnote-ref" id="fnref30" role="doc-noteref"><sup>30</sup></a>. When the expected and observed error distributions are in agreement, the points will fall along the red diagonal line in the Q-Q plot (the 1:1 line). You can also help your interpretation of this by null hypothesis goodness of fits tests (more on this below).</p>
 <p>The scaled residuals method <a href="#sec_scaledResiduals">introduced above</a> will allow you to consider the behaviour of your residuals in a similar way regardless of the structure of your model. You can get a Q-Q plot of your residuals with:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Consider your error distribution assumption by inspecting observed vs. expected residuals:</span></span>
@@ -802,7 +803,7 @@ group   4  0.1112 0.9785
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
-<p>Note that the plot is the observed vs.&nbsp;expected scaled residuals. As above, the triangular points will follow the red line in a well-specified model. You will generally assess this by eye, but the DHARMa package also includes three null hypothesis tests that give you more information about the behaviour of your residuals relative to the expected behaviour. In all cases, a low P-value (traditionally P &lt; 0.05) means that there is evidence that the null hypothesis can be rejected (and your error distribution assumption is not valid).<a href="#fn30" class="footnote-ref" id="fnref30" role="doc-noteref"><sup>30</sup></a></p>
+<p>Note that the plot is the observed vs.&nbsp;expected scaled residuals. As above, the triangular points will follow the red line in a well-specified model. You will generally assess this by eye, but the DHARMa package also includes three null hypothesis tests that give you more information about the behaviour of your residuals relative to the expected behaviour. In all cases, a low P-value (traditionally P &lt; 0.05) means that there is evidence that the null hypothesis can be rejected (and your error distribution assumption is not valid).<a href="#fn31" class="footnote-ref" id="fnref31" role="doc-noteref"><sup>31</sup></a></p>
 <p>The tests are:</p>
 <ul>
 <li><p>KS test: The Kolmogorov-Smirnov test tests the null hypothesis that the distribution of your residuals is similar to the expected distribution (here, a uniform distribution). A low P-value means there is evidence that the observed residuals are different than expected, and your error distribution assumption is not valid. You can also access this test directly with the <code>testUniformity()</code> function in the DHARMa package.</p></li>
@@ -813,7 +814,7 @@ group   4  0.1112 0.9785
 <p><strong>What to do if it is a problem:</strong>.</p>
 <p>Here are two examples (from the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMA package vignette</a>) of Q-Q plots where the error distribution assumption is not met:</p>
 <p><img src="./overDispersion.png" align="right" width="250px"></p>
-<p>First, here is an example of overdispersion, where there are too many residuals in the tails of the distribution and not enough in the middle of the distribution when compared to the expected:<a href="#fn31" class="footnote-ref" id="fnref31" role="doc-noteref"><sup>31</sup></a></p>
+<p>First, here is an example of overdispersion, where there are too many residuals in the tails of the distribution and not enough in the middle of the distribution when compared to the expected:<a href="#fn32" class="footnote-ref" id="fnref32" role="doc-noteref"><sup>32</sup></a></p>
 <p><br clear="right"></p>
 <p><img src="./underDispersion.png" align="right" width="250px"></p>
 <p>Second, here is an example of underdispersion, where there are too many residuals in the middle of the distribution and not enough in the tails of the distribution when compared to the expected:</p>
@@ -871,25 +872,39 @@ Trying alternate error distribution assumptions
 <p>and vs.&nbsp;the <code>Cat</code> predictor:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotResiduals</span>(simOut, <span class="co"># the object made when estimating the scaled residuals.  See section 2.1 above</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cat) <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">form =</span> myDat<span class="sc">$</span>Cat, <span class="co"># the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>              <span class="at">asFactor =</span> <span class="cn">TRUE</span>) <span class="co"># make sure R understands that this is a categorical predictor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <p><img src="DSPPH_SM_ModelValidation_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
 </div>
 </div>
 <p>In this last figure, you get boxplots showing the distribution of the residuals - one for each level of your categorical predictor. This different picture is because the predictor <code>Cat</code> is categorical. Instead of a uniform cloud, you look for boxplots that spread across the 0.25 and 0.75 quantiles. If the spread is wide and even across the levels of your categorical predictor, you have evidence the model is well-specified to test your hypothesis. DHARMa also includes a Levene Test that tests if the variance across the levels in your categorical predictor are similar. If they are different, the Levene Test will be flagged in red with a p-value &lt; 0.05.</p>
+<p>Finally, you also want to plot your residuals with any predictor you left out of your model. This will help determine if it should be in your model (i.e.&nbsp;can explain variability in your response).</p>
 <p><br clear="right"></p>
 <p><strong>What to do if it is a problem:</strong></p>
-<p>Here is an example of a residual plot when you have a violation in your shape assumption<a href="#fn32" class="footnote-ref" id="fnref32" role="doc-noteref"><sup>32</sup></a>:</p>
+<p>Here is an example of a residual plot when you have a violation in your shape assumption<a href="#fn33" class="footnote-ref" id="fnref33" role="doc-noteref"><sup>33</sup></a>:</p>
 <p><img src="./violateShape.png" width="450px"></p>
 <p>In this case, the predictor <code>Environment1</code> was fit with an assumption of a linear relationship with the response, when a non-linear shape assumption was needed. Note that you can also access the quantile test used to flag shape assumption violations with the <code>testQuantiles()</code> function in the DHARMa package.</p>
-<p>If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model. This may mean changing the shape of the model (e.g.&nbsp;from linear to non-linear) and/or including an interaction in your model.<a href="#fn33" class="footnote-ref" id="fnref33" role="doc-noteref"><sup>33</sup></a> You will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section. Note that quantile tests are sensitive for very large data sets. You may have quantile regression results flagged for minor problems if you have a very large data set even though the model is still usable to test your hypothesis <span class="citation" data-cites="Hartig2024">(<a href="#ref-Hartig2024" role="doc-biblioref">Hartig 2024</a>)</span>. In all cases communicate any issues in your model validation assessment along with your attempts to correct it. Keep any remaining (minor) problems in mind as you proceed with your hypothesis testing with a cautious eye.</p>
+<p>If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model. This may mean changing the shape of the model (e.g.&nbsp;from linear to non-linear) and/or including an interaction in your model.<a href="#fn34" class="footnote-ref" id="fnref34" role="doc-noteref"><sup>34</sup></a> You will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section. Note that quantile tests are sensitive for very large data sets. You may have quantile regression results flagged for minor problems if you have a very large data set even though the model is still usable to test your hypothesis <span class="citation" data-cites="Hartig2024">(<a href="#ref-Hartig2024" role="doc-biblioref">Hartig 2024</a>)</span>. In all cases communicate any issues in your model validation assessment along with your attempts to correct it. Keep any remaining (minor) problems in mind as you proceed with your hypothesis testing with a cautious eye.</p>
 </section>
-<section id="a-final-thought" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> A final thought</h1>
+<section id="summary---things-to-try-when-you-have-a-problem-with-your-residuals" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Summary - things to try when you have a problem with your residuals:</h1>
+<p>Summarizing from the sections above, here are your next steps if your residuals indicate that your model will have trouble testing your hypothesis:</p>
+<ul>
+<li><p>Inspect any outliers in your data</p></li>
+<li><p>Try modelling with a different link function</p></li>
+<li><p>Try modelling with a different error distribution assumption</p></li>
+<li><p>Is a potential predictor missing from your model?</p></li>
+<li><p>Try a non-linear shape assumption</p></li>
+<li><p>In all cases, report the process and results of your model validation</p></li>
+</ul>
+</section>
+<section id="a-final-thought" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> A final thought</h1>
 <p>As you can see, validating your starting model will sometimes lead you to make changes to your starting model that require you to refit your starting model and re-validate the new model It can feel a bit like you are walking in circles, but rest assured that this is very normal. And necessary: you can not go further to test your hypothesis until you are confident you have a useful model.</p>
 </section>
-<section id="up-next" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Up next</h1>
+<section id="up-next" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Up next</h1>
 <p>In the next section, we will discuss how you can use your validated model to test your hypothesis. Finally: the science!</p>
 
 
@@ -941,11 +956,12 @@ Venables, W. N., and B. D. Ripley. 2002. <em>Modern Applied Statistics with s</e
 <li id="fn26"><p>check the sp package for more<a href="#fnref26" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn27"><p>check the sgeotest package for more<a href="#fnref27" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn28"><p>this would be done with a non-linear model<a href="#fnref28" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn29"><p>A quantile defines a particular part of a data set, e.g.&nbsp;the 90% quantile indicates the value where 90% of the values are less than the 90% quantile value. See the section on <a href="./DSPPH_SM_DataDistributions.html">Data Distributions</a> for more<a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn30"><p>“Deviation n.s.” on the plot means that there is no significant deviation from expected<a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn31"><p>Note that zero-inflated data (more zeroes than expected) appears similarly<a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn32"><p>from the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMA package vignette</a><a href="#fnref32" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn33"><p>More on fitting non-linear models will come in a future handbook section.<a href="#fnref33" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn29"><p>you made an error distribution assumption to match how your response is distributed, but note that it is the distribution of the residuals that matters, and you can only check this AFTER your model is fit. This error distribution is also called the conditional distribution<a href="#fnref29" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn30"><p>A quantile defines a particular part of a data set, e.g.&nbsp;the 90% quantile indicates the value where 90% of the values are less than the 90% quantile value. See the section on <a href="./DSPPH_SM_DataDistributions.html">Data Distributions</a> for more<a href="#fnref30" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn31"><p>“Deviation n.s.” on the plot means that there is no significant deviation from expected<a href="#fnref31" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn32"><p>Note that zero-inflated data (more zeroes than expected) appears similarly<a href="#fnref32" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn33"><p>from the <a href="https://cran.r-project.org/web/packages/DHARMa/vignettes/DHARMa.html">DHARMA package vignette</a><a href="#fnref33" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn34"><p>More on fitting non-linear models will come in a future handbook section.<a href="#fnref34" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -617,7 +617,7 @@ Remember that you only have to worry about your observations being dependent bas
 
 **What it is:** 
 
-The error distribution (i.e. distribution of your residuals) needs to match the assumption you made when you chose your starting model.  If this assumption is violated, the estimates of your coefficients will be less accurate, limiting your ability to use the model to test your hypothesis and make predictions.  
+The error distribution (i.e. distribution of your residuals) needs to match the assumption^[you made an error distribution assumption to match how your response is distributed, but note that it is the distribution of the residuals that matters, and you can only check this AFTER your model is fit.  This error distribution is also called the conditional distribution] you made when you chose your starting model.  If this assumption is violated, the estimates of your coefficients will be less accurate, limiting your ability to use the model to test your hypothesis and make predictions.  
 
 
 <img src="./QQPlot.png" align="right" width="300px"/>
@@ -741,12 +741,14 @@ and vs. the `Cat` predictor:
 ```{r}
 
 plotResiduals(simOut, # the object made when estimating the scaled residuals.  See section 2.1 above
-              form = myDat$Cat) # the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values
+              form = myDat$Cat, # the variable against which to plot the residuals.  When form = NULL, we see the residuals vs. fitted values
+              asFactor = TRUE) # make sure R understands that this is a categorical predictor
               
 
 ```
 In this last figure, you get boxplots showing the distribution of the residuals - one for each level of your categorical predictor.  This different picture is because the predictor `Cat` is categorical.  Instead of a uniform cloud, you look for boxplots that spread across the 0.25 and 0.75 quantiles.  If the spread is wide and even across the levels of your categorical predictor, you have evidence the model is well-specified to test your hypothesis.  DHARMa also includes a Levene Test that tests if the variance across the levels in your categorical predictor are similar. If they are different, the Levene Test will be flagged in red with a p-value < 0.05.
 
+Finally, you also want to plot your residuals with any predictor you left out of your model.  This will help determine if it should be in your model (i.e. can explain variability in your response).
 
 <br clear="right"/>
 
@@ -762,6 +764,24 @@ Here is an example of a residual plot when you have a violation in your shape as
 In this case, the predictor `Environment1` was fit with an assumption of a linear relationship with the response, when a non-linear shape assumption was needed.  Note that you can also access the quantile test used to flag shape assumption violations with the `testQuantiles()` function in the DHARMa package. 
 
 If you find a pattern in your residuals that indicates a violation of your shape assumption, you can change your assumption and refit your model.  This may mean changing the shape of the model (e.g. from linear to non-linear) and/or including an interaction in your model.^[More on fitting non-linear models will come in a future handbook section.] You will refit your model with the new assumption choice and re-validate that the model is useful following the steps in this section. Note that quantile tests are sensitive for very large data sets.  You may have quantile regression results flagged for minor problems if you have a very large data set even though the model is still usable to test your hypothesis [@Hartig2024]. In all cases communicate any issues in your model validation assessment along with your attempts to correct it.  Keep any remaining (minor) problems in mind as you proceed with your hypothesis testing with a cautious eye.  
+
+
+# Summary - things to try when you have a problem with your residuals:
+
+Summarizing from the sections above, here are your next steps if your residuals indicate that your model will have trouble testing your hypothesis:
+
+* Inspect any outliers in your data
+
+* Try modelling with a different link function
+
+* Try modelling with a different error distribution assumption
+
+* Is a potential predictor missing from your model?
+
+* Try a non-linear shape assumption
+
+* In all cases, report the process and results of your model validation
+
 
 
 # A final thought
