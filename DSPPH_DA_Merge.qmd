@@ -1,5 +1,5 @@
 ---
-title: "So you want to: merge your data sets"
+title: "So you want to: merge your data sets (and/or label your observations)"
 ---
 
 # Why you want to do it: 
