@@ -4,25 +4,30 @@ title: "So you want to: merge your data sets"
 
 # Why you want to do it: 
 
-Often times we are interested in exploring connections among variables from different sources. Merging your data files can be a way of collecting all the variables of interest so you can explore research questions and hypotheses about the data.
+Merging will help you when:  
 
-In addition, merging can be used to label your observations.  We go through examples below.
+* you want to explore data from different sources (e.g. two or more data frames), or
 
-# What merging is:
+* you want to label your observations
 
-Merging joins columns from two or more data frames based on matching row information across the data frames.
+Merging your data files collects all the variables of interest and/or labels your observations so you can explore research questions and hypotheses about the data.
+
+# Merging data frames
+## What merging data frames **is**:
+
+Merging joins columns from two or more data frames based on matching row information across the data frames.  The variable(s) or column(s) used to match the data frames is the "key" or "by" column.  In this example, the key column is `ID`.
 
 ![](mergeEx.png)
 
-# What merging isn't:
+## What merging data frames **is not**:
 
-Merging isn't about joining data frames by *rows*.  Instead row binding is what you need if you have two data frames with the exact same variables (columns) that you want to join in one data frame.  For this, try the `rbind()` function in base R. 
+Merging is not about joining data frames by *rows*.  Instead row binding is what you need if you have two data frames with the exact same variables (columns) that you want to join in one data frame.  For this, try the `rbind()` function in base R. 
 
 ![](rbindEx.png)
 
-# How you can do it: 
+## How you can merge data frames: 
 
-There are a number of different ways of merging files in R.  For these examples, let's consider two data frames:
+There are a number of different ways of merging files in R.  For these examples, let us consider two data frames:
 
 ```{r echo = FALSE}
 
@@ -49,7 +54,7 @@ Dat2 <-Dat2[sample(c(1:nrow(Dat2)), nrow(Dat2)),]
 
 
 
-Dat3 <- data.frame(ID = ID,
+lookupTab <- data.frame(ID = ID,
                    Strain = Strain)
 
 ```
@@ -71,7 +76,10 @@ str(Dat2)
 
 ```
 
-## in the base package using `merge()`
+The "by" or "key" variables here will be `ID` and `Day`.  These will be the columns R uses to match the rows between the two data frames.  Note that the observations are not in the same order when you compare `Dat1` and `Dat2`.  This is fine, as R will look for row matches using the "by" variables to merge the files.
+
+
+### merging with the base package using `merge()`
 
 ```{r}
 
@@ -83,36 +91,6 @@ str(mDat) # take a look at the object I made
 
 ```
 
-Note that you don't need to have the same number of observations (rows) in your two data frames to merge.  Merging can be a great way of labelling your data.  Here's an example:
-
-Consider a data frame with strain information for each of your organism IDs:
-
-```{r}
-
-## ID: organism ID
-## Strain: strain of organism
-
-str(Dat3)
-
-```
-
-Note that `Dat1` and `Dat2` each contained 40 observations - one observation for each of 20 IDs made on each of 2 days.
-
-In contrast `Dat3` only has 20 observations - information about the strain for each of 20 IDs.  
-
-By using `merge()`, we can add the strain information to `mDat`:
-
-```{r}
-
-allDat <- merge(mDat, # one data frame
-                Dat3, # the other data frame
-                by = "ID") # variables to merge by
-
-str(allDat)
-
-```
-Now we have our observations labelled by the strain information!
-
 
 Some things to note:
 
@@ -123,7 +101,9 @@ Some things to note:
 * you can control what happens to unmatched columns (e.g. if an ID appeared in only one of the two data frames).  This is done with the `all = `, `all.x = `, and `all.y = ` arguments.  Check `?merge` for more.
 
 
-## in the dplyr package using `full_join()`
+
+
+### merging with the dplyr package using `full_join()`
 
 The dplyr package includes the `full_join()` function as another way to merge your data frames
 
@@ -147,11 +127,10 @@ Some things to note:
 
 * The `right_join()` function keeps all observations in the second data frame (`Dat2`) but you will lose any *unmatched* observations in the first data frame (`Dat1`)
 
-# A final note:
 
-* it's ALWAYS a good idea to check your merged data frame to make sure the merge behaved as you expected.  This can be done by taking a random row in the first file (`Dat1`) and comparing the information for that row (ID and Day) in the second file (`Dat2`) and the merged file (`mDat`). Here is an example:
+:::{.callout-warning collapse="false" title="Check your merge!"} 
 
-
+You should always check your merged data frame to make sure the merge behaved as you expected.  This can be done by taking a random row in the first file (`Dat1`) and comparing the information for that row (ID and Day) in the second file (`Dat2`) and the merged file (`mDat`). Here is an example:
 
 ```{r}
 
@@ -176,5 +155,45 @@ mDat[indsMD, ] # matching data
 
 ```
 
+:::
 
+
+# Labelling data with merge
+
+You can also use merge functions to label your observations (rows) with a lookup table.  A lookup table matches input variables to output variables.
+
+Let us look at an example:
+
+Consider a lookup table that is a data frame that maps strain information to each of your organism IDs:
+
+```{r}
+
+## ID: organism ID
+## Strain: strain of organism
+
+str(lookupTab)
+
+```
+
+Note that `mDat` contains 40 observations - one observation for each of 20 IDs made on each of 2 days.
+
+In contrast `lookupTab` only has 20 observations - information about the strain for each of 20 IDs.  There is no `Day` information in `lookupTab` as it is only a lookup table that will allow you to add strain to your observations.
+
+By using `merge()`, you can add the strain information to `mDat`:
+
+```{r}
+
+allDat <- merge(mDat, # one data frame
+                lookupTab, # the lookup table
+                by = "ID") # variables to merge by
+
+str(allDat)
+
+```
+Now you have our observations labelled by the strain information!  
+
+
+
+::: footnotes
+:::
 
