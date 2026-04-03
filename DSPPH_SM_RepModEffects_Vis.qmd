@@ -1,0 +1,952 @@
+---
+title: "Visualizing your model effects"
+bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
+---
+
+
+```{r} 
+#| echo: false
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+
+```{r echo = FALSE}
+# EXAMPLE 1 ----
+rm(list=ls())
+library(dplyr)
+
+# Example 1: Resp1 ~ Cat1
+ n=100
+ ss<-sample(c(1:1000), 1)
+ set.seed(679) #582
+Cat1<-as.factor(sample(c("G", "K", "R"), size=n, replace=TRUE))
+
+library(dplyr)
+Group <- as.factor(sample(c("Site1", "Site2", "Site3", "Site4", "Site5", "Site6"),
+                           n, replace=TRUE))
+uResp<-(as.numeric(Cat1)*4.4+3.9*as.numeric(Group))#+sample(c(200:900), n, replace = TRUE)
+Resp<-rnorm(n, uResp, 4.5)
+Group <- recode(Group,
+                    Site1 = 'Site3',
+                    Site2 = 'Site1',
+                    Site3 = 'Site5',
+                   Site4 = 'Site4',
+                   Site5 = 'Site2',
+                   Site6 = 'Site6')
+Group <- factor(Group, levels = c("Site1","Site2","Site3","Site4","Site5","Site6"))
+Cat1 <- recode(Cat1,
+                    K = 'Sp1',
+                    R = 'Sp2',
+                    G = 'Sp3')
+Cat1<-factor(Cat1, levels = c("Sp1", "Sp2", "Sp3"))
+myDat1<-data.frame(Cat1=Cat1, Resp1=round(Resp,1))
+# #write.csv(myDat, "DatEx1.csv", row.names = FALSE)
+# 
+# library(ggplot2)
+# ggplot()+
+#   geom_point(data=myDat,
+#              mapping=aes(x=Cat1, y=Resp1))
+#
+startMod<-glm(formula = Resp1 ~ Cat1 + 1, # hypothesis
+              data = myDat1, # data
+              family = gaussian(link="identity")) # error distribution assumption
+# 
+# 
+# 
+library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat1$Cat1,
+#      asFactor=TRUE) # compare simulated data to our observations
+# # #
+# myDat$Resid<-simulationOutput$scaledResiduals
+# # # # 
+# 
+# # #
+# ggplot()+
+#   geom_violin(data=myDat,
+#              mapping = aes(x=Group, y=Resid))
+# 
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod) # fit and compare a model set representing all possible predictor combinations
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`2`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut1<-dredgeOut
+bestMod1<-bestMod
+
+# EXAMPLE 2 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(114) #114
+Cat2<-factor(sample(c("TypeA", "TypeB", "TypeC", "TypeD"), size=n, replace=TRUE))
+Cat3<-factor(sample(c("Treat1", "Control"), size=n, replace=TRUE), levels=c("Treat1", "Treat2", "Control"))
+uResp<-(as.numeric(Cat2)*40.4-33.3*as.numeric(Cat3)+ 23*as.numeric(Cat3)*as.numeric(Cat2))+sample(c(100:300), n, replace = TRUE)
+Resp<-rnorm(n, uResp, 4.5)
+Cat3[sample(which(Cat3=="Treat1"), round(length(which(Cat3=="Treat1"))/2), replace=TRUE)]<-"Treat2"
+Cat2 <- recode(Cat2,
+                    TypeC = 'TypeA',
+                    TypeD = 'TypeB',
+                    TypeB = 'TypeC',
+                   TypeA = 'TypeD')
+Cat2 <- factor(Cat2, levels = c("TypeA", "TypeB", "TypeC", "TypeD"))
+
+myDat2<-data.frame(Resp2=Resp, Cat2=Cat2, Cat3=Cat3)
+# # #write.csv(myDat2, "DatEx2.csv", row.names = FALSE)
+# 
+# ggplot()+
+#   geom_point(data=myDat2,
+#              mapping=aes(x=Cat2, y=Resp2, col=Cat3))
+#
+startMod<-glm(formula = Resp2 ~ Cat2 + Cat3 + Cat2:Cat3, # hypothesis
+              data = myDat2, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat2$Cat2,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# plot(simulationOutput,
+#      form=myDat2$Cat3,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# # 
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod, extra = "R^2") # fit and compare a model set representing all possible predictor combinations
+# dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut2<-dredgeOut
+bestMod2<-bestMod
+
+# EXAMPLE 3 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(261) #261
+Num4<-round(runif(n, 0.3, 20.9),2)
+uResp<-245*Num4+ 10
+Resp<-rnorm(n, uResp, 850)
+myDat3<-data.frame(Resp3=Resp, Num4=Num4)
+
+# # #write.csv(myDat3, "DatEx3.csv", row.names = FALSE)
+
+
+# ggplot()+
+#   geom_point(data=myDat3,
+#              mapping=aes(x=Num4, y=Resp3))
+
+startMod<-glm(formula = Resp3 ~ Num4 + 1, # hypothesis
+              data = myDat3, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+# # 
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat3$Num4,
+#      asFactor=FALSE) # compare simulated data to our observations
+# 
+# #
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod) # fit and compare a model set representing all possible predictor combinations
+#dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`2`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut3<-dredgeOut
+bestMod3<-bestMod
+
+# EXAMPLE 4 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(444) #444
+Cat5<-as.factor(sample(c("Wild", "Farm", "Urban"), size=n, replace=TRUE))
+Num6<-round(runif(n, 300, 700),2)
+uResp<-(as.numeric(Cat5)*0.014-0.02*Num6+ as.numeric(Cat5)*0.014*Num6)+100
+Resp<-rnorm(n, uResp, 2.5)
+myDat4<-data.frame(Resp4=Resp, Cat5=Cat5, Num6=Num6)
+
+# # #write.csv(myDat3, "DatEx3.csv", row.names = FALSE)
+
+
+# ggplot()+
+#   geom_point(data=myDat3,
+#              mapping=aes(x=Cont5, y=Resp3, col=Cat4))
+
+startMod<-glm(formula = Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1, # hypothesis
+              data = myDat4, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+# 
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat3$Cat4,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# plot(simulationOutput,
+#      form=myDat3$Cont5,
+#      asFactor=FALSE) # compare simulated data to our observations
+
+#
+#
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod, extra = "R^2") # fit and compare a model set representing all possible predictor combinations
+#dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut4<-dredgeOut
+bestMod4<-bestMod
+
+```
+
+
+::: {.alert .alert-success}
+This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the process presented here for models of any structure.
+:::
+
+# Background
+
+Here, you will visualize how each predictor is affecting the response by drawing how your modelled fitted values (the estimates of your response made by the model) change with your predictors, along with a measure of uncertainty around those fitted values.  You also want to include your data (actual observations of your response and predictors) so you can start to communicate how well your model captures your hypothesis, and what amount of deviance in your response is explained by your model.  
+
+There are a lot of different R packages that make it easy to quickly visualize your model.  We will focus on two methods that will allow you to make quick visualizations of your model and/or customize the figures as you would like.
+
+* *visualizing using the visreg package*: This will let you get a quick look at your model object with a limited amount of customization. 
+
+* *visualizing "by hand"*: Here, "by hand" is a bit of a silly description as R will be doing the work for you.  What I mean by "by hand" is that you will be building the plot yourself using your model object. This method is very flexible and will lead you to a fully customizable visualization.  This process involves i) choosing the values of your predictors at which to make estimates of your fitted values, ii) using `predict()` to use your model to estimate your response variable at those values of your predictors, and iii) use the model estimates to plot your model fit.^[Aside: this method is also what is used to make predictions from your model - more in the [Predicting](DSPPH_SM_Predicting.qmd) section.]  
+
+Below are visualizations for each of our examples.  Two further tips:
+
+- In a few of the examples, we use ggplot2's `position_dodge` argument.  Be careful here - it can be useful for avoiding overlapping data points when predictors are categorical BUT can actually change the location of data points if used with a numeric predictor.
+
+- Note that we *do not* use the `geom_smooth()` function in the ggplot2 package.  The fits provided by `geom_smooth()` are not the same as the model fits directly from your best-specified model so we avoid this here (e.g. `geom_smooth()` will fit a separate model for each level of your categorical predictor negating the hypothesis testing that allows us to make comparisons across the predictor levels).
+
+# Examples
+
+:::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
+
+###### Example 1: Resp1 ~ Cat1 + 1
+
+**Visualizing with the visreg package** 
+
+```{r}
+
+library (visreg) # load visreg package for visualization
+
+library(ggplot2) # load ggplot2 package for visualization
+
+visreg(bestMod1, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cat1", # predictor on x-axis
+       #by = ..., # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       #overlay = TRUE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cat1, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+
+```
+
+Note the small dashes at the top and bottom of the plot.  This is called the "rug".  visreg uses the rug to give an indication of where your observed data lie - a dash on the bottom axis means you have a data point at that location that would be a negative residual relative to the model fit; a dash on the top axis means you have a data point at that location that would be a positive residual relative to the model fit.  This is useful, but not the same as actually including your observations on the plot.  Unfortunately due to limitations of the visreg package, you can not easily add you observations onto plots where the x-axis is a categorical predictor.  But that is ok, because there are other options...
+
+**Visualizing by hand**
+
+To plot by hand, you will 
+
+i) first make a data frame containing the value of your predictors at which you want to plot effects on the response: 
+
+
+```{r}
+
+# Set up your predictors for the visualized fit
+forCat1<-unique(myDat1$Cat1) # every value of your categorical predictor
+
+# create a data frame with your predictors
+forVis<-expand.grid(Cat1=forCat1) # expand.grid() function makes sure you have all combinations of predictors
+
+```
+
+
+ii) Next, you will use the `predict()` function^[you will be using the `predict()` function again in the [Predicting](DSPPH_SM_Predicting) chapter] to get the model estimates of your response variable at those values of your predictors:
+
+```{r}
+
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod1, # the model
+                newdata = forVis, # the predictor values
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+ilink <- family(bestMod1)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
+
+
+```
+
+
+
+iii) Finally, you will use these model estimates to make your plot:
+
+```{r}
+
+library(ggplot2)
+
+ggplot() + # start ggplot
+  geom_point(data = myDat1, # add observations to your plot
+             mapping = aes(x = Cat1, y = Resp1), 
+             position=position_jitter(width=0.1)) + # control position of data points so they are easier to see on the plot
+  geom_errorbar(data = forVis, # add the uncertainty to your plot
+              mapping = aes(x = Cat1, y = Fit, ymin = Lower, ymax = Upper),
+              linewidth=1.2) + # control thickness of errorbar line
+  geom_point(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Cat1, y = Fit), 
+             shape = 22, # shape of point
+             size = 3, # size of point
+             fill = "white", # fill colour for plot
+             col = 'black') + # outline colour for plot
+  ylab("Resp1, (units)")+ # change y-axis label
+  xlab("Cat1, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+```
+
+:::
+
+
+
+
+:::{.callout-tip collapse="true" title="Example 2: Resp2 ~ Cat2 + Cat3 + Cat2:Cat3 + 1"} 
+
+###### Example 2: Resp2 ~ Cat2 + Cat3 + Cat2:Cat3 + 1
+
+**Visualizing with the visreg package** 
+
+As you have more than one predictor in Example 2, there are a number of ways you can visualize your effects.  
+
+Here is an example of a visualization with `Cat2` on the x-axis and the effects of `Cat3` plotted as separate panels:
+
+```{r}
+
+library (visreg) # load visreg package for visualization
+
+library(ggplot2) # load ggplot2 package for visualization
+
+visreg(bestMod2, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cat2", # predictor on x-axis
+       by = "Cat3", # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       overlay = FALSE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cat2, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+# tip: we can't include our observations on this plot due to the limitations of the visreg package when plotting with a categorical predictor on the x-axis
+
+```
+
+
+And here is an example of a visualization with `Cat2` on the x-axis and the effects of `Cat3` overlayed on the plot as different colours for each category (level) of `Cat3`:
+
+```{r}
+
+visreg(bestMod2, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cat2", # predictor on x-axis
+       by = "Cat3", # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       overlay = TRUE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cat2, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+# tip: we can't include our observations on this plot due to the limitations of the visreg package when plotting with a categorical predictor on the x-axis
+
+```
+
+Note the small dashes at the top and bottom of the plot.  This is called the "rug".  visreg uses the rug to give an indication of where your observed data lie - a dash on the bottom axis means you have a data point at that location that would be a negative residual relative to the model fit; a dash on the top axis means you have a data point at that location that would be a positive residual relative to the model fit.  This is useful, but not the same as actually including your observations on the plot. Unfortunately due to limitations of the visreg package, you can not easily add you observations onto plots where the x-axis is a categorical predictor.  But that is ok, because there are other options...
+
+
+
+**Visualizing by hand**
+
+```{r}
+
+#### i) choosing the values of your predictors at which to make a prediction
+
+# Set up your predictors for the visualized fit
+forCat2<-unique(myDat2$Cat2) # every level of your categorical predictor
+forCat3<-unique(myDat2$Cat3) # every level of your categorical predictor
+  
+# create a data frame with your predictors
+forVis<-expand.grid(Cat2 = forCat2, Cat3 = forCat3) # expand.grid() function makes sure you have all combinations of predictors
+
+#### ii) using `predict()` to use your model to estimate your response variable at those values of your predictor
+
+
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod2, # the model
+                newdata = forVis, # the predictor values
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+ilink <- family(bestMod2)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
+
+#### iii) use the model estimates to plot your model fit
+
+library(ggplot2) # load ggplot2 library
+
+ggplot() + # start ggplot
+  geom_point(data = myDat2, # add observations to your plot
+             mapping = aes(x = Cat2, y = Resp2, col = Cat3), 
+             position=position_jitterdodge(jitter.width=0.75, dodge.width=0.75)) + # control position of data points so they are easier to see on the plot
+  geom_errorbar(data = forVis, # add the uncertainty to your plot
+              mapping = aes(x = Cat2, y = Fit, ymin = Lower, ymax = Upper, col = Cat3),
+              position=position_dodge(width=0.75), # control position of data points so they are easier to see on the plot
+              size=1.2) + # control thickness of errorbar line
+  geom_point(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Cat2, y = Fit, fill = Cat3), 
+             shape = 22, # shape of point
+             size=3, # size of point
+             col = 'black', # outline colour for point
+             position=position_dodge(width=0.75)) + # control position of data points so they are easier to see on the plot
+  ylab("Resp2, (units)")+ # change y-axis label
+  xlab("Cat2, (units)")+ # change x-axis label
+  labs(fill="Cat3, (units)", col="Cat3, (units)") + # change legend title
+  theme_bw() # change ggplot theme
+
+
+
+```
+
+:::
+
+
+
+:::{.callout-tip collapse="true" title="Example 3: Resp3 ~ Num4 + 1"} 
+
+###### Example 3: Resp3 ~ Num4 + 1
+
+
+**Visualizing with the visreg package** 
+
+Notice how you can include the `gg = TRUE` argument to plot this as a ggplot type figure.  This allows you to add your data onto the visualization of your model.
+
+```{r}
+
+library (visreg) # load visreg package for visualization
+
+library(ggplot2) # load ggplot2 package for visualization
+
+visreg(bestMod3, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Num4", # predictor on x-axis
+       #by = ..., # if you want to include a 2nd predictor plotted as colour
+       #breaks = ..., # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 3rd predictor
+       #overlay = TRUE, # to plot as overlay or panels, when there is 
+       #rug = FALSE, # to turn off the rug. The rug shows you where you have positive (appearing on the top axis) and negative (appearing on the bottom axis) residuals
+       gg = TRUE)+ # to plot as a ggplot, with ggplot, you will have more control over the look of the plot.
+  geom_point(data = myDat3,
+             mapping = aes(x = Num4, y = Resp3))+
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Num4, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+# Note: you CAN include your observations on your plot with visreg when you have a numeric predictor on the x-axis
+
+```
+
+Note the small dashes at the top and bottom of the plot.  This is called the "rug".  visreg uses the rug to give an indication of where your observed data lie - a dash on the bottom axis means you have a data point at that location that would be a negative residual relative to the model fit; a dash on the top axis means you have a data point at that location that would be a positive residual relative to the model fit.  
+
+**Visualizing by hand**
+```{r}
+
+#### i) choosing the values of your predictors at which to make a prediction
+
+
+# Set up your predictors for the visualized fit
+forNum4<-seq(from = min(myDat3$Num4), to = max(myDat3$Num4), by = 1)# a sequence of numbers in your numeric predictor range
+  
+# create a data frame with your predictors
+forVis<-expand.grid(Num4 = forNum4) # expand.grid() function makes sure you have all combinations of predictors.  
+
+#### ii) using `predict()` to use your model to estimate your response variable at those values of your predictor
+
+
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod3, # the model
+                newdata = forVis, # the predictor values
+                type = "link",# here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+
+ilink <- family(bestMod3)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
+
+#### iii) use the model estimates to plot your model fit
+
+
+library(ggplot2) # load ggplot2 library
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat3, # add observations to your plot
+             mapping = aes(x = Num4, y = Resp3)) + # control position of data points so they are easier to see on the plot
+  
+  geom_line(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Num4, y = Fit),
+              linewidth = 1.2) + # control thickness of line
+  
+    geom_line(data = forVis, # add uncertainty to your plot (upper line)
+              mapping = aes(x = Num4, y = Upper),
+              linewidth = 0.8, # control thickness of line
+              linetype = 2) + # control style of line
+  
+      geom_line(data = forVis, # add uncertainty to your plot (lower line)
+              mapping = aes(x = Num4, y = Lower),
+              linewidth = 0.8, # control thickness of line
+              linetype = 2) + # control style of line
+  
+  ylab("Resp3, (units)") + # change y-axis label
+  
+  xlab("Num4, (units)") + # change x-axis label
+  
+  theme_bw() # change ggplot theme
+
+
+# another option making use of geom_ribbon()
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat3, # add observations to your plot
+             mapping = aes(x = Num4, y = Resp3)) + # control position of data points so they are easier to see on the plot
+  
+  geom_ribbon(data = forVis, # add uncertainty to your plot (upper line)
+          mapping = aes(x = Num4, ymin = Lower, ymax = Upper),
+          alpha = 0.3) + # control the transparency, between 0 (transparent) and 1 (opaque)
+
+  geom_line(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Num4, y = Fit),
+              linewidth = 1.2) + # control thickness of line
+  
+  ylab("Resp3, (units)") + # change y-axis label
+  
+  xlab("Num4, (units)") + # change x-axis label
+  
+  theme_bw() # change ggplot theme
+
+
+
+```
+
+:::
+
+
+:::{.callout-tip collapse="true" title="Example 4: Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1"} 
+
+###### Example 4: Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1
+
+plotting with marginal effects can be 4 D with x-axis, colour, row and columns
+**Visualizing with the visreg package** 
+
+As you will see in @sec_quantifying, there is no evidence of an effect of `Num6` on `Resp3` when `Cat5 = Farm` - i.e. the coefficient (slope) is not different from zero.  In such cases, you would typically **not** include the effect on the plot (red line in the next figure), but I include it here to illustrate the visualization techniques.
+
+A plot with `Num6` on the x-axis:
+
+```{r}
+
+library (visreg) # load visreg package for visualization
+
+library(ggplot2) # load ggplot2 package for visualization
+
+visreg(bestMod4, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Num6", # predictor on x-axis
+       by = "Cat5", # predictor plotted as colour
+       #breaks = 3, # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 4th predictor
+       overlay = TRUE, # to plot as overlay or panels 
+       rug = FALSE, # to include a rug
+       gg = TRUE)+ # to plot as a ggplot
+  geom_point(data = myDat4, # data
+             mapping = aes(x = Num6, y = Resp4, col = Cat5))+ # add data to your plot
+  #ylim(0, 60)+ # adjust the y-axis units
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Num6, (units)")+ # change x-axis label
+  theme_bw() # change ggplot theme
+
+```
+
+A plot with `Cat5` on the x-axis: Notice how the numeric predictor is represented by different levels in the colours on the plot.  Here you've asked for three levels with `breaks = 3`.  Note that you can not include your observations on the visreg plot when the x-axis predictor is a category
+
+```{r}
+
+
+visreg(bestMod4, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cat5", # predictor on x-axis
+       by = "Num6", # predictor plotted as colour
+       breaks = 3, # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 4th predictor
+       overlay = TRUE, # to plot as overlay or panels 
+       rug = FALSE, # to include a rug
+       gg = TRUE)+ # to plot as a ggplot
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cat5, (units)")+ # change x-axis label
+  labs(fill="Num6, (units)", col="Num6, (units)") + # change legend title
+  theme_bw() # change ggplot theme
+
+```
+
+You can also specify at which levels the breaks should occur with the `breaks = ...` argument.  For example, you can ask visreg to plot the modelled effects when `Num6` = 400 and `Num6` = 600:
+
+```{r}
+
+visreg(bestMod4, # model to visualize
+       scale = "response", # plot on the scale of the response
+       xvar = "Cat5", # predictor on x-axis
+       by = "Num6", # predictor plotted as colour
+       breaks = c(400,600), # if you want to control how the colour predictor is plotted
+       #cond = , # if you want to include a 4th predictor
+       overlay = TRUE, # to plot as overlay or panels 
+       rug = FALSE, # to include a rug
+       gg = TRUE)+ # to plot as a ggplot
+  ylab("Response, (units)")+ # change y-axis label
+  xlab("Cat5, (units)")+ # change x-axis label
+  labs(fill="Num6, (units)", col="Num6, (units)") + # change legend title
+  theme_bw() # change ggplot theme
+
+
+```
+
+Note that you can not include your observations on the visreg plot when the x-axis predictor is a category.
+
+
+
+**Visualizing by hand**
+
+Here's an example with `Num6` on the x-axis:
+
+```{r}
+
+#### i) choosing the values of your predictors at which to make a prediction
+
+# Set up your predictors for the visualized fit
+forCat5<-unique(myDat4$Cat5) # all levels of your categorical predictor
+forNum6<-seq(from = min(myDat4$Num6), to = max(myDat4$Num6), by = 1)# a sequence of numbers in your numeric predictor range
+  
+# create a data frame with your predictors
+forVis<-expand.grid(Cat5 = forCat5, Num6 = forNum6) # expand.grid() function makes sure you have all combinations of predictors.  
+
+#### ii) using `predict()` to use your model to estimate your response variable at those values of your predictor
+
+
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod4, # the model
+                newdata = forVis, # the predictor values
+                type = "link",# here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
+
+#### iii) use the model estimates to plot your model fit
+
+
+library(ggplot2) # load ggplot2 library
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat4, # add observations to your plot
+             mapping = aes(x = Num6, y = Resp4, col = Cat5)) + # control position of data points so they are easier to see on the plot
+  
+  geom_line(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Num6, y = Fit, col = Cat5),
+              linewidth = 1.2) + # control thickness of line
+  
+    geom_line(data = forVis, # add uncertainty to your plot (upper line)
+              mapping = aes(x = Num6, y = Upper, col = Cat5),
+              linewidth = 0.4, # control thickness of line
+              linetype = 2) + # control style of line
+  
+      geom_line(data = forVis, # add uncertainty to your plot (lower line)
+              mapping = aes(x = Num6, y = Lower, col = Cat5),
+              linewidth = 0.4, # control thickness of line
+              linetype = 2) + # control style of line
+  
+  ylab("Resp4, (units)") + # change y-axis label
+  
+  xlab("Num6, (units)") + # change x-axis label
+  
+  labs(fill="Cat5, (units)", col="Cat5, (units)") + # change legend title
+  
+  theme_bw() # change ggplot theme
+
+
+
+# another option making use of geom_ribbon()
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat4, # add observations to your plot
+             mapping = aes(x = Num6, y = Resp4, col = Cat5)) + # control position of data points so they are easier to see on the plot
+  
+  geom_ribbon(data = forVis, # add uncertainty to your plot (upper line)
+          mapping = aes(x = Num6,  ymin = Lower, ymax = Upper, fill = Cat5),
+          alpha = 0.3) + # control the transparency, between 0 (transparent) and 1 (opaque)
+
+  geom_line(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Num6, y = Fit, col = Cat5),
+              linewidth = 1.2) + # control thickness of line
+  
+  ylab("Resp4, (units)") + # change y-axis label
+  
+  xlab("Num6, (units)") + # change x-axis label
+  
+  labs(fill="Cat5, (units)", col="Cat5, (units)") + # change legend title
+  
+  theme_bw() # change ggplot theme
+
+
+
+
+```
+
+
+
+Here's an example with `Cat5` on the x-axis:
+
+```{r}
+
+#### i) choosing the values of your predictors at which to make a prediction
+
+# Set up your predictors for the visualized fit
+forCat5<-unique(myDat4$Cat5) # all levels of your categorical predictor
+forNum6<-c(400, 600) # a sequence of numbers in your numeric predictor range
+  
+# create a data frame with your predictors
+forVis<-expand.grid(Cat5 = forCat5, Num6 = forNum6) # expand.grid() function makes sure you have all combinations of predictors.  
+
+#### ii) using `predict()` to use your model to estimate your response variable at those values of your predictor
+
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod4, # the model
+                newdata = forVis, # the predictor values
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
+
+
+#### iii) use the model estimates to plot your model fit
+
+
+library(ggplot2) # load ggplot2 library
+
+
+ggplot() + # start ggplot
+  
+  geom_point(data = myDat4, # add observations to your plot
+             mapping = aes(x = Cat5, y = Resp4, col = Num6), 
+             position=position_jitterdodge(jitter.width=0.75, dodge.width=0.75)) + # control position of data points so they are easier to see on the plot
+  
+  geom_errorbar(data = forVis, # add the uncertainty to your plot
+              mapping = aes(x = Cat5, y = Fit, ymin = Lower, ymax = Upper, col = Num6),
+              position=position_dodge(width=0.75), # control position of data points so they are easier to see on the plot
+              size=1.2) + # control thickness of errorbar line
+  
+  geom_point(data = forVis, # add the modelled fit to your plot
+              mapping = aes(x = Cat5, y = Fit, fill = Num6), 
+             shape = 22, # shape of point
+             size=3, # size of point
+             col = 'black', # outline colour for point
+             position=position_dodge(width=0.75)) + # control position of data points so they are easier to see on the plot
+  
+  ylab("Resp4, (units)")+ # change y-axis label
+  
+  xlab("Cat5, (units)")+ # change x-axis label
+  
+  labs(fill="Num6, (units)", col="Num6, (units)") + # change legend title
+  
+  theme_bw() # change ggplot theme
+
+```
+
+
+:::{.callout-note collapse="true" title="Aside: Plotting in 3D"} 
+
+You might notice that many of the plots above are communicating 3-dimensions (one response + two predictors) in a 2-dimensional plot.  There are other ways of making 3-dimensional plots in R, e.g. with the visreg package using the `visreg2d()` function in the visreg package:
+
+
+```{r}
+
+visreg2d(fit = bestMod4, # your model
+         xvar = "Num6", # what to plot on the x-axis
+         yvar = "Cat5", # what to plot on the y-axis
+         scale = "response") # make sure fitted values (colours) are on the scale of the response
+
+```
+
+or "by hand" using the `geom_raster()` function in the ggplot2 package:
+
+```{r}
+
+# Set up your predictors for the visualized fit
+forNum6<-seq(from = min(myDat4$Num6), 
+             to = max(myDat4$Num6), 
+             by = 0.1) # e.g. a sequence of Cont values
+forCat5<-unique(myDat4$Cat5) # every value of your categorical predictor
+
+# create a data frame with your predictors
+forVis<-expand.grid(Num6=forNum6, Cat5=forCat5) # expand.grid() function makes sure you have all combinations of predictors
+
+
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod4, # the model
+                newdata = forVis, # the predictor values
+                type = "link", # here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+ilink <- family(bestMod4)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forVis$Fit<-ilink(modFit$fit) # add your fit to the data frame
+forVis$Upper<-ilink(modFit$fit + 1.96*modFit$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forVis$Lower<-ilink(modFit$fit - 1.96*modFit$se.fit) # add your uncertainty to the data frame
+
+# create your plot
+ggplot() + # start your ggplot
+  geom_raster(data = forVis, aes(x = Num6, y = Cat5, fill = Fit))+ # add the 3 dimensions as a raster
+  geom_point(data = myDat4, aes(x = Num6, y = Cat5, colour = Resp)) # add your data
+```
+
+**EXTRA**: As you can see, these plots represent the 3rd dimension by using colour.  You can also make actual 3 dimensional plots in R with the [plotly package](https://plotly.com/r/getting-started/).  These plots are interactive which makes them more useful than static 3d plots.  **Click on the plot and move your mouse to rotate the plot!**
+
+
+```{r}
+
+library(plotly) # load the plotly package
+
+plot_ly(data = forVis, # the data with your model predictions (made above)
+        x = ~Num6, # what to plot on the x axis
+        y = ~Cat5, # what to plot on the y axis
+        z = ~Fit, # what to plot on the z axis
+        type="scatter3d", # type of plot
+        mode="markers") %>% # type of plot
+  add_markers(data = myDat4, x = ~Num6, y = ~Cat5, z = ~Resp4) # add your data
+
+```
+
+
+:::
+
+:::
+
+# [Back to Reporting Your Model Effects page](DSPPH_SM_RepModEffects.qmd)

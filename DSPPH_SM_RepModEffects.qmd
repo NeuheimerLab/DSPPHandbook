@@ -1,0 +1,322 @@
+---
+title: "Reporting your modelled effects"
+bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
+---
+
+
+```{r} 
+#| echo: false
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+library (visreg) # load visreg package for visualization
+library(ggplot2)
+
+```
+
+
+```{r echo = FALSE}
+# EXAMPLE 1 ----
+rm(list=ls())
+library(dplyr)
+
+# Example 1: Resp1 ~ Cat1
+ n=100
+ ss<-sample(c(1:1000), 1)
+ set.seed(679) #582
+Cat1<-as.factor(sample(c("G", "K", "R"), size=n, replace=TRUE))
+
+library(dplyr)
+Group <- as.factor(sample(c("Site1", "Site2", "Site3", "Site4", "Site5", "Site6"),
+                           n, replace=TRUE))
+uResp<-(as.numeric(Cat1)*4.4+3.9*as.numeric(Group))#+sample(c(200:900), n, replace = TRUE)
+Resp<-rnorm(n, uResp, 4.5)
+Group <- recode(Group,
+                    Site1 = 'Site3',
+                    Site2 = 'Site1',
+                    Site3 = 'Site5',
+                   Site4 = 'Site4',
+                   Site5 = 'Site2',
+                   Site6 = 'Site6')
+Group <- factor(Group, levels = c("Site1","Site2","Site3","Site4","Site5","Site6"))
+Cat1 <- recode(Cat1,
+                    K = 'Sp1',
+                    R = 'Sp2',
+                    G = 'Sp3')
+Cat1<-factor(Cat1, levels = c("Sp1", "Sp2", "Sp3"))
+myDat1<-data.frame(Cat1=Cat1, Resp1=round(Resp,1))
+# #write.csv(myDat, "DatEx1.csv", row.names = FALSE)
+# 
+# library(ggplot2)
+# ggplot()+
+#   geom_point(data=myDat,
+#              mapping=aes(x=Cat1, y=Resp1))
+#
+startMod<-glm(formula = Resp1 ~ Cat1 + 1, # hypothesis
+              data = myDat1, # data
+              family = gaussian(link="identity")) # error distribution assumption
+# 
+# 
+# 
+library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat1$Cat1,
+#      asFactor=TRUE) # compare simulated data to our observations
+# # #
+# myDat$Resid<-simulationOutput$scaledResiduals
+# # # # 
+# 
+# # #
+# ggplot()+
+#   geom_violin(data=myDat,
+#              mapping = aes(x=Group, y=Resid))
+# 
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod) # fit and compare a model set representing all possible predictor combinations
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`2`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut1<-dredgeOut
+bestMod1<-bestMod
+
+# EXAMPLE 2 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(114) #114
+Cat2<-factor(sample(c("TypeA", "TypeB", "TypeC", "TypeD"), size=n, replace=TRUE))
+Cat3<-factor(sample(c("Treat1", "Control"), size=n, replace=TRUE), levels=c("Treat1", "Treat2", "Control"))
+uResp<-(as.numeric(Cat2)*40.4-33.3*as.numeric(Cat3)+ 23*as.numeric(Cat3)*as.numeric(Cat2))+sample(c(100:300), n, replace = TRUE)
+Resp<-rnorm(n, uResp, 4.5)
+Cat3[sample(which(Cat3=="Treat1"), round(length(which(Cat3=="Treat1"))/2), replace=TRUE)]<-"Treat2"
+Cat2 <- recode(Cat2,
+                    TypeC = 'TypeA',
+                    TypeD = 'TypeB',
+                    TypeB = 'TypeC',
+                   TypeA = 'TypeD')
+Cat2 <- factor(Cat2, levels = c("TypeA", "TypeB", "TypeC", "TypeD"))
+
+myDat2<-data.frame(Resp2=Resp, Cat2=Cat2, Cat3=Cat3)
+# # #write.csv(myDat2, "DatEx2.csv", row.names = FALSE)
+# 
+# ggplot()+
+#   geom_point(data=myDat2,
+#              mapping=aes(x=Cat2, y=Resp2, col=Cat3))
+#
+startMod<-glm(formula = Resp2 ~ Cat2 + Cat3 + Cat2:Cat3, # hypothesis
+              data = myDat2, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat2$Cat2,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# plot(simulationOutput,
+#      form=myDat2$Cat3,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# # 
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod, extra = "R^2") # fit and compare a model set representing all possible predictor combinations
+# dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut2<-dredgeOut
+bestMod2<-bestMod
+
+# EXAMPLE 3 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(261) #261
+Cont4<-round(runif(n, 0.3, 20.9),2)
+uResp<-245*Cont4+ 10
+Resp<-rnorm(n, uResp, 850)
+myDat3<-data.frame(Resp3=Resp, Cont4=Cont4)
+
+# # #write.csv(myDat3, "DatEx3.csv", row.names = FALSE)
+
+
+# ggplot()+
+#   geom_point(data=myDat3,
+#              mapping=aes(x=Cont4, y=Resp3))
+
+startMod<-glm(formula = Resp3 ~ Cont4 + 1, # hypothesis
+              data = myDat3, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+# # 
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat3$Cont4,
+#      asFactor=FALSE) # compare simulated data to our observations
+# 
+# #
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod) # fit and compare a model set representing all possible predictor combinations
+#dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`2`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut3<-dredgeOut
+bestMod3<-bestMod
+
+# EXAMPLE 4 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(444) #444
+Cat5<-as.factor(sample(c("Wild", "Farm", "Urban"), size=n, replace=TRUE))
+Cont6<-round(runif(n, 300, 700),2)
+uResp<-(as.numeric(Cat5)*0.014-0.02*Cont6+ as.numeric(Cat5)*0.014*Cont6)+100
+Resp<-rnorm(n, uResp, 2.5)
+myDat4<-data.frame(Resp4=Resp, Cat5=Cat5, Cont6=Cont6)
+
+# # #write.csv(myDat3, "DatEx3.csv", row.names = FALSE)
+
+
+# ggplot()+
+#   geom_point(data=myDat3,
+#              mapping=aes(x=Cont5, y=Resp3, col=Cat4))
+
+startMod<-glm(formula = Resp4 ~ Cat5 + Cont6 + Cat5:Cont6 + 1, # hypothesis
+              data = myDat4, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+# 
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat3$Cat4,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# plot(simulationOutput,
+#      form=myDat3$Cont5,
+#      asFactor=FALSE) # compare simulated data to our observations
+
+#
+#
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod, extra = "R^2") # fit and compare a model set representing all possible predictor combinations
+#dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut4<-dredgeOut
+bestMod4<-bestMod
+
+```
+
+# Reporting your modelled effects {#sec_reportEffects}
+
+In the last chapter of these notes, we discussed [testing your hypothesis](DSPPH_SM_HypothesisTesting.qmd).  
+
+Remember that testing your hypothesis is looking for evidence of **effects** of your predictors on your response.  By testing your hypothesis, you determined that there was evidence that the effects of your predictors on your response are non-zero [@Popovic2024]. 
+
+These effects are presented as estimates of the coefficients in your model (e.g. a slope) which are called parameters once they have been estimated.
+
+For *categorical* predictors, the coefficient represents how much your response changes (increases or decreases) when you change from one level of the category to another.  
+
+For *numeric* predictors, the coefficient represents how much your response changes (increases or decreases) when you increase your predictor by one unit.  More on this below!
+
+Here you will gather the information to communicate visually and quantitatively the magnitude and direction of your effects and determine (in some cases) where effects are similar or different from one another, answering questions like:
+
+- how much does a change (effect) in your predictor change your response?
+
+- is that change (effect) positive (your response increases), or negative (your response decreases)?
+
+- is that change (effect) similar across levels of your categorical predictor?
+
+You can report your modelled effects in a number of ways^[with some options being more or less helpful depending on your model structure]:
+
+## [Visualizing your model effects](DSPPH_SM_RepModEffects_Vis.qmd)
+
+Here, you will make plots of your model effects including the effects themselves, uncertainty around the effects and your observations.  These plots will help communicate your modelled effects as well as how well your model fits your observations.  This is a great way to communicate all types of model structures (e.g. error distribution and shape assumptions).
+
+## [Giving examples of your modelled effects](DSPPH_SM_RepModEffects_Predict.qmd)
+
+Here, you will use your model to estimate the value of your response (with uncertainty) to illustrate how the response changes when your predictors change.  This is a great way to communicate all types of model structures (e.g. error distribution and shape assumptions).
+
+## [Quantifying your model effects](DSPPH_SM_RepModEffects_Quant.qmd)
+
+Here, you will report (in numbers) the magnitude and direction of your modelled effects along with the uncertainty. You will also look for evidence of whether modelled effects of a categorical predictor differ across all levels.  Exactly how you do that will depend on the structure of your model (e.g. the error distribution and shape assumptions).  We will go through a number of examples here. 
+
+
+# [Back to Reporting main page](DSPPH_SM_Reporting.qmd)

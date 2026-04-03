@@ -1,0 +1,35 @@
+---
+title: "Giving examples of your modelled effects"
+bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
+---
+
+
+```{r} 
+#| echo: false
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+::: {.alert .alert-success}
+This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the process presented here for models of any structure.
+:::
+
+# Background
+
+A clear way of communicating your modelled effects is by giving examples of your Response estimated by your model under different values of your predictors.  For example, 
+
+* what does my model estimate my Response would be when I change levels of my categorical predictor?   
+
+* what does my model estimate my Response would be if my numeric predictor increases by 100%?
+
+
+# Examples
+
+You can give examples of your modelled effects by predicting with your model object.  This process is covered in the ["by hand" visualization method here](DSPPH_SM_RepModEffects_Vis.qmd), and will be covered in the next modelling framework section on [predicting](DSPPH_SM_Predicting.qmd).
+
+
+# [Back to Reporting Your Model Effects page](DSPPH_SM_RepModEffects.qmd)
+

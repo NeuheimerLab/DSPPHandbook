@@ -1,0 +1,369 @@
+---
+title: "Reporting your best-specified model(s)"
+bibliography: handbook.bib
+
+number-sections: true
+number-depth: 2
+
+---
+
+
+```{r} 
+#| echo: false
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+```
+
+
+```{r echo = FALSE}
+# EXAMPLE 1 ----
+rm(list=ls())
+library(dplyr)
+
+# Example 1: Resp1 ~ Cat1
+ n=100
+ ss<-sample(c(1:1000), 1)
+ set.seed(679) #582
+Cat1<-as.factor(sample(c("G", "K", "R"), size=n, replace=TRUE))
+
+library(dplyr)
+Group <- as.factor(sample(c("Site1", "Site2", "Site3", "Site4", "Site5", "Site6"),
+                           n, replace=TRUE))
+uResp<-(as.numeric(Cat1)*4.4+3.9*as.numeric(Group))#+sample(c(200:900), n, replace = TRUE)
+Resp<-rnorm(n, uResp, 4.5)
+Group <- recode(Group,
+                    Site1 = 'Site3',
+                    Site2 = 'Site1',
+                    Site3 = 'Site5',
+                   Site4 = 'Site4',
+                   Site5 = 'Site2',
+                   Site6 = 'Site6')
+Group <- factor(Group, levels = c("Site1","Site2","Site3","Site4","Site5","Site6"))
+Cat1 <- recode(Cat1,
+                    K = 'Sp1',
+                    R = 'Sp2',
+                    G = 'Sp3')
+Cat1<-factor(Cat1, levels = c("Sp1", "Sp2", "Sp3"))
+myDat1<-data.frame(Cat1=Cat1, Resp1=round(Resp,1))
+# #write.csv(myDat, "DatEx1.csv", row.names = FALSE)
+# 
+# library(ggplot2)
+# ggplot()+
+#   geom_point(data=myDat,
+#              mapping=aes(x=Cat1, y=Resp1))
+#
+startMod<-glm(formula = Resp1 ~ Cat1 + 1, # hypothesis
+              data = myDat1, # data
+              family = gaussian(link="identity")) # error distribution assumption
+# 
+# 
+# 
+library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat1$Cat1,
+#      asFactor=TRUE) # compare simulated data to our observations
+# # #
+# myDat$Resid<-simulationOutput$scaledResiduals
+# # # # 
+# 
+# # #
+# ggplot()+
+#   geom_violin(data=myDat,
+#              mapping = aes(x=Group, y=Resid))
+# 
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod) # fit and compare a model set representing all possible predictor combinations
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`2`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut1<-dredgeOut
+bestMod1<-bestMod
+
+# EXAMPLE 2 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(114) #114
+Cat2<-factor(sample(c("TypeA", "TypeB", "TypeC", "TypeD"), size=n, replace=TRUE))
+Cat3<-factor(sample(c("Treat1", "Control"), size=n, replace=TRUE), levels=c("Treat1", "Treat2", "Control"))
+uResp<-(as.numeric(Cat2)*40.4-33.3*as.numeric(Cat3)+ 23*as.numeric(Cat3)*as.numeric(Cat2))+sample(c(100:300), n, replace = TRUE)
+Resp<-rnorm(n, uResp, 4.5)
+Cat3[sample(which(Cat3=="Treat1"), round(length(which(Cat3=="Treat1"))/2), replace=TRUE)]<-"Treat2"
+Cat2 <- recode(Cat2,
+                    TypeC = 'TypeA',
+                    TypeD = 'TypeB',
+                    TypeB = 'TypeC',
+                   TypeA = 'TypeD')
+Cat2 <- factor(Cat2, levels = c("TypeA", "TypeB", "TypeC", "TypeD"))
+
+myDat2<-data.frame(Resp2=Resp, Cat2=Cat2, Cat3=Cat3)
+# # #write.csv(myDat2, "DatEx2.csv", row.names = FALSE)
+# 
+# ggplot()+
+#   geom_point(data=myDat2,
+#              mapping=aes(x=Cat2, y=Resp2, col=Cat3))
+#
+startMod<-glm(formula = Resp2 ~ Cat2 + Cat3 + Cat2:Cat3, # hypothesis
+              data = myDat2, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat2$Cat2,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# plot(simulationOutput,
+#      form=myDat2$Cat3,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# # 
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod, extra = "R^2") # fit and compare a model set representing all possible predictor combinations
+# dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut2<-dredgeOut
+bestMod2<-bestMod
+
+# EXAMPLE 3 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(261) #261
+Num4<-round(runif(n, 0.3, 20.9),2)
+uResp<-245*Num4+ 10
+Resp<-rnorm(n, uResp, 850)
+myDat3<-data.frame(Resp3=Resp, Num4=Num4)
+
+# # #write.csv(myDat3, "DatEx3.csv", row.names = FALSE)
+
+
+# ggplot()+
+#   geom_point(data=myDat3,
+#              mapping=aes(x=Num4, y=Resp3))
+
+startMod<-glm(formula = Resp3 ~ Num4 + 1, # hypothesis
+              data = myDat3, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+# # 
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat3$Num4,
+#      asFactor=FALSE) # compare simulated data to our observations
+# 
+# #
+# #
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod) # fit and compare a model set representing all possible predictor combinations
+#dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`2`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut3<-dredgeOut
+bestMod3<-bestMod
+
+# EXAMPLE 4 ----
+
+
+#rm(list=ls())
+n=100
+ss<-sample(c(1:1000), 1)
+set.seed(444) #444
+Cat5<-as.factor(sample(c("Wild", "Farm", "Urban"), size=n, replace=TRUE))
+Num6<-round(runif(n, 300, 700),2)
+uResp<-(as.numeric(Cat5)*0.014-0.02*Num6+ as.numeric(Cat5)*0.014*Num6)+100
+Resp<-rnorm(n, uResp, 2.5)
+myDat4<-data.frame(Resp4=Resp, Cat5=Cat5, Num6=Num6)
+
+# # #write.csv(myDat3, "DatEx3.csv", row.names = FALSE)
+
+
+# ggplot()+
+#   geom_point(data=myDat3,
+#              mapping=aes(x=Cont5, y=Resp3, col=Cat4))
+
+startMod<-glm(formula = Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1, # hypothesis
+              data = myDat4, # data
+              family = gaussian(link="identity")) # error distribution assumption
+
+
+# 
+# library(DHARMa)
+# simulationOutput <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times
+# #
+# plot(simulationOutput, asFactor=TRUE) # compare simulated data to our observations
+# #
+# plot(simulationOutput,
+#      form=myDat3$Cat4,
+#      asFactor=TRUE) # compare simulated data to our observations
+# 
+# plot(simulationOutput,
+#      form=myDat3$Cont5,
+#      asFactor=FALSE) # compare simulated data to our observations
+
+#
+#
+# #
+library(MuMIn)
+options(na.action = "na.fail") # needed for dredge() function to prevent illegal model comparisons
+dredgeOut<-dredge(startMod, extra = "R^2") # fit and compare a model set representing all possible predictor combinations
+#dredgeOut
+#
+bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dredge table
+#
+# #
+# library(emmeans)
+# forComp <- emmeans(bestMod, specs =  ~ Cat1, type = "response")
+# forComp
+# plot(forComp)
+# plot(forComp, comparisons = TRUE)
+# plot(pairs(emmeans(bestMod, "Cat1"),
+#               adjust="scheffe"))
+
+dredgeOut4<-dredgeOut
+bestMod4<-bestMod
+
+```
+
+
+# Reporting your best-specified models 
+
+::: {.alert .alert-success}
+This section is similar regardless of your model structure (e.g. error distribution assumption).  The examples below all assume a normal error distribution assumption but you can use the process presented here for models of any structure.
+:::
+
+Reporting your best-specified model means reporting the terms - the predictors and any interactions - that are in your model.  
+
+It is good practice to present the model along with the results from the model selection.  In this way, you can include multiple best-specified models if there is evidence that more than one might be useful.  Depending on your hypothesis and results, you will want to present all models within ∆AICc < 2 of the best-specified model, or all models with any Akaike weight, or simply all models.
+
+Remember from the [Hypothesis Testing](DSPPH_SM_HypothesisTesting.qmd) chapter that you can also use the output from `dredge()` function to report evidence for how you picked the best-specified model.^[more to come in the section on [communicating](DSPPH_SM_Communicating.qmd)]
+
+
+Let us take a look at how you do this with our examples:
+
+
+:::{.callout-tip collapse="true" title="Example 1: Resp1 ~ Cat1 + 1"} 
+
+#### Example 1: Resp1 ~ Cat1 + 1
+
+
+```{r echo = FALSE}
+
+dredgeOut1
+
+```
+
+For Example 1, you will report that your best-specified model is `Resp1 ~ Cat1 + 1`, i.e. that there is evidence that `Cat1` explains variability in `Resp1`.  This was chosen as the best-specified model as it had the lowest AICc and the next highest rank model had a ∆AICc of `r round(dredgeOut1$delta[2],2)` (i.e. ∆AICc > 2).  The best-specified model had an Akaike weight of `r round(dredgeOut1$weight[1],3)`.
+
+:::
+
+:::{.callout-tip collapse="true" title="Example 2: Resp2 ~ Cat2 + Cat3 + Cat2:Cat3 + 1"} 
+
+#### Example 2: Resp2 ~ Cat2 + Cat3 + Cat2:Cat3 + 1
+
+```{r}
+#| echo: false
+
+
+dredgeOut2
+
+```
+
+For Example 2, you will report that your best-specified model is `Resp2 ~ Cat2 + Cat3 + Cat2:Cat3 + 1`, i.e. that there is evidence that `Cat2` and `Cat3` explain variability in `Resp2`, and that there is an interaction between the effect of `Cat2` and `Cat3` on your response - i.e. the effect of `Cat2` on `Resp2` depends on the value of `Cat3`.  
+
+This was chosen as the best-specified model as it had the lowest AICc and the next highest rank model had a ∆AICc of `r round(dredgeOut2$delta[2],2)` (i.e. ∆AICc > 2).  The best-specified model had an Akaike weight of `r round(dredgeOut2$weight[1],3)`.
+
+
+:::
+
+:::{.callout-tip collapse="true" title="Example 3: Resp3 ~ Num4 + 1"} 
+
+#### Example 3: Resp3 ~ Num4 + 1
+
+```{r}
+#| echo: false
+
+
+dredgeOut3
+
+```
+For Example 3, you will report that your best-specified model is `Resp3 ~ Num4 + 1`, i.e. that there is evidence that `Num4` explains variability in `Resp3`.  
+
+This was chosen as the best-specified model as it had the lowest AICc and the next highest rank model had a ∆AICc of `r round(dredgeOut3$delta[2],2)` (i.e. ∆AICc > 2).  The best-specified model had an Akaike weight of `r round(dredgeOut3$weight[1],3)`.
+
+:::
+
+
+:::{.callout-tip collapse="true" title="Example 4: Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1"} 
+
+#### Example 4: Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1
+
+```{r}
+#| echo: false
+
+
+dredgeOut4
+
+```
+For Example 4, you will report that your best-specified model is `Resp4 ~ Cat5 + Num6 + Cat5:Num6 + 1`.  This model says that there is evidence that `Cat5` and `Num6` explain variability in `Resp4`, and that there is an interaction between `Cat5` and `Num6` - i.e. the effect of `Num6` on `Resp4` depends on the value of `Cat5`.  
+
+This was chosen as the best-specified model as it had the lowest AICc and the next highest rank model had a ∆AICc of `r round(dredgeOut4$delta[2],2)` (i.e. ∆AICc > 2).  The best-specified model had an Akaike weight of `r round(dredgeOut4$weight[1],3)`.
+
+:::
+
+# [Back to Reporting main page](DSPPH_SM_Reporting.qmd)
