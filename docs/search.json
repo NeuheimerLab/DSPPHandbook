@@ -1010,21 +1010,21 @@
   {
     "objectID": "DSPPH_SM_Responses.html",
     "href": "DSPPH_SM_Responses.html",
-    "title": "Statistical modelling: Responses - q",
+    "title": "Statistical modelling: Responses",
     "section": "",
     "text": "In this section you will:\n\n\n\n\n\n\nDefine your research question and identify your response variable (what variability are you trying to explain?)\nPresent the motivation for your research question (why is this question worth exploring?)\nDescribe the nature of your response variable\nExplore your response variable observations\nThe first step of the statistical modelling framework is to identify your response variable1.\nYour response variable is the observed variability you are trying to explain. As mentioned earlier, all science is explaining variability - why something you observe is changing. Your response variable is the “thing” you are trying to explain. It is sometimes called by other names such as “dependent variable” or “y variable”.\nBefore you can proceed with your hypothesis making and testing, you need to be clear about the variation you are trying to explain and how it was observed. What is making you curious?\nThese questions are called “research questions” and they identify your response variable (contrast this with your research hypothesis in an upcoming section).\nNote that your research question is always asking “why” - why something is varying. That something is your response variable (so your response variable should be something observable and varying)."
   },
   {
     "objectID": "DSPPH_SM_Responses.html#what-is-the-nature-of-your-response",
     "href": "DSPPH_SM_Responses.html#what-is-the-nature-of-your-response",
-    "title": "Statistical modelling: Responses - q",
+    "title": "Statistical modelling: Responses",
     "section": "What is the nature of your response?",
     "text": "What is the nature of your response?\nThe first step is describing the nature of your response variable. This will allow you to choose a data distribution (mathematical representation) to define the types of values you expect your response variable to be.\nTo describe the nature of your response variable, you will communicate whether your response variable is numeric or categorical, and if numeric, what values you expect it to take (e.g. can your response be negative? can it be zero? can it include a decimal?)\nHere is a chart to help you describe the nature of your response distribution:\n\nAnd here is a link to a chapter on Data Distributions. More on this soon."
   },
   {
     "objectID": "DSPPH_SM_Responses.html#footnotes",
     "href": "DSPPH_SM_Responses.html#footnotes",
-    "title": "Statistical modelling: Responses - q",
+    "title": "Statistical modelling: Responses",
     "section": "Footnotes",
     "text": "Footnotes\n\n\nNotice I write “Response(s)” in the title of this section - plural. It is possible to have multiple response variables and we will discuss this elsewhere in the handbook when we discuss multivariate data. For the focus of this handbook though, we will begin by working with one response variable↩︎\nTo expand on this idea, research questions should follow the FINER criteria: your research question should be Feasible, Interesting, Novel, Ethical, and Relevant @HulleyEtAl2007↩︎"
   },
