@@ -318,5 +318,4 @@ Here, you will use your model to estimate the value of your response (with uncer
 
 Here, you will report (in numbers) the magnitude and direction of your modelled effects along with the uncertainty. You will also look for evidence of whether modelled effects of a categorical predictor differ across all levels.  Exactly how you do that will depend on the structure of your model (e.g. the error distribution and shape assumptions).  We will go through a number of examples here. 
 
-
 # [Back to Reporting main page](DSPPH_SM_Reporting.qmd)
