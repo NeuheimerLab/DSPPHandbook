@@ -4,9 +4,7 @@ title: "Statistical Modelling Handbook"
 
 ## Why statistics?
 
-All science is explaining variability - explaining why observations are changing in time and/or space. These explanations[^handbooksmintro-1] lead us to mechanistic understandings of why the world is as we observe it.
-
-[^handbooksmintro-1]: here, we can also use the term "research hypothesis" instead of explanation and you'll see we quickly switch to using this term
+All science is explaining variability - explaining why observations are changing in time and/or space. These explanations^[here, we can also use the term "research hypothesis" instead of explanation and you'll see we quickly switch to using this term] lead us to mechanistic understandings of why the world is as we observe it.
 
 As biologists, the variability that you are interested in relates to the biological world, but your job is really no different from other scientists/researchers/data analysts, etc. - you are all explaining variability.
 
@@ -16,13 +14,8 @@ You need your explanations of variability to be **quantitative** in order to:
 -   communicate how much variability still remains unexplained, and
 -   make useful predictions about the biological world.
 
-Statistics provides the mathematical tools[^handbooksmintro-2] to accomplish these tasks. It allows you to use a data sample to test your hypothesis about a population or system. Statistics help you determine the evidence for causal[^handbooksmintro-3] mechanisms. And statistics help you make useful predictions[^handbooksmintro-4] about how a biological system might behave at a different time or location.
+Statistics provides the mathematical tools^[Math skills have often been underemphasized in many Biology educations. This has not been helpful or necessary. Biologists need math and are very capable at applying math to solve problems, but the math needs to be useful; that is, math that you can apply to your own needs as you research biology. The DSP Program aims at providing statistical modelling tools that will be useful to you as a biologist. It is a happy coincidence that the same skills can be applied to a lot of other situations as well. The programming and statistics skills you are learning here will be useful to you in the future - in your future courses, thesis-writing and a wide range of careers.] to accomplish these tasks. It allows you to use a data sample to test your hypothesis about a population or system. Statistics help you determine the evidence for causal^[more on causal vs. correlative explanations coming soon] mechanisms. And statistics help you make useful predictions^[useful predictions will always include uncertainty] about how a biological system might behave at a different time or location.
 
-[^handbooksmintro-2]: Math skills have often been underemphasized in many Biology educations. This has not been helpful or necessary. Biologists need math and are very capable at applying math to solve problems, but the math needs to be useful; that is, math that you can apply to your own needs as you research biology. The DSP Program aims at providing statistical modelling tools that will be useful to you as a biologist. It is a happy coincidence that the same skills can be applied to a lot of other situations as well. The programming and statistics skills you are learning here will be useful to you in the future - in your future courses, thesis-writing and a wide range of careers.
-
-[^handbooksmintro-3]: more on causal vs. correlative explanations coming soon
-
-[^handbooksmintro-4]: useful predictions will always include uncertainty
 
 Statistics help you answer:
 
@@ -62,11 +55,7 @@ This handbook will walk through the parts of this framework one by one. During D
 As we will discuss later in the handbook, working through this framework will also guide you in creating the "guts" of a paper or report. As well as clarifying how and why you made your analysis choices, it will guide you in describing your motivation behind your research question (why is it worthwhile to spend time explaining this variation?) as well as the mechanisms behind your research hypothesis (why do I think X is responsible for the variation I'm trying to explain?). Once through, you'll have a solid draft that can be the basis of a report, thesis chapter or scientific paper. We will talk about how this works in [the section on Communicating](DSPPH_SM_Communicating.qmd).
 
 
-A note about our Statistical Modelling Framework: The steps in the image to the right as a linear process but it is not actually a linear process. As you will see in the examples, sometimes you will need to make best guesses[^handbooksmintro-5] as to what model might be useful and only after confronting the model with your data will you know if your guesses were reasonable (and useful!) - i.e. the model is a valid one that you can use to test your hypothesis. We will talk about how to find a useful model, how to choose when there are multiple options, and how to communicate your choices.
-
-[^handbooksmintro-5]: and these will be educated guesses!
-
-
+A note about our Statistical Modelling Framework: The steps in the image to the right as a linear process but it is not actually a linear process. As you will see in the examples, sometimes you will need to make best guesses^[and these will be educated guesses!] as to what model might be useful and only after confronting the model with your data will you know if your guesses were reasonable (and useful!) - i.e. the model is a valid one that you can use to test your hypothesis. We will talk about how to find a useful model, how to choose when there are multiple options, and how to communicate your choices.
 
 ### Steps in the statistical modelling framework:
 

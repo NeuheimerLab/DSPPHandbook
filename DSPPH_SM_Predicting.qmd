@@ -1113,7 +1113,7 @@ ggplot() + # start ggplot
 
 You did it!  You made it through all the steps of our Statistical Modelling Framework.  Nice work!
 
-Up next we will practice applying the framework to new examples, and learn how to [communicate](DSPPH_SM_Communicating) the whole process in reports and papers.
+Up next we will practice applying the framework to new examples, and learn how to [communicate](DSPPH_SM_Communicating.qmd) the whole process in reports and papers.
 
 
 
