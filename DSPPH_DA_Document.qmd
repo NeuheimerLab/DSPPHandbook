@@ -56,11 +56,34 @@ You can also send the entire script to be executed all at once with `source("Scr
 
 ### Commenting your script
 
-It is also important to get in the habit of **commenting** your script. Comments are bits of your code that R will jump over (not execute).  They are there for you, your future self, and your colleagues to clarify your intent with each piece of code.  You indicate a comment by the "`#`" in R and then include text that tells the user why that line/section of code is there, e.g.:
+It is also important to get in the habit of **commenting** your script. Comments are bits of your code that R will jump over (not execute).  They are there for you, your future self, and your colleagues to clarify your intent with each piece of code.  
 
-<img src="./ScriptEx.png" align="center" width="400px"/>
+Clarify each line of your code by adding a `#` and then a description of what the code is doing.  Don't just write the function name in your comments.  Add (in human language) what that line of code is doing.  Use your comments to:
 
+* Define variables, e.g.
+
+```{r eval = FALSE}
+forSex<-unique(myDat$Sex) # get every level of my Sex predictor
+```
+
+* Explain what the code is trying to do, e.g.
+
+```{r eval = FALSE}
+# Get your model fit estimates at each value of your predictors
+modFit<-predict(bestMod, # the model
+                newdata = forVis, # the predictor values
+                type = "response", # make the predictions on the response scale
+                se.fit = TRUE) # include uncertainty estimate
+```
+
+* Explain why you chose a particular strategy, e.g.
+
+```{r eval = FALSE}
+r.squaredLR(bestMod) # estimates the likelihood ratio R^2.  Could also estimate a traditional R^2 with 1-summary(bestMod)$deviance/summary(bestMod)$null.deviance here as the error distribution assumption is normal and the shape assumption is linear, but the likelihood ratio R^2 function is generally applicable to many error distribution assumptions and equivalent to the traditional R^2 when the error distribution assumption is normal and the shape assumption is linear.
+```
+ 
 (Don't worry about what the coding lines are doing above at this point, just note how comments (`#`) are used to clarify the code)
+
 
 ## R Markdown and Quarto files
 

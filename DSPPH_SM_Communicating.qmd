@@ -19,20 +19,22 @@ library(formatR)
 
 
 # Communicating your hypothesis testing results
-Here we will walk through your statistical modelling framework and discuss how to communicate motivations, methods and results of your data analysis and hypothesis testing for a biological report/article (& the exam!).
+Here we will walk through your statistical modelling framework and discuss how to communicate motivations, methods and results of your data analysis and hypothesis testing for a biological report^[e.g. for a course] or article^[for publication!].
 
 Here again is our statistical modelling framework:
 
 <img src="./StatsModelFrameworkDetails.png" width="400px"/>
 
-## A familiar example
+## Our example
 
 <img src="./MooseBerg.png" align="right" width="200px"/>
 
 
-I'll use the following example case as I discuss how to communicate your results: 
+We will use the following example case as we discuss how to communicate your results: 
 
-You are interested in moose (or elk, *Alces alces*) and how their growth rate changes from population to population.  You find information on mean annual weight change by moose in 12 locations in Sweden.  You wonder if latitude can explain some of the variability in growth rates you are observing.  You also wonder if minimum winter temperature might explain some variability in growth rate.  Finally, you wonder if changes in growth rate with latitude and/or winter temperature depend on each other (i.e, latitudinal dependent effects on growth rate depend on what the minimum winter temperature is) and/or sex (male and female) - i.e. the environmentally dependent change in growth rate depends on what sex the animal is.  
+You are interested in moose (or elk, *Alces alces*) and how their growth rate changes from population to population.  
+
+You find information on mean annual weight change by moose in 12 locations in Sweden.  You wonder if latitude can explain some of the variability in growth rates you are observing.  You also wonder if minimum winter temperature might explain some variability in growth rate.  Finally, you wonder if changes in growth rate with latitude and/or winter temperature depend on each other (i.e, latitudinal dependent effects on growth rate depend on what the minimum winter temperature is) and/or sex (male and female) - i.e. the environmentally dependent change in growth rate depends on what sex the animal is.  
 
 <br clear="right"/>
 
@@ -45,7 +47,7 @@ And here's a screenshot of the readme file for the moose data:
 ## RESPONSE(S)
 #### The task:
 
-Your response variable is the observed variability you are trying to explain.  Your response forms your **research question** - i.e. "why is my response varying?". In this section, you need to identify the variability you are trying to explain and why (your motivation).  
+Your [response](DSPPH_SM_Responses.qmd) variable is the observed variability you are trying to explain.  Your response forms your **research question** - i.e. "why is my response varying?". In this section, you need to identify the variability you are trying to explain and why (your motivation).  
 
 #### The code:
 
@@ -88,7 +90,7 @@ For example:
 
 ::: {.alert .alert-success}
 
-Here I want to explain variability in growth rate in moose (*Alces alces*).  Moose size will be related to survival rates, and likely also their ability to reproduce (e.g. [@SandEtAl1995]).  Being able to explain what controls growth rates in moose may help us explain why some populations are more productive than other populations, and it will help us predict productivity for populations at other places or times. 
+Here I want to explain variability in growth rate in moose (*Alces alces*).  Growth rates affect the size of the moose which will affect survival rates, and also their ability to reproduce (e.g. [@SandEtAl1995]).  Being able to explain what controls growth rates in moose may help us explain why some populations are more productive than other populations.
 
 My research question is "why does growth rate vary?". My observations of growth rate were measured from adult moose across 12 locations in Sweden.  The growth rate varied from 6.2 to 30.6 kg per year.
 
@@ -98,7 +100,7 @@ My research question is "why does growth rate vary?". My observations of growth 
 ## PREDICTORS
 #### The task:
 
-Here you will identify the predictors in your model - i.e. what variables might explain variability in your response.  To write-up this section, start with the biological mechanism (or process) that make you think the predictor could be influencing your response.  Then describe how that predictor was measured.  At this point you might identify mechanisms that you are not able to measure, e.g. because they were beyond the scope of your study.  Make note of these.  You will have a chance to talk about them as you discuss your results.
+Here you will identify the [predictors](DSPPH_SM_Predictors.qmd) in your model - i.e. what variables might explain variability in your response.  To write-up this section, start with the biological mechanism (or process) that links your predictor to your response.  Then describe how that predictor was measured.  At this point you might identify mechanisms that you are not able to measure, e.g. because they were beyond the scope of your study.  Make note of these.  You will have a chance to talk about them as you discuss your results.
 
 #### The code:
 
@@ -144,7 +146,7 @@ Growth differences might also occur due to sex of the animal as male and female 
 ## HYPOTHESIS
 #### The task:
 
-In this section you will describe your research hypothesis, first in human language, and then as an R model formula.  Remember to communicate whether you will be including interactions along with main effects if you have more than one predictor. 
+In this section you will describe your research [hypothesis](DSPPH_SM_Hypothesis.qmd), first in human language, and then as an R model formula.  Remember to communicate whether you will be including interactions along with main effects if you have more than one predictor. 
 
 #### The code:
 
@@ -166,16 +168,16 @@ For example,
 
 I will test the research hypothesis that variability in adult moose growth rate (*MassChange*, kg per year) is explained by latitude (*DDLat*, ˚N), minimum winter temperature (*WTemp*, ˚C) and sex (*Sex*, male or female).  I will test this by modelling:
 
-*MassChange ~ DDLat + WTemp + Sex + DDLat:Sex + WTemp:Sex + DDLat:WTemp + DDLat:WTemp:Sex*
+*MassChange ~ DDLat + WTemp + Sex + DDLat:Sex + WTemp:Sex + DDLat:WTemp + DDLat:WTemp:Sex + 1*
 
-Note that ":" indicates an interaction among predictors.  Here, I will test the main effects of each predictor on my response, as well as all possible interactions - i.e. whether latitudinal effects on moose growth vary between sexes (DDLat:Sex), minimum winter temperature effects on moose growth vary between sexes (WTemp:Sex), effects of minimum winter temperature on growth vary with latitude (DDLat:WTemp), and whether there is evidence that latitudinal effects of minimum winter temperature on growth differ between the sexes (DDLat:WTemp:Sex).
+Note that ":" indicates an interaction among predictors.  Here, I will test the main effects of each predictor on my response, as well as all possible interactions - i.e. whether latitudinal effects on moose growth vary between sexes (DDLat:Sex), minimum winter temperature effects on moose growth vary between sexes (WTemp:Sex), effects of minimum winter temperature on growth vary with latitude (DDLat:WTemp), and whether there is evidence that latitudinal effects of minimum winter temperature on growth differ between the sexes (DDLat:WTemp:Sex). I also include an intercept in my model (`+ 1`).
 
 :::
 
 
 ## STARTING MODEL
 #### The task:
-This step involves describing how you built the statistical model to test your hypothesis.  Here, you will:
+This step involves describing how you [built the statistical model](DSPPH_SM_StartingModel.qmd) to test your hypothesis.  Here, you will:
 
 * Choose your error distribution assumption
 
@@ -225,7 +227,7 @@ ggplot()+ # start ggplot
 
 
 # Fitting your starting model
-startMod<-glm(formula = MassChange ~ DDLat + WTemp + Sex + DDLat:Sex + WTemp:Sex + DDLat:WTemp + DDLat:WTemp:Sex, # hypothesis
+startMod<-glm(formula = MassChange ~ DDLat + WTemp + Sex + DDLat:Sex + WTemp:Sex + DDLat:WTemp + DDLat:WTemp:Sex + 1, # hypothesis
               data = myDat, # data
               family = gaussian(link = "identity")) # error distribution assumption
 
@@ -256,9 +258,9 @@ Based on these assumption I tested my hypothesis by fitting a generalized linear
 
 ## MODEL VALIDATION
 #### The task:
-Here, you will describe how you assessed your model to ensure that it can be used to test your hypothesis.  Remember that the assumptions you made above (error distribution & shape assumptions) were a "best guess" but it is only after the model is fit that we can confirm that it is useful.  In this section you will:  
+Here, you will describe [how you assessed your model](DSPPH_SM_ModelValidation.qmd) to ensure that it can be used to test your hypothesis.  Remember that the assumptions you made above (error distribution & shape assumptions) were a "best guess" but it is only after the model is fit that we can confirm that it is useful.  In this section you will:  
 
-* Consider predictor collinearity 
+* Consider predictor colinearity 
 
 * Consider observation independence
 
@@ -272,10 +274,11 @@ and report your results.
 
 Code supporting your tasks in this section will help you assess your model for violations that may make it invalid for testing your hypothesis, e.g.:
 
+##### Considering predictor colinearity:
+
 ```{r}
-# Consider predictor collinearity 
 ## Fit a model without interactions
-startMod.noInt <- glm(formula = MassChange ~ DDLat + WTemp + Sex, # hypothesis
+startMod.noInt <- glm(formula = MassChange ~ DDLat + WTemp + Sex + 1, # hypothesis
               data = myDat, # data
               family = gaussian(link = "identity")) # error distribution assumption
 
@@ -295,7 +298,7 @@ startMod.noInt.noWTemp
 
 ## Recalculating the VIFs
 
-# vif(startMod.noInt.noWTemp) # estimate VIFs
+vif(startMod.noInt.noWTemp) # estimate VIFs
 
 ## there are no longer any problems with predictor collinearity, as all VIFs < 3
 
@@ -304,14 +307,16 @@ startMod <- glm(formula = MassChange ~ DDLat + Sex + DDLat:Sex, # hypothesis
               data = myDat, # data
               family = gaussian(link = "identity")) # error distribution assumption
 
+```
 
+##### Considering observation independence:
 
-# Consider observation independence
+```{r}
 ## You wonder if Source could be violating your observation independence assumption.  Check to see with a plot of your residuals vs. Source
 
 library(DHARMa) # load package
 
-simOut <- simulateResiduals(fittedModel = startMod, n = 250) # simulate data from our model n times and calculate residuals
+simOut <- simulateResiduals(fittedModel = startMod, n = 1000) # simulate data from our model n times and calculate residuals
 
 myDat$myResid <- simOut$scaledResiduals # add residuals to data frame
 
@@ -329,15 +334,26 @@ ggplot()+ # initialize plot
 testCategorical(simulationOutput = simOut, # compare simulated residuals
      catPred = myDat$Source)
 
+```
 
-# Consider your error distribution assumption
+
+##### Considering your error distribution assumption: 
+
+```{r}
+
 plotQQunif(simulationOutput = simOut, # the object made when estimating the scaled residuals.  See section 2.1 above
            testUniformity = TRUE, # testing the distribution of the residuals 
            testOutliers = TRUE, # testing the presence of outliers
            testDispersion = TRUE) # testing the dispersion of the distribution
 
 
-# Consider your shape assumptions
+```
+
+
+##### Considering your shape assumptions
+
+```{r}
+
 
 # A plot of residuals vs. fitted values
 plotResiduals(simulationOutput = simOut, # the object made when estimating the scaled residuals.  See section 2.1 above
@@ -351,7 +367,11 @@ plotResiduals(simulationOutput = simOut, # compare simulated data to
      form = myDat$Sex, # our observations
      asFactor = TRUE) # whether the variable plotted is a factor
 
-# define my validated model
+```
+
+##### Defining your validated model:
+
+```{r}
 
 validMod <- startMod
 
@@ -372,25 +392,27 @@ Use the code in the previous section to comment on your model's validity in test
 For example,
 
 ::: {.alert .alert-success}
-I tested if collinearity among my predictors was making my model coefficients uncertain by estimating variance inflation factors (VIFs) with the car package (@FoxWeisberg2019_car)^[you can find the citation for the car package with `citation("car")`.  Remember to cite every package you use in R.].  Initial VIFs for *DDLat* and *WTemp* were > 23 indicating a high level of predictor collinearity.  *WTemp* was removed from the model and the VIFs were re-estimated.  VIFs in the new model were both 1, and it was concluded that there was no further issue with predictor collinearity.
+I tested if colinearity among my predictors was making my model coefficients uncertain by estimating variance inflation factors (VIFs) with the car package (@FoxWeisberg2019_car)^[you can find the citation for the car package with `citation("car")`.  Remember to cite every package you use in R.].  Initial VIFs for *DDLat* and *WTemp* were > 23 indicating a high level of predictor collinearity.  *WTemp* was removed from the model and the VIFs were re-estimated.  VIFs in the new model were both 1, and it was concluded that there was no further issue with predictor collinearity.
 
 The new starting model will test the hypothesis:
 
-*MassChange ~ Latitude + Sex + Latitude:Sex*
+*MassChange ~ Latitude + Sex + Latitude:Sex + 1*
 
-I tested my assumption of observation independence by determining if the observations were grouped by *Source* (the source university for the data^[see readme file above]).  I estimated my model residuals using the DHARMA package (@Hartig2022_DHARMa)^[find this with `citation("DHARMa")`] and plotted my residuals vs. *Source*.  I tested for patterns in the residuals due to *Source* by the Levene test for the homogeneity of variances.  There was no evidence that the observations were dependent on *Source* (Levene test, P = `r round(data.frame(testCategorical(simOut, catPred = myDat$Source)$homogeneity)["group", "Pr..F."],3)`) concluded my data were not dependent on one another based on *Source* as the residuals were evenly distributed across the three source universities (see Figure 3).
+I tested my assumption of observation independence by determining if the observations were grouped by *Source* (the source university for the data^[see readme file above]).  I estimated my model residuals using the DHARMA package (@Hartig2022_DHARMa)^[find this with `citation("DHARMa")`] and plotted my residuals vs. *Source*.  I tested for patterns in the residuals due to *Source* by the Levene test for the homogeneity of variances.  There was no evidence that the observations were dependent on *Source* (Levene test, P = `r round(data.frame(testCategorical(simOut, catPred = myDat$Source)$homogeneity)["group", "Pr..F."],3)`).  I concluded my data were not dependent on one another based on *Source* as the residuals were evenly distributed across the three source universities (see Figure 3).
 
 I assessed my error distribution assumption by inspected my residuals.  Observed residuals were similar to those expected given my normal error distribution assumption.  The Kolmogorov-Smirnov test comparing the observed to the expected distribution was not significant (P = 0.96).  The dispersion and outlier tests were also not significant (P = 0.74 and P = 0.99 respectively).  From these results, I concluded that my error distribution assumption was appropriate.
 
-I assessed my shape assumption by inspected my residuals vs. each predictor.  My residuals were evenly distributed with Latitude, indicating a linear shape assumption for Latitude was appropriate.  The linear shape assumption for Sex was necessary as Sex is a categorical variable.  A plot of the residuals vs. Sex showed residuals were evenly distributed across the two sexes.  From these results, I concluded that my linear shape assumptions were appropriate.  
+I assessed my shape assumption by inspected my residuals vs. the fitted values and each predictor.  There was no pattern in my residuals when compared to my model fitted values.  My residuals were evenly distributed with Latitude, indicating a linear shape assumption for Latitude was appropriate.  The linear shape assumption for Sex was necessary as Sex is a categorical variable.  A plot of the residuals vs. Sex showed residuals were evenly distributed across the two sexes.  From these results, I concluded that my linear shape assumptions were appropriate.  
 
-Given these results, I determined that the new starting model (*MassChange ~ Latitude + Sex + Latitude:Sex*) can be used to test my hypothesis. 
+Given these results, I determined that the new starting model (*MassChange ~ Latitude + Sex + Latitude:Sex + 1*) can be used to test my hypothesis. 
 
 :::
 
 ## HYPOTHESIS TESTING
 #### The task:
-Here, you will use your model to test your hypothesis.  For the purposes of this course, you will do this with the model selection method we practiced in class^[As a reminder, in your Hypothesis Testing notes, we also discussed testing your hypothesis via p-values, as well as the limitations of this method when you have more than one predictor].  In this section you will:
+Here, you will use your model to [test your hypothesis](DSPPH_SM_HypothesisTesting.qmd).  We will use here the model selection method to test the hypothesis.  You can also read about the role of p-values for testing your hypothesis [here](https://neuheimerlab.github.io/DSPPHandbook/DSPPH_SM_HypothesisTesting.html#sec_PValue).  
+
+In this section you will:
 
 * fit and compare models representing all possible combinations of the predictors in your starting model
 
@@ -464,13 +486,13 @@ with an Akaike weight (normalized relative likelihood) of 0.756.  The next best 
 ## REPORTING
 #### The task:
 
-In this section, you will report your hypothesis testing results. Specifically,
+In this section, you will [report your hypothesis testing results](DSPPH_SM_Reporting.qmd). Specifically,
 
-* Report your best-specified model(s): Report your best-specified model and communicate the terms (predictors and interactions) that are in your model, and the terms that were in your starting model that are not in your best-specified model.
+* Report your best-specified model(s): Report your best-specified model and communicate the terms (predictors and interactions) that are IN your model, and the terms that are NOT in your best-specified model, but were in your starting model.
 
-* Report how well your model explains your response: Report how much deviance in your reponse your model explains.  If you have more than one predictor, you should also report how important each term is in explaining the deviance.
+* Report the explained deviance: Here you report how well your model explains your response. Report how much deviance in your reponse your model explains.  If you have more than one predictor, you should also report how important each term is in explaining the deviance.
 
-* Report your modelled effects: Report your effects visually and quantitatively.
+* Report your modelled effects: Report your effects visually, using examples, and quantitatively.
 
 
 #### The code:
@@ -478,12 +500,9 @@ In this section, you will report your hypothesis testing results. Specifically,
 Code supporting your tasks in this section will help you communicate what your results tell you about your hypothesis, e.g.:
 
 
-**Reporting your best-specified model(s)**
+##### Reporting your best-specified model(s)
 
 ```{r}
-
-# Report your best-specified model(s)
-
 
 ## Our best-specified model is MassChange ~ DDLat + Sex + DDLat:Sex (model #8 in the dredge() output).
 
@@ -492,10 +511,9 @@ bestMod<-(eval(attr(dredgeOut, "model.calls")$`8`)) # extract model #8 from dred
 
 ```
 
-### Reporting how well your model explains your response
+##### Reporting explained deviance
 
 ```{r}
-## Report explained deviance
 
 r.squaredLR(bestMod) # estimates the likelihood ratio R^2.  Could also estimate a traditional R^2 with 1-summary(bestMod)$deviance/summary(bestMod)$null.deviance here as the error distribution assumption is normal and the shape assumption is linear, but the likelihood ratio R^2 function is generally applicable to many error distribution assumptions and equivalent to the traditional R^2 when the error distribution assumption is normal and the shape assumption is linear.
 
@@ -506,7 +524,9 @@ sw(dredgeOut)
 ```
 
 
-### Visualizing your model effects
+##### Reporting your modelled effects
+
+###### Visualizing your model effects
 
 ```{r}
 
@@ -551,10 +571,39 @@ ggsave(filename = "myPlot.png", # filename
 
 ```
 
+###### Giving examples of your modelled effects
 
-### Quantifying your model effects
+Here, you will give examples of your modelled response using different values of your predictors.
 
-For each categorical predictor:
+For example, you can report the average growth rate for male and female moose at 61˚N vs 63˚N.
+
+```{r}
+
+## Step One: Define the predictor values for your response estimate
+forPred <- data.frame(Sex = c("Males", "Males", "Females", "Females"), 
+                      DDLat = c(61, 63, 61, 63)) # values of the predictors at which to make the prediction
+
+
+## Step Two: Make your response estimate
+predResp <- predict(bestMod, # the model
+                newdata = forPred, # the predictor values
+                type = "link",# here, make the predictions on the link scale and we'll translate the back below
+                se.fit = TRUE) # include uncertainty estimate
+
+ilink <- family(bestMod)$linkinv # get the conversion (inverse link) from the model to translate back to the response scale
+
+forPred$Resp<-ilink(predResp$fit) # add your fit to the data frame
+forPred$Upper<-ilink(predResp$fit + 1.96*predResp$se.fit) # add your uncertainty to the data frame, 95% confidence intervals
+forPred$Lower<-ilink(predResp$fit - 1.96*predResp$se.fit) # add your uncertainty to the data frame
+
+forPred
+
+
+```
+
+###### Quantifying your model effects
+
+For each categorical predictor, report:
 
   - the modelled response on the RESPONSE scale for each level in your categorical predictor
 
@@ -566,13 +615,6 @@ For each categorical predictor:
 
 library(emmeans) # load emmeans package
 
-#### the modelled response on the linked scale for each level in your categorical predictor
-emmOutLink <- emmeans(object = bestMod, # your model
-                      specs = ~ DDLat + Sex + DDLat:Sex + 1, # your predictors
-                      type = "link") # report coefficients on the response scale
-
-emmOutLink
-
 #### the modelled response on the response scale for each level in your categorical predictor
 emmOut <- emmeans(object = bestMod, # your model
                   specs = ~ DDLat + Sex + DDLat:Sex + 1, # your predictors
@@ -582,16 +624,15 @@ emmOut # note that the link and response scale here are identical because we are
 
 #### the evidence that the modelled response is different across levels of your categorical predictor.  Are the effects of Sex different from each other?
 pairs(emmOut, # emmeans object
+      adjust = "fdr", # multiple comparison adjustment
       simple = "Sex") # simple comparison by Sex
 
 ```
 
 
-+ for each numeric predictor:
++ for each numeric predictor, report:
 
 - the effect on your response of a unit change in your numeric predictor on the RESPONSE scale
-
-- if there is an interaction: report how the interaction shows up in your modelled effects, making comparison across levels of a categorical predictor as appropriate (see example)
 
 
 ```{r}
@@ -600,16 +641,30 @@ pairs(emmOut, # emmeans object
 
 ### Find the coefficients for Latitude.  As Latitude is continuous, we do this with emtrends() and the reported coefficients are the slope describing the change in predicted mean response with a unit change in Latitude.  Note that emtrends() reports coefficients on the LINK scale.  You need to convert this to the response scale.  In our case, the error distribution assumption is normal so nothing needs to be done to convert the coefficients.
 trendsOut <- emtrends(object = bestMod, # your model
-                      specs = ~ DDLat + Sex + DDLat:Sex, # your predictors
+                      specs = ~ DDLat + Sex + DDLat:Sex + 1, # your predictors
                       var = "DDLat") # name of your continuous predictor
 
 trendsOut
 
 ## the effect on your response of a unit change in your continuous predictor on the RESPONSE scale
 ### Note that emtrends() reports coefficients on the LINK scale.  You need to convert this to the response scale.  In our case, the error distribution assumption is normal so nothing needs to be done to convert the coefficients.
+```
 
-## report how the interaction shows up in your modelled effects, making comparison across levels of a categorical predictor as appropriate (see example)
-#### Are the effects of DDLat different from each other across Sex?
++ if there is an interaction between a categorical and numeric predictor, report: 
+
+- if the numeric predictor effect is different than 0 for all levels of your categorical predictor, and 
+
+- if the numeric predictor effect is the same for all levels of your categorical predictor (see example)
+
+
+```{r}
+
+#### Are the effects of DDLat different from 0 for all levels of Sex?
+
+test(trendsOut) # get test if coefficient is different than zero.
+
+
+#### Are the effects of DDLat different from each other across all levels of Sex?
 pairs(trendsOut, # trendsOut object
       simple = "Sex") # simple comparisons by Sex
 
@@ -621,15 +676,19 @@ Use the results of the code above to report your hypothesis testing results.  In
 
 * a description of the terms (predictor fixed effects and any interactions) that are in your best-specified model
 
-* a comparison these terms to your starting model - are all terms in your starting model in you best-specified model?
+* a comparison of these terms to the terms in your *starting* model - are all terms in your starting model in your best-specified model?
 
 * how much deviance in your response is explained by your model
 
 * how important each term (predictor or interaction) is in explaining the deviance in your response
 
-* a visual representation of your modelled effects (a plot): Remember to include your model predictions, uncertainty as well as your observations.  Include units on your axes and a figure number and legend.
+* descriptions of your modelled effects:
 
-* a report of your modelled effects quantitatively by reporting coefficients on the response scale:
+- a visual representation of your modelled effects (a plot): Remember to include your model predictions, uncertainty as well as your observations.  Include units on your axes and a figure number and legend.
+
+- examples of your modelled response using different values of your predictors
+
+- quantifications of your modelled effects
 
   + for each categorical predictor:
 
@@ -637,11 +696,15 @@ Use the results of the code above to report your hypothesis testing results.  In
 
     - the evidence that the modelled response is different across levels of your categorical predictor
 
-  + for each continuous predictor:
+  + for each numeric predictor:
 
     - the effect on your response of a unit change in your numeric predictor on the RESPONSE scale
 
-    - if there is an interaction: report how the interaction shows up in your modelled effects, making comparison across levels of a categorical predictor as appropriate (see example)
+  + if there is an interaction between a numeric and categorical predictor
+  
+- if the numeric predictor effect is different than 0 for all levels of your categorical predictor, and 
+
+- if the numeric predictor effect is the same for all levels of your categorical predictor (see example)
 
 * linking the modelled effects back to the mechanisms
 
@@ -653,20 +716,21 @@ For example,
 
 ::: {.alert .alert-success}
 
-My best-specified model tells me that the growth varies with latitude and sex, and that the effect of latitude on growth varies with sex^[the interaction].  The terms in my best-specified model are the same as those in my starting model indicating that there is evidence that the main effects of latitude and sex as well as the interaction are explaining variability in moose growth.  
+My best-specified model tells me that the growth varies with latitude and sex, and that the effect of latitude on growth varies with sex^[the interaction].  The terms in my best-specified model are the same as those in my starting model indicating that there is evidence that the main effects of latitude and sex as well as the interaction are explaining variability in moose growth. 
+
+Together the effects of latitude and sex explain 93% of the deviance in growth rate (Likelihood ratio R<sup>2</sup>).^[here equivalent to the traditional  R<sup>2</sup> as we have a normal error distribution assumption and linear shape assumption.  The traditional R<sup>2</sup> is found with `1-summary(bestMod)$deviance/summary(bestMod)$null.deviance` = `r 1-summary(bestMod)$deviance/summary(bestMod)$null.deviance`].  
+
+Based on the sum of Akaike weights, latitude and sex are equally important in explaining the deviance in growth rate as they appear in all models with Akaike weights > 0. The interaction between latitude and sex is slightly less important appearing only in the best-specified model with an Akaike weight of 0.76.
 
 Growth rate is higher for males than females: the predicted growth when latitude is 61.6˚N (the mean of the latitudinal range) is 11.8 ± 0.6 kg year<sup>-1</sup> for females and 23.8 ± 0.6 kg year<sup>-1</sup> for males.^[watch your number of significant units here.  Make sure they make sense for the type of measurement.  And be consistent].  There is evidence the predictions of growth between sexes are different (t-test; t-ratio = -14.8; P < 0.0001).  Note that these estimates are the same on the link and response scales as the model uses an identity link.
 
 The coefficient (slope) for the effect of a change of latitude on the growth rate is 0.70 ± 0.18 kg year<sup>-1</sup> ˚N<sup>-1</sup> for females and 1.29 ± 0.18 kg year<sup>-1</sup> ˚N<sup>-1</sup> for males.  There is evidence that these effects (slopes) are different from one another (t-test, t-ratio = -2.3, P = 0.035).  These coefficients show that growth rates increase with latitude for both sexes, but that the effect of latitude on growth is higher for male vs. female moose.  Note that these estimates are the same on the link and response scales as the model uses an identity link.
 
+This interaction between the effects of latitude and sex on growth is also illustrated in our modelled response predictions: Growth rate of males at 61˚N is 23.0 kg year<sup>-1</sup> (95% confidence interval: 21.8 - 24.1 kg year<sup>-1</sup>) and increases to 25.6 kg year<sup>-1</sup> (95% confidence interval: 24.3 - 26.8 kg year<sup>-1</sup>) at 63˚N. Growth rate of females at 61˚N is 11.4 kg year<sup>-1</sup> (95% confidence interval: 10.2 - 12.5 kg year<sup>-1</sup>) and increases to 12.8 kg year<sup>-1</sup> (95% confidence interval: 11.5 - 14.0 kg year<sup>-1</sup>) at 63˚N.
+
 Figure 4 shows the modelled effects of latitude and sex on growth rate along with my observations.
 
 <img src="./myPlot.png" width="400px"/>
-
-
-Together the effects of latitude and sex explain 93% of the deviance in growth rate (Likelihood ratio R<sup>2</sup>).^[here equivalent to the traditional  R<sup>2</sup> as we have a normal error distribution assumption and linear shape assumption.  The traditional R<sup>2</sup> is found with `1-summary(bestMod)$deviance/summary(bestMod)$null.deviance` = `r 1-summary(bestMod)$deviance/summary(bestMod)$null.deviance`].  
-
-Based on the sum of Akaike weights, latitude and sex are equally important in explaining the deviance in growth rate as they appear in all models with Akaike weights > 0. The interaction between latitude and sex is slightly less important appearing only in the best-specified model with an Akaike weight of 0.76.
 
 An increase in annual growth rate with latitude may indicate... [link to mechanisms].
 
@@ -674,13 +738,13 @@ A sex-specific increase in annual growth rate may indicate... [link to mechanism
 
 [a discussion on study limitations (e.g. how the growth rate, latitude, etc. were measured)].
 
-The remaining unexplained deviance may be due to other factors affecting growth rate such as winter harshness, food availability, etc.  Note that I was not able to include minimum winter temperature in my hypothesis test due to high collinearity between latitude and minimum winter temperature.  Therefore, I do not know if the measured latitudinal effect on growth might mechanistically be due to winter harshness (here estimated as minimum winter temperature).  This could be tested if I was able to expand my data set to include sites where latitude and minimum winter temperature were less correlated... [discussion on other, untested factors that may be responsible for the unexplained deviance].
+The remaining unexplained deviance may be due to other factors affecting growth rate such as winter harshness, food availability, etc.  Note that I was not able to include minimum winter temperature in my hypothesis test due to high colinearity between latitude and minimum winter temperature.  Therefore, I do not know if the measured latitudinal effect on growth might mechanistically be due to winter harshness (here estimated as minimum winter temperature).  This could be tested if I was able to expand my data set to include sites where latitude and minimum winter temperature were less correlated... [discussion on other, untested factors that may be responsible for the unexplained deviance].
 
 :::
 
 ## PREDICTING
 #### The task:
-Here you *may* use your model to make predictions (remembering prediction limits).  
+Here you *may* use your model to make [predictions](DSPPH_SM_Predicting.qmd) (remembering prediction limits).  
 
 If you want to make a prediction (e.g. "based on your best-specified model, what is your predicted mean annual growth of a female moose living in Sicily, Italy?"), in this section you want to report your prediction results and give any limitations to the prediction.
 
@@ -733,41 +797,6 @@ I used my best-specified model to estimate the mean annual growth rate of adult 
 
 :::
 
-
-# Commenting your code
-
-Finally, let's talk about commenting your code.  
-
-### Why comment {.unnumbered}
-
-Commenting your code (using `#`) allows you to clarify what your R code is doing at each step.  This will help you when you share your code with collaborators and it will help you catch errors in your code.  Commenting will also help you make your code useful to yourself for future projects.  Remember that your closest collaborator is yourself six months ago and they don't return emails!  
-
-### How to comment {.unnumbered}
-
-Clarify each line of your code by adding a `#` and then a description of what the code is doing.  Don't just write the function name in your comments.  Add (in human language) what that line of code is doing.  Use your comments to:
-
-* Define variables, e.g.
-
-```{r eval = FALSE}
-forSex<-unique(myDat$Sex) # get every level of my Sex predictor
-```
-
-* Explain what the code is trying to do, e.g.
-
-```{r eval = FALSE}
-# Get your model fit estimates at each value of your predictors
-modFit<-predict(bestMod, # the model
-                newdata = forVis, # the predictor values
-                type = "response", # make the predictions on the response scale
-                se.fit = TRUE) # include uncertainty estimate
-```
-
-* Explain why you chose a particular strategy, e.g.
-
-```{r eval = FALSE}
-r.squaredLR(bestMod) # estimates the likelihood ratio R^2.  Could also estimate a traditional R^2 with 1-summary(bestMod)$deviance/summary(bestMod)$null.deviance here as the error distribution assumption is normal and the shape assumption is linear, but the likelihood ratio R^2 function is generally applicable to many error distribution assumptions and equivalent to the traditional R^2 when the error distribution assumption is normal and the shape assumption is linear.
-```
-
 # From Hypothesis Testing to Scientific Paper
 
 In this final section, we talk about how to take all the pieces from your statistical modelling adventure to create a scientific report and paper.
@@ -787,9 +816,6 @@ In this final section, we talk about how to take all the pieces from your statis
 <img src="./CommPaper_Discussion.png" width="800px"/>
 
 
-
-# Up Next
-In the next chapter, we will discuss how the GLM methods we have been using relate to other types of statistical models.  This will help you communicate your choices and methods to others that may differ in the way they are approaching their statistical modelling.
 
 
 

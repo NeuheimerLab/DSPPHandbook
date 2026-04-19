@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -218,8 +252,30 @@ Extra
 </section>
 <section id="commenting-your-script" class="level3">
 <h3 class="anchored" data-anchor-id="commenting-your-script">Commenting your script</h3>
-<p>It is also important to get in the habit of <strong>commenting</strong> your script. Comments are bits of your code that R will jump over (not execute). They are there for you, your future self, and your colleagues to clarify your intent with each piece of code. You indicate a comment by the “<code>#</code>” in R and then include text that tells the user why that line/section of code is there, e.g.:</p>
-<p><img src="./ScriptEx.png" align="center" width="400px"></p>
+<p>It is also important to get in the habit of <strong>commenting</strong> your script. Comments are bits of your code that R will jump over (not execute). They are there for you, your future self, and your colleagues to clarify your intent with each piece of code.</p>
+<p>Clarify each line of your code by adding a <code>#</code> and then a description of what the code is doing. Don’t just write the function name in your comments. Add (in human language) what that line of code is doing. Use your comments to:</p>
+<ul>
+<li>Define variables, e.g.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>forSex<span class="ot">&lt;-</span><span class="fu">unique</span>(myDat<span class="sc">$</span>Sex) <span class="co"># get every level of my Sex predictor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Explain what the code is trying to do, e.g.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get your model fit estimates at each value of your predictors</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>modFit<span class="ot">&lt;-</span><span class="fu">predict</span>(bestMod, <span class="co"># the model</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">newdata =</span> forVis, <span class="co"># the predictor values</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">type =</span> <span class="st">"response"</span>, <span class="co"># make the predictions on the response scale</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">se.fit =</span> <span class="cn">TRUE</span>) <span class="co"># include uncertainty estimate</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Explain why you chose a particular strategy, e.g.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">r.squaredLR</span>(bestMod) <span class="co"># estimates the likelihood ratio R^2.  Could also estimate a traditional R^2 with 1-summary(bestMod)$deviance/summary(bestMod)$null.deviance here as the error distribution assumption is normal and the shape assumption is linear, but the likelihood ratio R^2 function is generally applicable to many error distribution assumptions and equivalent to the traditional R^2 when the error distribution assumption is normal and the shape assumption is linear.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>(Don’t worry about what the coding lines are doing above at this point, just note how comments (<code>#</code>) are used to clarify the code)</p>
 </section>
 </section>
