@@ -47,7 +47,7 @@ A few things to note about these "classical" models:
 
 - With classical models, assessing if your model is valid often comes **before** you apply the model (e.g. checking to see that your response is normal before you apply the model)
 
-- Classical models rely on P-values to determine the evidence for your hypothesis.  [Refresh how you can use P-values to test your hypothes here](DSPPH_SM_HypothesisTesting.qmd##sec_PValue).
+- Classical models rely on P-values to determine the evidence for your hypothesis.  [Refresh how you can use P-values to test your hypothesis here](DSPPH_SM_HypothesisTesting.qmd#sec_PValue).
 
 - Some classical models are mathematically identical to a GLM, e.g.
   - a simple linear model (`lm()`) is the same as a GLM when your error distribution assumption is normal
