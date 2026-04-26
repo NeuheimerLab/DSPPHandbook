@@ -203,12 +203,19 @@ In this chapter you will learn:
 </div>
 <section id="beyond-glms" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Beyond GLMs</h1>
-<p>When to use GLMs (vs.&nbsp;these other methods): - when you have a linear shape assumption</p>
-<p>When to use these other methods (vs.&nbsp;a GLM): - when you need to relate to previous research (e.g.&nbsp;interpretting coefficients, comparing results across)</p>
+<p>When to use GLMs (vs.&nbsp;these other methods):</p>
+<ul>
+<li>when you have a linear shape assumption</li>
+</ul>
+<p>When to use these other methods (vs.&nbsp;a GLM):</p>
+<ul>
+<li>when you need to relate to previous research (e.g.&nbsp;interpreting coefficients, comparing results between your work and existing research that used another method)</li>
+</ul>
 <section id="other-types-of-linear-models" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="other-types-of-linear-models"><span class="header-section-number">1.1</span> Other types of linear models</h2>
-<p>As we have discussed in class, you are testing your hypothesis by building a model of your hypothesis so that you can fit the model to data and determine the evidence for your hypothesis. Remember that models are an approximation of what is going on in the real world and that “all models are wrong, but some are useful”. It follows then that there could be more than one useful model that can represent your hypothesis.</p>
-<p>Here we will talk about classical models or tests. These are other types of models that can be used to test your hypothesis when you have a linear shape assumption. By having these other tests “on your radar” you will be better able to communicate with those who might be using different methods than you.</p>
+<p>Recall from the chapter on <a href="./DSPPH_SM_HypothesisTesting.html">hypothesis testing</a>, statistical modelling means building a model of your hypothesis so that you can mathematically compare your hypothesis to data and thereby determine the evidence for your hypothesis.</p>
+<p>Remember that models are an approximation of the real world and that “all models are wrong, but some are useful”. It follows then that there could be more than one useful model that can represent your hypothesis.</p>
+<p>Here, we will talk about classical models or tests. These are other types of models that can be used to test your hypothesis when you have a linear shape assumption. By having these other tests “on your radar” you will be better able to communicate with those who might be using different methods than you.</p>
 <p>A few things to note about these “classical” models:</p>
 <ul>
 <li><p>With classical models, assessing if your model is valid often comes <strong>before</strong> you apply the model (e.g.&nbsp;checking to see that your response is normal before you apply the model)</p></li>
@@ -218,7 +225,7 @@ In this chapter you will learn:
 <li>a simple linear model (<code>lm()</code>) is the same as a GLM when your error distribution assumption is normal</li>
 <li>an Analysis of Variance or ANOVA is the same as a GLM when your error distribution assumption is normal, and your predictors are all categorical</li>
 </ul></li>
-<li><p>For some types of observations, there are no equivalent “classical” models - you need a GLM. This is particularly the case when you have non-normal error distribution assumptions that are discrete, such as poisson (count data) or binomial.</p></li>
+<li><p>For some types of observations, there are no equivalent “classical” models - you need a GLM. This is particularly the case when you have non-normal error distribution assumption that is discrete, such as poisson (count data) or binomial.</p></li>
 <li><p>When the effect of your predictor on your response is big, your results from a GLM will agree with the classical model equivalent. When the effect of your predictor on your response is small, you might conclude different things about your hypothesis depending on the model you use to test it. This can be frustrating/confusing, but it is just the nature of the process: you are using models that are only approximations of the real world.</p></li>
 </ul>
 <p>Here we will compare the method we have been using (GLM) with a classical model for a number of situations:</p>
@@ -229,15 +236,18 @@ In this chapter you will learn:
 <li><p>Resp4 ~ Cat4 + Num5 + 1 (where you have a categorical and a numeric predictor)</p></li>
 <li><p>Resp5 ~ Cat6 + 1 (where you have a categorical predictor with only two factor levels AND observation dependence)</p></li>
 </ul>
-<p>We will also include one more example that we haven’t talked about yet - how you test if the mean of your response is equal to a constant value (i.e.&nbsp;a “one-sample test”): * Resp6 ~ constant</p>
-<p><strong>This section may seem overwhelming, but remember that you already know how to address every hypothesis discussed here (with a GLM). This section is to make you aware of the other options available to you.</strong></p>
+<p>We will also include one more example that we haven’t talked about yet - how you test if the mean of your response is equal to a constant value (i.e.&nbsp;a “one-sample test”):</p>
+<ul>
+<li>Resp6 ~ constant</li>
+</ul>
+<p><strong>This section may seem daunting, but remember that you already know how to address every hypothesis discussed here (with a GLM). This section is to make you aware of the other options available to you.</strong></p>
 <hr>
 <section id="resp1-cat1-1-where-cat1-has-two-factor-levels" class="level3">
 <h3 class="anchored" data-anchor-id="resp1-cat1-1-where-cat1-has-two-factor-levels">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels)</h3>
 <section id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-two-sample-t-test" class="level4">
 <h4 class="anchored" data-anchor-id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-normal-error-distribution-assumption---glm-vs.-two-sample-t-test">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels) with a normal error distribution assumption - GLM vs.&nbsp;two-sample t-test</h4>
 <p>An example: monthly weight change is different between North and South populations or <code>WtChange ~ Pop</code></p>
-<p>Using our GLM method, we would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong>, we would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Pop <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
@@ -267,7 +277,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
 <p>and would go on with our statistical modelling framework.</p>
-<p>Using a classical model, we can choose the two-sample t-test:</p>
+<p>Using a <strong>classical model</strong>, we can choose the two-sample t-test:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># first check to see the response is normally distributed with a shapiro test for each population:</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>samp1<span class="ot">&lt;-</span><span class="fu">subset</span>(myDat, Pop <span class="sc">==</span> <span class="st">"South"</span>)<span class="sc">$</span>WtChange</span>
@@ -332,7 +342,7 @@ mean of x mean of y
 <section id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-wilcoxon-rank-sum-test" class="level4">
 <h4 class="anchored" data-anchor-id="resp1-cat1-1-where-cat1-has-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-wilcoxon-rank-sum-test">Resp1 ~ Cat1 + 1 (where Cat1 has two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;Wilcoxon Rank Sum test</h4>
 <p>Example: tree height variation is explained by population (North vs.&nbsp;South) or <code>Height ~ Pop</code></p>
-<p>Using our GLM method we would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Pop <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
@@ -362,7 +372,7 @@ Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 </div>
 <p>and would then go on with our statistical modelling framework.</p>
-<p>Using a classical model, we can choose the Wilcoxon Rank Sum test.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
+<p>Using a <strong>classical model</strong>, we can choose the Wilcoxon Rank Sum test.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Height <span class="sc">~</span> Pop <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> myDat) <span class="co"># data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -404,7 +414,7 @@ Attaching package: 'dplyr'</code></pre>
     intersect, setdiff, setequal, union</code></pre>
 </div>
 </div>
-<p>Using our GLM method we would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
@@ -453,7 +463,7 @@ Sp    2   5929.6        42      388.6 320.44 &lt; 2.2e-16 ***
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Using a classical model, we can choose an Analysis of Variance model or ANOVA:</p>
+<p>Using a <strong>classical model</strong>, we can choose an Analysis of Variance model or ANOVA:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>startMod.aov<span class="ot">&lt;-</span><span class="fu">aov</span>(WtChange <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, <span class="co">#hypothesis</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">data =</span> myDat) <span class="co">#data</span></span>
@@ -472,14 +482,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <ul>
 <li><p>With an ANOVA, you assess your model’s validity by inspecting residuals, i.e.&nbsp;after you fit the model (as we do with the GLM).</p></li>
 <li><p>You might see people mentioning one-way vs.&nbsp;two-way ANOVA. This just describes if you have one categorical predictor in your model (one-way ANOVA) or two (two-way ANOVA).</p></li>
-<li><p>You might see people mentioning Type I vs.&nbsp;Type II vs.&nbsp;Type III ANOVAs. These are different ANOVA methods used to handle predictor collinearity when selecting which predictors should be in your best-specified model. You can change the type of ANOVA you are fitting with the <code>Anova()</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> function in the car package.</p></li>
+<li><p>You might see people mentioning Type I vs.&nbsp;Type II vs.&nbsp;Type III ANOVAs. These are different ANOVA methods used to handle predictor colinearity when selecting which predictors should be in your best-specified model. You can change the type of ANOVA you are fitting with the <code>Anova()</code><a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> function in the car package.</p></li>
 </ul>
 <hr>
 </section>
 <section id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-kruskal-wallis" class="level4">
 <h4 class="anchored" data-anchor-id="resp2-cat2-1-where-cat2-has-more-than-two-factor-levels-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-kruskal-wallis">Resp2 ~ Cat2 + 1 (where Cat2 has more than two factor levels) with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;Kruskal-Wallis</h4>
 <p>Example: tree height variation is explained by species (Sp1, Sp2 and Sp3) or <code>Height ~ Sp + 1</code></p>
-<p>Using our GLM method we would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
@@ -548,7 +558,7 @@ Models ranked by AICc(x) </code></pre>
 </div>
 </div>
 <p>and would then go on with our statistical modelling framework.</p>
-<p>Using a classical model, we can use the Kruskal-Wallis model:</p>
+<p>Using a <strong>classical model</strong>, we can use the Kruskal-Wallis model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(Height <span class="sc">~</span> Sp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -569,7 +579,7 @@ Kruskal-Wallis chi-squared = 0.90794, df = 2, p-value = 0.6351</code></pre>
 <section id="resp3-num3-1-with-a-normal-error-distribution-assumption---glm-vs.-lm" class="level4">
 <h4 class="anchored" data-anchor-id="resp3-num3-1-with-a-normal-error-distribution-assumption---glm-vs.-lm">Resp3 ~ Num3 + 1 with a normal error distribution assumption - GLM vs.&nbsp;LM</h4>
 <p>An example: monthly weight change is explained by temperature or <code>WtChange ~ Temp + 1</code></p>
-<p>Using our GLM method we would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
@@ -598,7 +608,7 @@ AIC: 153.85
 Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
-<p>Using a classical model, we can choose a simple linear model:</p>
+<p>Using a <strong>classical model</strong>, we can choose a simple linear model:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>startMod.lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat)</span>
@@ -632,7 +642,7 @@ F-statistic: 263.9 on 1 and 28 DF,  p-value: 8.754e-16</code></pre>
 <h4 class="anchored" data-anchor-id="resp3-num3-1-with-a-non-normal-error-distribution-assumption---glm">Resp3 ~ Num3 + 1 with a non-normal error distribution assumption - GLM!!</h4>
 <p>An example: plant height is explained by temperature or <code>Height ~ Temp</code></p>
 <p>If your error distribution assumption is continuous, you can <strong>try</strong> a normal error distribution assumption and fit a simple linear model but you need to carefully assess your residuals.</p>
-<p>If your error distribution assumption is discrete (e.g.&nbsp;poisson, binomial), you <strong>need</strong> a GLM.</p>
+<p>If your error distribution assumption is discrete (e.g.&nbsp;poisson, binomial), you <strong>need</strong> a GLM!</p>
 <p>e.g.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Temp <span class="sc">+</span> <span class="dv">1</span>, </span>
@@ -647,7 +657,7 @@ F-statistic: 263.9 on 1 and 28 DF,  p-value: 8.754e-16</code></pre>
 <section id="resp4-cat4-num5-1-with-a-normal-error-distribution-assumption---glm-vs.-ancova" class="level4">
 <h4 class="anchored" data-anchor-id="resp4-cat4-num5-1-with-a-normal-error-distribution-assumption---glm-vs.-ancova">Resp4 ~ Cat4 + Num5 + 1 with a normal error distribution assumption - GLM vs.&nbsp;ANCOVA</h4>
 <p>An example: monthly weight change is explained by temperature and location or <code>WtChange ~ Temp + Location + Temp:Location</code></p>
-<p>Using our GLM method we would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat,</span>
@@ -698,7 +708,7 @@ Temp:Location  2    13.36        24     318.39   0.5037    0.6105
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Using a classical model, we can fit an Analysis of Covariance (ANCOVA) with the <code>aov()</code> function:</p>
+<p>Using a <strong>classical model</strong>, we can fit an Analysis of Covariance (ANCOVA) with the <code>aov()</code> function:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>startMod.ancova <span class="ot">&lt;-</span> <span class="fu">aov</span>(WtChange <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location <span class="sc">+</span> <span class="dv">1</span>, </span>
 <span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> myDat)</span>
@@ -721,7 +731,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h4 class="anchored" data-anchor-id="resp4-cat4-num5-1-with-a-non-normal-error-distribution-assumption---glm">Resp4 ~ Cat4 + Num5 + 1 with a non-normal error distribution assumption - GLM!!</h4>
 <p>An example: plant height is explained by temperature and location or <code>Height ~ Temp + Location + Temp:Location + 1</code></p>
 <p>If your error distribution assumption is continuous, you can <strong>try</strong> a normal error distribution assumption and fit a ANCOVA to test your hypothesis but you need to carefully assess your residuals.</p>
-<p>If your error distribution assumption is discrete (e.g.&nbsp;poisson, binomial), you <strong>need</strong> a GLM.</p>
+<p>If your error distribution assumption is discrete (e.g.&nbsp;poisson, binomial), you <strong>need</strong> a GLM!</p>
 <p>e.g.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">~</span> Temp <span class="sc">+</span> Location <span class="sc">+</span> Temp<span class="sc">:</span>Location <span class="sc">+</span> <span class="dv">1</span>, </span>
@@ -736,7 +746,7 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <section id="resp5-cat6-1-with-a-normal-error-distribution-assumption---glm-vs.-paired-t-test" class="level4">
 <h4 class="anchored" data-anchor-id="resp5-cat6-1-with-a-normal-error-distribution-assumption---glm-vs.-paired-t-test">Resp5 ~ Cat6 + 1 with a normal error distribution assumption - GLM vs.&nbsp;paired t-test</h4>
 <p>An example: monthly weight change before and after maturity or <code>WtChange ~ State</code>, but observations are dependent on one another as the weight change was measured from the same individual before and after maturity.</p>
-<p>Using our GLM method, we could set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong>, we could set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">~</span> State <span class="sc">+</span> ID <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
@@ -763,7 +773,7 @@ ID     1      8.9        27     3203.9   0.0748    0.7866
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Using a classical model, we can fit a paired two-sample model. We first need to change the format of our data from long:</p>
+<p>Using a <strong>classical model</strong>, we can fit a paired two-sample model. We first need to change the format of our data from long:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myDat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -828,7 +838,7 @@ mean difference
 <section id="resp5-cat6-1-with-a-non-normal-error-distribution-assumption---glm-vs.-wilcoxon-signed-rank" class="level4">
 <h4 class="anchored" data-anchor-id="resp5-cat6-1-with-a-non-normal-error-distribution-assumption---glm-vs.-wilcoxon-signed-rank">Resp5 ~ Cat6 + 1 with a non-normal error distribution assumption - GLM vs.&nbsp;Wilcoxon Signed Rank</h4>
 <p>An example: Abundance is explained by treatment as before and after rewilding or <code>Abund ~ Treat + 1</code>, but observations are dependent on one another as the abundance was measured from the same location before and after rewilding.</p>
-<p>Using our GLM method, we could set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong>, we could set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Abund <span class="sc">~</span> Treat <span class="sc">+</span> ID <span class="sc">+</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
@@ -855,7 +865,7 @@ ID     1    0.146        27     27.483   0.7028
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
-<p>Using a classical model, we can fit a paired two-sample model. We first need to change the format of our data from long:</p>
+<p>Using a <strong>classical model</strong>, we can fit a paired two-sample model. We first need to change the format of our data from long:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(myDat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -914,7 +924,7 @@ alternative hypothesis: true location shift is not equal to 0</code></pre>
 <section id="resp-constant-with-a-normal-error-distribution-assumption---glm-vs.-one-sample-t-test" class="level4">
 <h4 class="anchored" data-anchor-id="resp-constant-with-a-normal-error-distribution-assumption---glm-vs.-one-sample-t-test">Resp ~ constant with a normal error distribution assumption - GLM vs.&nbsp;one-sample t-test</h4>
 <p>An example: monthly weight change is 50 g or WtChange ~ 50</p>
-<p>Using our GLM method we need to subtract the constant from the response and would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we need to subtract the constant from the response and would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(WtChange <span class="sc">-</span> <span class="dv">50</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
@@ -941,7 +951,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
 <p>and would go on with our statistical modelling framework.</p>
-<p>Using a classical model, we can choose the one-sample t-test:</p>
+<p>Using a <strong>classical model</strong>, we can choose the one-sample t-test:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">shapiro.test</span>(myDat<span class="sc">$</span>WtChange) <span class="co"># first check to see the response is normally distributed with a shapiro test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -972,7 +982,7 @@ mean of x
 <section id="resp-constant-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-one-sample-wilcoxon-test" class="level4">
 <h4 class="anchored" data-anchor-id="resp-constant-with-a-non-normal-but-continuous-error-distribution-assumption---glm-vs.-one-sample-wilcoxon-test">Resp ~ constant with a non-normal (but continuous) error distribution assumption - GLM vs.&nbsp;one-sample Wilcoxon test</h4>
 <p>An example: tree height is 30m or <code>Height ~ 30</code></p>
-<p>Using our GLM method we need to subtract the constant from the response and would set up our starting model as:</p>
+<p>Using our <strong>GLM method</strong> we need to subtract the constant from the response and would set up our starting model as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>startMod.glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(Height <span class="sc">-</span> <span class="dv">30</span> <span class="sc">~</span> <span class="dv">1</span>, <span class="co"># hypothesis</span></span>
 <span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">data =</span> myDat, <span class="co"># data</span></span>
@@ -999,7 +1009,7 @@ Number of Fisher Scoring iterations: 2</code></pre>
 </div>
 </div>
 <p>and would go on with our statistical modelling framework. Note that the error distribution assumption here is still normal because our response is <code>Height - 30</code> which could be negative or positive, and is continuous.</p>
-<p>Using a classical model, we can choose the one-sample Wilcoxon test:</p>
+<p>Using a <strong>classical model</strong>, we can choose the one-sample Wilcoxon test:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(myDat<span class="sc">$</span>Height, <span class="co"># response</span></span>
 <span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="dv">30</span>) <span class="co"># constant to check</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>

@@ -26,18 +26,22 @@ library(formatR)
 # Beyond GLMs
 
 When to use GLMs (vs. these other methods):
-- when you have a linear shape assumption
+
+* when you have a linear shape assumption
 
 
 When to use these other methods (vs. a GLM):
-- when you need to relate to previous research (e.g. interpretting coefficients, comparing results across)
+
+* when you need to relate to previous research (e.g. interpreting coefficients, comparing results between your work and existing research that used another method)
 
 
 ## Other types of linear models
 
-As we have discussed in class, you are testing your hypothesis by building a model of your hypothesis so that you can fit the model to data and determine the evidence for your hypothesis.  Remember that models are an approximation of what is going on in the real world and that "all models are wrong, but some are useful".  It follows then that there could be more than one useful model that can represent your hypothesis.
+Recall from the chapter on [hypothesis testing](DSPPH_SM_HypothesisTesting.qmd), statistical modelling means building a model of your hypothesis so that you can mathematically compare your hypothesis to data and thereby determine the evidence for your hypothesis.  
 
-Here we will talk about classical models or tests.  These are other types of models that can be used to test your hypothesis when you have a linear shape assumption.  By having these other tests "on your radar" you will be better able to communicate with those who might be using different methods than you.  
+Remember that models are an approximation of the real world and that "all models are wrong, but some are useful".  It follows then that there could be more than one useful model that can represent your hypothesis.
+
+Here, we will talk about classical models or tests.  These are other types of models that can be used to test your hypothesis when you have a linear shape assumption.  By having these other tests "on your radar" you will be better able to communicate with those who might be using different methods than you.  
 
 A few things to note about these "classical" models:
 
@@ -49,7 +53,7 @@ A few things to note about these "classical" models:
   - a simple linear model (`lm()`) is the same as a GLM when your error distribution assumption is normal
   - an Analysis of Variance or ANOVA is the same as a GLM when your error distribution assumption is normal, and your predictors are all categorical
 
-- For some types of observations, there are no equivalent "classical" models - you need a GLM.  This is particularly the case when you have non-normal error distribution assumptions that are discrete, such as poisson (count data) or binomial.
+- For some types of observations, there are no equivalent "classical" models - you need a GLM.  This is particularly the case when you have non-normal error distribution assumption that is discrete, such as poisson (count data) or binomial.
 
 - When the effect of your predictor on your response is big, your results from a GLM will agree with the classical model equivalent.  When the effect of your predictor on your response is small, you might conclude different things about your hypothesis depending on the model you use to test it.  This can be frustrating/confusing, but it is just the nature of the process: you are using models that are only approximations of the real world.
 
@@ -66,9 +70,10 @@ Here we will compare the method we have been using (GLM) with a classical model 
 * Resp5 ~ Cat6 + 1 (where you have a categorical predictor with only two factor levels AND observation dependence)
 
 We will also include one more example that we haven't talked about yet - how you test if the mean of your response is equal to a constant value (i.e. a "one-sample test"):
+
 * Resp6 ~ constant
 
-**This section may seem overwhelming, but remember that you already know how to address every hypothesis discussed here (with a GLM).  This section is to make you aware of the other options available to you.**
+**This section may seem daunting, but remember that you already know how to address every hypothesis discussed here (with a GLM).  This section is to make you aware of the other options available to you.**
 
 ---
 
@@ -90,7 +95,7 @@ myDat<-data.frame(Pop = forCat, WtChange = forResp)
 ```
 
 
-Using our GLM method, we would set up our starting model as:
+Using our **GLM method**, we would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(WtChange ~ Pop + 1, 
@@ -103,7 +108,7 @@ summary(startMod.glm)
 
 and would go on with our statistical modelling framework.
 
-Using a classical model, we can choose the two-sample t-test:
+Using a **classical model**, we can choose the two-sample t-test:
 
 ```{r}
 
@@ -153,7 +158,7 @@ myDat<-data.frame(Pop = forCat, Height = Resp)
 ```
 
 
-Using our GLM method we would set up our starting model as:
+Using our **GLM method** we would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(Height ~ Pop + 1, # hypothesis
@@ -166,7 +171,7 @@ summary(startMod.glm)
 ```
 and would then go on with our statistical modelling framework.  
 
-Using a classical model, we can choose the Wilcoxon Rank Sum test.^[there is also a classical model called prop.test() for binomially distributed data]:
+Using a **classical model**, we can choose the Wilcoxon Rank Sum test.^[there is also a classical model called prop.test() for binomially distributed data]:
 
 ```{r}
 
@@ -207,7 +212,7 @@ myDat<-data.frame(Sp = forCat, WtChange = forResp)
 ```
 
 
-Using our GLM method we would set up our starting model as:
+Using our **GLM method** we would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(WtChange ~ Sp + 1, 
@@ -227,7 +232,7 @@ anova(startMod.glm, test = "F")
 ```
 
 
-Using a classical model, we can choose an Analysis of Variance model or ANOVA:
+Using a **classical model**, we can choose an Analysis of Variance model or ANOVA:
 
 ```{r}
 
@@ -245,7 +250,7 @@ Other notes about ANOVAs:
 
 * You might see people mentioning one-way vs. two-way ANOVA.  This just describes if you have one categorical predictor in your model (one-way ANOVA) or two (two-way ANOVA).
 
-* You might see people mentioning Type I vs. Type II vs. Type III ANOVAs.  These are different ANOVA methods used to handle predictor collinearity when selecting which predictors should be in your best-specified model.  You can change the type of ANOVA you are fitting with the `Anova()`^[note the capital letter A here] function in the car package.
+* You might see people mentioning Type I vs. Type II vs. Type III ANOVAs.  These are different ANOVA methods used to handle predictor colinearity when selecting which predictors should be in your best-specified model.  You can change the type of ANOVA you are fitting with the `Anova()`^[note the capital letter A here] function in the car package.
 
 ---
 
@@ -270,7 +275,7 @@ myDat<-data.frame(Sp = forCat, Height = Resp)
 ```
 
 
-Using our GLM method we would set up our starting model as:
+Using our **GLM method** we would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(Height ~ Sp + 1, # hypothesis
@@ -301,7 +306,7 @@ dredge(startMod.glm)
 ```
 and would then go on with our statistical modelling framework.  
 
-Using a classical model, we can use the Kruskal-Wallis model: 
+Using a **classical model**, we can use the Kruskal-Wallis model: 
 
 ```{r}
 
@@ -335,7 +340,7 @@ myDat<-data.frame(Temp = forCat, WtChange = forResp)
 ```
 
 
-Using our GLM method we would set up our starting model as:
+Using our **GLM method** we would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(WtChange ~ Temp + 1, 
@@ -347,7 +352,7 @@ summary(startMod.glm)
 ```
 
 
-Using a classical model, we can choose a simple linear model:
+Using a **classical model**, we can choose a simple linear model:
 
 ```{r}
 
@@ -367,7 +372,7 @@ An example: plant height is explained by temperature or `Height ~ Temp`
 
 If your error distribution assumption is continuous, you can **try** a normal error distribution assumption and fit a simple linear model but you need to carefully assess your residuals.
 
-If your error distribution assumption is discrete (e.g. poisson, binomial), you **need** a GLM. 
+If your error distribution assumption is discrete (e.g. poisson, binomial), you **need** a GLM!
 
 e.g.
 ```{r eval = FALSE}
@@ -402,7 +407,7 @@ myDat<-data.frame(Location = forCat2, Temp = forCat1, WtChange = forResp)
 ```
 
 
-Using our GLM method we would set up our starting model as:
+Using our **GLM method** we would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(WtChange ~ Temp + Location + Temp:Location + 1, 
@@ -417,7 +422,7 @@ anova(startMod.glm, test = "F")
 ```
 
 
-Using a classical model, we can fit an Analysis of Covariance (ANCOVA) with the `aov()` function:
+Using a **classical model**, we can fit an Analysis of Covariance (ANCOVA) with the `aov()` function:
 
 ```{r}
 
@@ -437,7 +442,7 @@ An example: plant height is explained by temperature and location or `Height ~ T
 
 If your error distribution assumption is continuous, you can **try** a normal error distribution assumption and fit a ANCOVA to test your hypothesis but you need to carefully assess your residuals.
 
-If your error distribution assumption is discrete (e.g. poisson, binomial), you **need** a GLM. 
+If your error distribution assumption is discrete (e.g. poisson, binomial), you **need** a GLM!
 
 e.g.
 ```{r eval = FALSE}
@@ -473,7 +478,7 @@ myDat<-data.frame(ID=forID, State = forCat, WtChange = forResp)
 ```
 
 
-Using our GLM method, we could set up our starting model as:
+Using our **GLM method**, we could set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(WtChange ~ State + ID + 1, # hypothesis
@@ -493,7 +498,7 @@ anova(startMod.glm, test = "F")
 ```
 
 
-Using a classical model, we can fit a paired two-sample model.  We first need to change the format of our data from long:
+Using a **classical model**, we can fit a paired two-sample model.  We first need to change the format of our data from long:
 ```{r}
 
 head(myDat)
@@ -547,7 +552,7 @@ myDat<-data.frame(ID=forID, Treat=forCat, Abund=forResp)
 ```
 
 
-Using our GLM method, we could set up our starting model as:
+Using our **GLM method**, we could set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(Abund ~ Treat + ID + 1, # hypothesis
@@ -567,7 +572,7 @@ anova(startMod.glm, test = "Chisq")
 ```
 
 
-Using a classical model, we can fit a paired two-sample model.  We first need to change the format of our data from long:
+Using a **classical model**, we can fit a paired two-sample model.  We first need to change the format of our data from long:
 ```{r}
 
 head(myDat)
@@ -612,7 +617,7 @@ myDat <- data.frame(WtChange = c(54.7, 54.1, 54.0, 48.5, 61.2, 56.0, 42.4, 48.4,
 ```
 
 
-Using our GLM method we need to subtract the constant from the response and would set up our starting model as:
+Using our **GLM method** we need to subtract the constant from the response and would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(WtChange - 50 ~ 1, # hypothesis
@@ -625,7 +630,7 @@ summary(startMod.glm)
 
 and would go on with our statistical modelling framework.
 
-Using a classical model, we can choose the one-sample t-test:
+Using a **classical model**, we can choose the one-sample t-test:
 
 ```{r}
 
@@ -651,7 +656,7 @@ myDat <- round(data.frame(Height = rgamma(9, 30)),1)
 ```
 
 
-Using our GLM method we need to subtract the constant from the response and would set up our starting model as:
+Using our **GLM method** we need to subtract the constant from the response and would set up our starting model as:
 ```{r}
 
 startMod.glm <- glm(Height - 30 ~ 1, # hypothesis
@@ -664,7 +669,7 @@ summary(startMod.glm)
 
 and would go on with our statistical modelling framework.  Note that the error distribution assumption here is still normal because our response is `Height - 30` which could be negative or positive, and is continuous.
 
-Using a classical model, we can choose the one-sample Wilcoxon test:
+Using a **classical model**, we can choose the one-sample Wilcoxon test:
 
 ```{r}
 
